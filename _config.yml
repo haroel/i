@@ -1,0 +1,12 @@
+# Site settings
+title: iGame
+email: ihowe@outlook.com
+description: Welcome to my blog!
+
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://yourdomain.com" # the base hostname & protocol for your site
+twitter_username: null
+github_username:  haroel
+
+# Build settings
+markdown: kramdown
