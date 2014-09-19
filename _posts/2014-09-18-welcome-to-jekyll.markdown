@@ -9,5 +9,5 @@ categories: jekyll update
 
 > iGame iLife iFamily
 
-![img](../assets/i.png)
+![img](http://haroel.github.io/i/assets/i.png)
 
