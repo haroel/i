@@ -2,6 +2,7 @@
 layout: post
 title:  "cocos2d-x android项目引用so库编译"
 date:   2014-09-19 13:45:00
+commentid: 1
 categories: [cocos2d-x,android]
 ---
 
