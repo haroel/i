@@ -5,35 +5,58 @@
     <description>Welcome to my blog!</description>
     <link>http://haroel.github.io/i/</link>
     <atom:link href="http://haroel.github.io/i/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 19 Sep 2014 11:11:18 +0800</pubDate>
-    <lastBuildDate>Fri, 19 Sep 2014 11:11:18 +0800</lastBuildDate>
+    <pubDate>Fri, 19 Sep 2014 14:46:53 +0800</pubDate>
+    <lastBuildDate>Fri, 19 Sep 2014 14:46:53 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve --watch&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>Hello Github page</title>
+        <description>&lt;h4 id=&quot;haroelgithubioihttpharoelgithubioi--&quot;&gt;今后，个人博客将迁移到&lt;a href=&quot;http://haroel.github.io/i&quot;&gt;haroel.github.io/i&lt;/a&gt; ，:-)&lt;/h4&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://haroel.github.io/i/assets/i.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Tom&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &amp;#39;Hi, Tom&amp;#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;iGame iLife iFamily&lt;/p&gt;
+&lt;/blockquote&gt;
 
 </description>
-        <pubDate>Fri, 19 Sep 2014 00:15:58 +0800</pubDate>
-        <link>http://haroel.github.io/i/jekyll/update/2014/09/19/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://haroel.github.io/i/jekyll/update/2014/09/19/welcome-to-jekyll.html</guid>
+        <pubDate>Fri, 19 Sep 2014 21:45:00 +0800</pubDate>
+        <link>http://haroel.github.io/i/ilife/2014/09/19/iHi.html</link>
+        <guid isPermaLink="true">http://haroel.github.io/i/ilife/2014/09/19/iHi.html</guid>
         
         
-        <category>jekyll</category>
+        <category>ilife</category>
         
-        <category>update</category>
+      </item>
+    
+      <item>
+        <title>cocos2d-x android项目引用so库编译</title>
+        <description>&lt;p&gt;项目接了几十个渠道平台，每个平台都建了一个Android工程，引用Classes，由于才用java接口类来抽象出平台接口方法，所以每个工程的Android.mk是完全一致的，也就是说libgame.so是一样的。前期为了保证开发进度，没有做优化，所以发一次版本，几十个渠道都要编译一次c++，其过程之痛苦，令人不寒而栗！&lt;/p&gt;
+
+&lt;p&gt;　　想办法来优化发布过程，思路是这样的，A工程先正确的编译一次，得到一个libgame.so库文件，然后B工程里面，我们在jni目录下新建目录prebuilt，然后把libgame.so放上去，Android,mk修改成如下内容，这样，B工程根本毋须编译任何c++代码，速度提升了N倍　　　
+#####以下为MK配置	&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;　		　	
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE := game
+LOCAL_SRC_FILES := prebuilt/libgame.so
+include $(PREBUILT_SHARED_LIBRARY 
+
+LOCAL_SHARED_LIBRARIES := game
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;　　clean，然后编译，你将体会这种做法带来的便利.当然这么做的前提是你的安卓项目里面没有使用宏处理编译，在安卓项目中，编译中使用宏会带来许多问题，尤其在安卓渠道多如过江之鲫的今天&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 19 Sep 2014 21:45:00 +0800</pubDate>
+        <link>http://haroel.github.io/i/cocos2d-x/android/2014/09/19/cocos2dxandroidsolib.html</link>
+        <guid isPermaLink="true">http://haroel.github.io/i/cocos2d-x/android/2014/09/19/cocos2dxandroidsolib.html</guid>
+        
+        
+        <category>cocos2d-x</category>
+        
+        <category>android</category>
         
       </item>
     

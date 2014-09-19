@@ -1,0 +1,15 @@
+---
+layout: post
+title:  "Hello Github page"
+date:   2014-09-19 13:45:00
+categories: iLife
+---
+####今后，个人博客将迁移到[haroel.github.io/i](http://haroel.github.io/i) ，:-) 
+
+
+
+![img](http://haroel.github.io/i/assets/i.png)
+
+> iGame iLife iFamily
+
+

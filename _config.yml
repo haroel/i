@@ -10,3 +10,4 @@ github_username:  haroel
 
 # Build settings
 markdown: kramdown
+comments: true

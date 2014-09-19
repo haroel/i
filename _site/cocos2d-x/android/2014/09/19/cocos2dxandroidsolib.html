@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>i</title>
+    <title>cocos2d-x android项目引用so库编译</title>
     <meta name="description" content="Welcome to my blog!">
 
     <link rel="stylesheet" href="/i/css/main.css">
-    <link rel="canonical" href="http://haroel.github.io/i/">
+    <link rel="canonical" href="http://haroel.github.io/i/cocos2d-x/android/2014/09/19/cocos2dxandroidsolib.html">
 </head>
 
 
@@ -53,33 +53,48 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">cocos2d-x android项目引用so库编译</h1>
+    <p class="post-meta">Sep 19, 2014</p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Sep 19, 2014</span>
+  <article class="post-content">
+    <p>项目接了几十个渠道平台，每个平台都建了一个Android工程，引用Classes，由于才用java接口类来抽象出平台接口方法，所以每个工程的Android.mk是完全一致的，也就是说libgame.so是一样的。前期为了保证开发进度，没有做优化，所以发一次版本，几十个渠道都要编译一次c++，其过程之痛苦，令人不寒而栗！</p>
 
-        <h2>
-          <a class="post-link" href="/i/ilife/2014/09/19/iHi.html">Hello Github page</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Sep 19, 2014</span>
+<p>　　想办法来优化发布过程，思路是这样的，A工程先正确的编译一次，得到一个libgame.so库文件，然后B工程里面，我们在jni目录下新建目录prebuilt，然后把libgame.so放上去，Android,mk修改成如下内容，这样，B工程根本毋须编译任何c++代码，速度提升了N倍　　　
+#####以下为MK配置	</p>
 
-        <h2>
-          <a class="post-link" href="/i/cocos2d-x/android/2014/09/19/cocos2dxandroidsolib.html">cocos2d-x android项目引用so库编译</a>
-        </h2>
-      </li>
-    
-  </ul>
+<pre><code>　		　	
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE := game
+LOCAL_SRC_FILES := prebuilt/libgame.so
+include $(PREBUILT_SHARED_LIBRARY 
 
-  <p class="rss-subscribe">subscribe <a href="/i/feed.xml">via RSS</a></p>
+LOCAL_SHARED_LIBRARIES := game
+</code></pre>
 
+<p>　　clean，然后编译，你将体会这种做法带来的便利.当然这么做的前提是你的安卓项目里面没有使用宏处理编译，在安卓项目中，编译中使用宏会带来许多问题，尤其在安卓渠道多如过江之鲫的今天</p>
+
+
+  </article>
+  
 </div>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ihowe"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
 
       </div>
     </div>
