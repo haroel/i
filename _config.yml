@@ -3,8 +3,8 @@ title: i
 email: ihowe@outlook.com
 description: Welcome to my blog!
 
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://haroel.github.io/i/" # the base hostname & protocol for your site
+baseurl: "/i/" # the subpath of your site, e.g. /blog/
+url: "http://haroel.github.io" # the base hostname & protocol for your site
 twitter_username: null
 github_username:  haroel
 
