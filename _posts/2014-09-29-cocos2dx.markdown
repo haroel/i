@@ -1,0 +1,8 @@
+---
+layout: post
+title:  "cocos2d-x DrawNode抗锯齿"
+date:   2014-09-29 13:45:00
+commentid: 2
+categories: iGame
+---
+
