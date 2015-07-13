@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>c++ 读取并解析excel文件方法</title>
+    <meta name="description" content="Welcome to my blog!">
+
+    <link rel="stylesheet" href="/i/css/main.css">
+    <link rel="canonical" href="http://haroel.github.io/i/c/c++/cocos/2015/07/13/cpp-excel.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/i/">i</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/i/About/">About me</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">c++ 读取并解析excel文件方法</h1>
+    <p class="post-meta">Jul 13, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <p>如转发还请注明出处，感谢。</p>
+
+<p>用Cocos开发模型特效工具编辑器，跨Mac和windows，当中有个需求是读取并解析excel文件，但网上的查找的例子几乎都只能是在windows下面使用，再或者是命令行脚本之类的。于是，自己写了一个非常轻量级的excel解析代码，纯cpp，除了依赖几个cocos2d 方法（zip解压和tinyxml2解析库），不依赖任何系统API。  目前只能解析常见的表式结构（如果把excel当成word文档使用就别看下面了），分享给大家，</p>
+
+<p>为了保证mac和windows都可以跑过，所以去掉注释，原谅我是VS菜鸟，当然代码够简单不写也能看懂。</p>
+
+<p>getSheetArray返回的是excel的 行数组 ，因为c++里面难以实现动态类结构，所以不得已写成这种方式，一般情况下该数据拿到后需要二次加工，你可以拿一个简单的excel表格（比如道具物品表），测试打个断点就知道有哪些数据结构。 我还有一个纯js版本的，适合cocos2d-js使用，待日后完善了再丢出来。</p>
+
+<blockquote>
+
+  <p>Excel.h
+   <br />基于com.lipi.excel as3 版本设计，感谢lipi的源码参考
+   <br /> auto excel =  new Excel();
+    <br />bool result = excel-&gt;parseExcelFile(filepath, 1);
+    <br />std::vector<lineinfo> arr = std::move( excel-&gt;getSheetArray() );</lineinfo></p>
+</blockquote>
+
+<p>````</p>
+
+<h1 id="ifndef-modeleditorexcel">ifndef <strong>ModelEditor__Excel</strong></h1>
+<p>#define <strong>ModelEditor__Excel</strong></p>
+
+<h1 id="include-stdioh">include <stdio.h></stdio.h></h1>
+<p>#include <vector>
+#include &lt;map&gt;</vector></p>
+
+<p>struct LineInfo
+{
+    int lineIndex;
+    std::vector<std::string> array;
+};</std::string></p>
+
+<p>class Excel
+{
+public:
+    Excel();</p>
+
+<pre><code>bool parseExcelFile(const std::string &amp;filepath,int sheetIndex);
+
+std::vector&lt;LineInfo&gt; getSheetArray();
+</code></pre>
+
+<p>private:
+    std::vector<std::string> _getValueArray();
+private:
+    std::map&lt;int,LineInfo&gt; excelHash;
+    std::string _excelFilePath;
+};</std::string></p>
+
+<h1 id="endif--definedmodeleditorexcel-">endif /* defined(<strong>ModelEditor__Excel</strong>) */</h1>
+
+<p>Excel.cpp 实现部分</p>
+
+<p>//
+//  Excel.cpp
+//
+//  Created by howe on 15/5/5.
+//<br />
+//</p>
+
+<h1 id="include-iostream">include <iostream></iostream></h1>
+<p>#include <string></string></p>
+
+<h1 id="include-excelh">include “Excel.h”</h1>
+<p>#include “cocos2d.h”</p>
+
+<h1 id="include-externaltinyxml2tinyxml2h">include “external/tinyxml2/tinyxml2.h”</h1>
+
+<p>using namespace tinyxml2;
+using namespace std;</p>
+
+<p>unsigned char* getFileDataFromZip(const std::string&amp; zipFilePath, const std::string&amp; filename, ssize_t *size)
+{
+    return cocos2d::FileUtils::getInstance()-&gt;getFileDataFromZip(zipFilePath, filename, size);
+}</p>
+
+<p>void deleteNum( std::string &amp;content)
+{
+    string::iterator t = content.begin();
+    while(t != content.end())
+    {
+        if(*t &gt;= ‘0’ &amp;&amp; *t &lt;= ‘9’)
+        {
+           content.erase(t);
+        }
+        else
+        {
+            t++;
+        }
+    }
+}
+int getColIndex(std::string &amp;content)
+{
+    auto returnValue = 0;
+    for (auto i =0; i &lt; content.length(); i++)
+    {
+        char n = content[i];
+        auto cValue = n - 64;
+        returnValue *= 26;
+        returnValue += cValue;
+    }
+    return returnValue - 1;
+}</p>
+
+<p>Excel::Excel()
+:_excelFilePath(“”)
+{</p>
+
+<p>}</p>
+
+<p>bool Excel::parseExcelFile(const std::string &amp;ilepath, int sheetIndex)
+{
+    _excelFilePath = ilepath;
+    excelHash.clear();</p>
+
+<pre><code>char xml_file[256] = {0};
+sprintf(xml_file, "xl/worksheets/sheet%d.xml",sheetIndex+1);
+ssize_t size;
+
+auto fileData = getFileDataFromZip(_excelFilePath, xml_file, &amp;size);
+if (!fileData)
+{
+    CCLOG(ilepath.c_str(), "The excel file is not exist！");
+    return false;
+}
+auto valueArray = std::move(_getValueArray());
+
+tinyxml2::XMLDocument doc;
+
+doc.Parse((const char*)fileData,size);
+
+XMLElement *root = doc.RootElement();
+
+XMLElement * sheetDataElement = root-&gt;FirstChildElement("sheetData");
+XMLElement * rowElement =sheetDataElement-&gt;FirstChildElement("row");
+
+while (rowElement)
+{
+    LineInfo lineInfo;
+    auto rowIndex = atoi(rowElement-&gt;Attribute("r")) - 1;
+    lineInfo.lineIndex = rowIndex;
+    std::vector&lt;std::string&gt; &amp;rowArray = lineInfo.array;
+    auto cElement = rowElement-&gt;FirstChildElement("c");
+    while (cElement)
+    {
+        std::string cc = cElement-&gt;Attribute("r");
+        deleteNum(cc);
+        auto colIndex  = getColIndex( cc );
+        std::string t = "";
+        std::string v = "";
+
+        if (cElement-&gt;Attribute("t"))
+        {
+            t = cElement-&gt;Attribute("t");
+        }
+        auto vElement = cElement-&gt;FirstChildElement("v");
+        if (vElement)
+        {
+            v = vElement-&gt;GetText();
+        }
+        if (rowArray.size() &lt; colIndex)
+        {
+            int len = rowArray.size();
+            for (auto i = 0;i &lt; colIndex - len;i++)
+            {
+                rowArray.push_back(""); //
+            }
+        }
+        if (t == "s")
+        {
+            rowArray.push_back(valueArray[atoi(v.c_str())]);
+        }
+        else
+        {
+            rowArray.push_back(v);
+        }
+        cElement = cElement-&gt;NextSiblingElement("c");
+    }
+    auto bb = false;
+    for (auto iii : rowArray)
+    {
+        if (iii.length() &gt; 1)
+        {
+            bb = true;
+            break;
+        }
+    }
+    if (bb)
+    {
+        excelHash[rowIndex] = lineInfo;
+    }
+    rowElement = rowElement-&gt;NextSiblingElement("row");
+}
+return true; }
+</code></pre>
+
+<p>std::vector<std::string> Excel::_getValueArray()
+{
+    std::vector<std::string> result;</std::string></std::string></p>
+
+<pre><code>ssize_t size;
+auto fileData = getFileDataFromZip(_excelFilePath,  "xl/sharedStrings.xml", &amp;size);
+
+tinyxml2::XMLDocument doc;
+doc.Parse((const char*)fileData,size);
+XMLElement *root = doc.RootElement();
+XMLElement *siElement = root-&gt;FirstChildElement("si");
+
+while (siElement)
+{
+    std::string temp = "";
+    auto tElement = siElement-&gt;FirstChildElement("t");
+    while (tElement)
+    {
+        temp = temp + tElement-&gt;GetText();
+        tElement = tElement-&gt;NextSiblingElement("t");
+    }
+    result.push_back(temp);
+    siElement = siElement-&gt;NextSiblingElement("si");
+}
+return result; }
+</code></pre>
+
+<p>std::vector<lineinfo> Excel::getSheetArray()
+{
+    std::vector<lineinfo> result;
+    for ( auto ite = excelHash.begin();ite != excelHash.end();ite++)
+    {
+        auto &amp;lineInfo_ = ite-&gt;second;
+        result.push_back(lineInfo_);
+    }
+    return result;
+}</lineinfo></lineinfo></p>
+
+<p>````</p>
+
+  </article>
+  
+</div>
+<!-- 多说评论框 start -->
+ <div class="ds-thread" data-thread-key="201507131" data-title="c++ 读取并解析excel文件方法" data-url="http://haroel.github.io/i/c/c++/cocos/2015/07/13/cpp-excel.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"haroel"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+  
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li><a href="mailto:ihowe@outlook.com">ihowe@outlook.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Welcome to my blog!</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

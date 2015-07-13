@@ -2,7 +2,7 @@
 layout: post
 title:  "C++ 中list、vector和deque比较"
 date:   2014-09-19 13:45:00
-commentid: 1
+commentid: 20150713
 categories: [C/C++]
 ---
 

@@ -65,7 +65,7 @@
 
 <p>　　想办法来优化发布过程，思路是这样的，A工程先正确的编译一次，得到一个libgame.so库文件，然后B工程里面，我们在jni目录下新建目录prebuilt，然后把libgame.so放上去，Android,mk修改成如下内容，这样，B工程根本毋须编译任何c++代码，速度提升了N倍　　
 　　　
-#####以下为MK配置	</p>
+#####以下为MK配置</p>
 
 <pre><code>　		　	
 LOCAL_PATH := $(call my-dir)
@@ -85,11 +85,11 @@ LOCAL_SHARED_LIBRARIES := game
   
 </div>
 <!-- 多说评论框 start -->
- <div class="ds-thread" data-thread-key="1" data-title="cocos2d-x android项目引用so库编译" data-url="http://haroel.github.io/i/cocos/android/2014/09/19/cocos2dxandroidsolib.html"></div>
+ <div class="ds-thread" data-thread-key="201409190" data-title="cocos2d-x android项目引用so库编译" data-url="http://haroel.github.io/i/cocos/android/2014/09/19/cocos2dxandroidsolib.html"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
-var duoshuoQuery = {short_name:"iharoel"};
+var duoshuoQuery = {short_name:"haroel"};
 	(function() {
 		var ds = document.createElement('script');
 		ds.type = 'text/javascript';ds.async = true;
