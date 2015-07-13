@@ -1,4 +1,15 @@
-iGame iFamily iLife
-=====
+技术分类：
 
-![img](assets/i.png)
+* Cocos 
+* javascript
+* lua
+* iOS 
+* Android  
+* C/C++ 
+* ObjC 
+* 工具使用 
+* 图像学
+* Flash
+* 其他
+
+=====

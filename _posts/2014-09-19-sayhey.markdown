@@ -1,0 +1,11 @@
+---
+layout: post
+title:  "Hello Github page"
+date:   2014-09-19 13:30:00
+commentid: 0
+categories: 其他
+---
+####今后，个人技术博客将迁移到[haroel.github.io/i](http://haroel.github.io/i) ，:-) 
+
+
+

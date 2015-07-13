@@ -10,7 +10,7 @@
     <meta name="description" content="Welcome to my blog!">
 
     <link rel="stylesheet" href="/i/css/main.css">
-    <link rel="canonical" href="http://haroel.github.io/i/cocos2d-x/android/2014/09/19/cocos2dxandroidsolib.html">
+    <link rel="canonical" href="http://haroel.github.io/i/cocos/android/2014/09/19/cocos2dxandroidsolib.html">
 </head>
 
 
@@ -34,7 +34,7 @@
       <div class="trigger">
         
           
-          <a class="page-link" href="/i/About/">About</a>
+          <a class="page-link" href="/i/About/">About me</a>
           
         
           
@@ -63,7 +63,8 @@
   <article class="post-content">
     <p>项目接了几十个渠道平台，每个平台都建了一个Android工程，引用Classes，由于才用java接口类来抽象出平台接口方法，所以每个工程的Android.mk是完全一致的，也就是说libgame.so是一样的。前期为了保证开发进度，没有做优化，所以发一次版本，几十个渠道都要编译一次c++，其过程之痛苦，令人不寒而栗！</p>
 
-<p>　　想办法来优化发布过程，思路是这样的，A工程先正确的编译一次，得到一个libgame.so库文件，然后B工程里面，我们在jni目录下新建目录prebuilt，然后把libgame.so放上去，Android,mk修改成如下内容，这样，B工程根本毋须编译任何c++代码，速度提升了N倍　　　
+<p>　　想办法来优化发布过程，思路是这样的，A工程先正确的编译一次，得到一个libgame.so库文件，然后B工程里面，我们在jni目录下新建目录prebuilt，然后把libgame.so放上去，Android,mk修改成如下内容，这样，B工程根本毋须编译任何c++代码，速度提升了N倍　　
+　　　
 #####以下为MK配置	</p>
 
 <pre><code>　		　	
@@ -76,14 +77,15 @@ include $(PREBUILT_SHARED_LIBRARY
 LOCAL_SHARED_LIBRARIES := game
 </code></pre>
 
-<p>　　clean，然后编译，你将体会这种做法带来的便利.当然这么做的前提是你的安卓项目里面没有使用宏处理编译，在安卓项目中，编译中使用宏会带来许多问题，尤其在安卓渠道多如过江之鲫的今天</p>
+<p>　　clean，然后编译，你将体会这种做法带来的便利.当然这么做的前提是你的安卓项目里面没有使用宏处理编译。
+　　</p>
 
 
   </article>
   
 </div>
 <!-- 多说评论框 start -->
- <div class="ds-thread" data-thread-key="1" data-title="cocos2d-x android项目引用so库编译" data-url="http://haroel.github.io/i/cocos2d-x/android/2014/09/19/cocos2dxandroidsolib.html"></div>
+ <div class="ds-thread" data-thread-key="1" data-title="cocos2d-x android项目引用so库编译" data-url="http://haroel.github.io/i/cocos/android/2014/09/19/cocos2dxandroidsolib.html"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -105,34 +107,16 @@ var duoshuoQuery = {short_name:"iharoel"};
     <footer class="site-footer">
 
   <div class="wrapper">
-
-    <h2 class="footer-heading">i</h2>
-
+  
     <div class="footer-col-wrapper">
       <div class="footer-col  footer-col-1">
         <ul class="contact-list">
-          <li>i</li>
           <li><a href="mailto:ihowe@outlook.com">ihowe@outlook.com</a></li>
         </ul>
       </div>
 
       <div class="footer-col  footer-col-2">
         <ul class="social-media-list">
-          
-          <li>
-            <a href="https://github.com/haroel">
-              <span class="icon  icon--github">
-                <svg viewBox="0 0 16 16">
-                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
-                </svg>
-              </span>
-
-              <span class="username">haroel</span>
-            </a>
-          </li>
-          
-
-          
         </ul>
       </div>
 

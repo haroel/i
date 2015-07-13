@@ -5,27 +5,98 @@
     <description>Welcome to my blog!</description>
     <link>http://haroel.github.io/i/</link>
     <atom:link href="http://haroel.github.io/i/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 20 Sep 2014 11:01:42 +0800</pubDate>
-    <lastBuildDate>Sat, 20 Sep 2014 11:01:42 +0800</lastBuildDate>
-    <generator>Jekyll v2.4.0</generator>
+    <pubDate>Mon, 13 Jul 2015 12:33:21 +0800</pubDate>
+    <lastBuildDate>Mon, 13 Jul 2015 12:33:21 +0800</lastBuildDate>
+    <generator>Jekyll v2.5.3</generator>
     
       <item>
-        <title>Hello Github page</title>
-        <description>&lt;h4 id=&quot;haroelgithubioihttpharoelgithubioi--&quot;&gt;今后，个人博客将迁移到&lt;a href=&quot;http://haroel.github.io/i&quot;&gt;haroel.github.io/i&lt;/a&gt; ，:-)&lt;/h4&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://haroel.github.io/i/assets/i.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;iGame iLife iFamily&lt;/p&gt;
+        <title>C++ 中list、vector和deque比较</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;转自 &lt;a href=&quot;http://blog.csdn.net/xiaolajiao8787/article/details/5882609&quot;&gt;http://blog.csdn.net/xiaolajiao8787/article/details/5882609&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;性能比较&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;类型&lt;/th&gt;
+      &lt;th&gt;Vector&lt;/th&gt;
+      &lt;th&gt;Deque&lt;/th&gt;
+      &lt;th&gt;List&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;内存管理&lt;/td&gt;
+      &lt;td&gt;Poor&lt;/td&gt;
+      &lt;td&gt;Good&lt;/td&gt;
+      &lt;td&gt;perfect&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;使用[ ]和at() 操作访问数据&lt;/td&gt;
+      &lt;td&gt;Very good&lt;/td&gt;
+      &lt;td&gt;Normal&lt;/td&gt;
+      &lt;td&gt;N/A&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Iterator的访问速度&lt;/td&gt;
+      &lt;td&gt;Good&lt;/td&gt;
+      &lt;td&gt;Very good&lt;/td&gt;
+      &lt;td&gt;Good&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Push_back操作（后插入）&lt;/td&gt;
+      &lt;td&gt;Good&lt;/td&gt;
+      &lt;td&gt;Good&lt;/td&gt;
+      &lt;td&gt;Good&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Push_front操作（前插入）&lt;/td&gt;
+      &lt;td&gt;N/A&lt;/td&gt;
+      &lt;td&gt;Very good&lt;/td&gt;
+      &lt;td&gt;Good&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Insert（中间插入）&lt;/td&gt;
+      &lt;td&gt;Poor&lt;/td&gt;
+      &lt;td&gt;Perfect&lt;/td&gt;
+      &lt;td&gt;Perfect&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Erase（中间删除）&lt;/td&gt;
+      &lt;td&gt;Poor&lt;/td&gt;
+      &lt;td&gt;Perfect&lt;/td&gt;
+      &lt;td&gt;Perfect&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Pop_back（后部删除）&lt;/td&gt;
+      &lt;td&gt;Perfect&lt;/td&gt;
+      &lt;td&gt;Perfect&lt;/td&gt;
+      &lt;td&gt;Normal&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Swap（交换数据）&lt;/td&gt;
+      &lt;td&gt;Perfect&lt;/td&gt;
+      &lt;td&gt;Very good&lt;/td&gt;
+      &lt;td&gt;Good&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;遍历&lt;/td&gt;
+      &lt;td&gt;Perfect&lt;/td&gt;
+      &lt;td&gt;Good&lt;/td&gt;
+      &lt;td&gt;Normal&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 </description>
         <pubDate>Fri, 19 Sep 2014 21:45:00 +0800</pubDate>
-        <link>http://haroel.github.io/i/ilife/2014/09/19/iHi.html</link>
-        <guid isPermaLink="true">http://haroel.github.io/i/ilife/2014/09/19/iHi.html</guid>
+        <link>http://haroel.github.io/i/c/c++/2014/09/19/stl-container.html</link>
+        <guid isPermaLink="true">http://haroel.github.io/i/c/c++/2014/09/19/stl-container.html</guid>
         
         
-        <category>ilife</category>
+        <category>c/c++</category>
         
       </item>
     
@@ -33,7 +104,8 @@
         <title>cocos2d-x android项目引用so库编译</title>
         <description>&lt;p&gt;项目接了几十个渠道平台，每个平台都建了一个Android工程，引用Classes，由于才用java接口类来抽象出平台接口方法，所以每个工程的Android.mk是完全一致的，也就是说libgame.so是一样的。前期为了保证开发进度，没有做优化，所以发一次版本，几十个渠道都要编译一次c++，其过程之痛苦，令人不寒而栗！&lt;/p&gt;
 
-&lt;p&gt;　　想办法来优化发布过程，思路是这样的，A工程先正确的编译一次，得到一个libgame.so库文件，然后B工程里面，我们在jni目录下新建目录prebuilt，然后把libgame.so放上去，Android,mk修改成如下内容，这样，B工程根本毋须编译任何c++代码，速度提升了N倍　　　
+&lt;p&gt;　　想办法来优化发布过程，思路是这样的，A工程先正确的编译一次，得到一个libgame.so库文件，然后B工程里面，我们在jni目录下新建目录prebuilt，然后把libgame.so放上去，Android,mk修改成如下内容，这样，B工程根本毋须编译任何c++代码，速度提升了N倍　　
+　　　
 #####以下为MK配置	&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;　		　	
@@ -46,17 +118,32 @@ include $(PREBUILT_SHARED_LIBRARY
 LOCAL_SHARED_LIBRARIES := game
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;　　clean，然后编译，你将体会这种做法带来的便利.当然这么做的前提是你的安卓项目里面没有使用宏处理编译，在安卓项目中，编译中使用宏会带来许多问题，尤其在安卓渠道多如过江之鲫的今天&lt;/p&gt;
+&lt;p&gt;　　clean，然后编译，你将体会这种做法带来的便利.当然这么做的前提是你的安卓项目里面没有使用宏处理编译。
+　　&lt;/p&gt;
 
 </description>
         <pubDate>Fri, 19 Sep 2014 21:45:00 +0800</pubDate>
-        <link>http://haroel.github.io/i/cocos2d-x/android/2014/09/19/cocos2dxandroidsolib.html</link>
-        <guid isPermaLink="true">http://haroel.github.io/i/cocos2d-x/android/2014/09/19/cocos2dxandroidsolib.html</guid>
+        <link>http://haroel.github.io/i/cocos/android/2014/09/19/cocos2dxandroidsolib.html</link>
+        <guid isPermaLink="true">http://haroel.github.io/i/cocos/android/2014/09/19/cocos2dxandroidsolib.html</guid>
         
         
-        <category>cocos2d-x</category>
+        <category>cocos</category>
         
         <category>android</category>
+        
+      </item>
+    
+      <item>
+        <title>Hello Github page</title>
+        <description>&lt;h4 id=&quot;haroelgithubioihttpharoelgithubioi--&quot;&gt;今后，个人技术博客将迁移到&lt;a href=&quot;http://haroel.github.io/i&quot;&gt;haroel.github.io/i&lt;/a&gt; ，:-)&lt;/h4&gt;
+
+</description>
+        <pubDate>Fri, 19 Sep 2014 21:30:00 +0800</pubDate>
+        <link>http://haroel.github.io/i/%E5%85%B6%E4%BB%96/2014/09/19/sayhey.html</link>
+        <guid isPermaLink="true">http://haroel.github.io/i/%E5%85%B6%E4%BB%96/2014/09/19/sayhey.html</guid>
+        
+        
+        <category>其他</category>
         
       </item>
     
