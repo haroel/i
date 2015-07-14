@@ -5,9 +5,77 @@
     <description>Welcome to my blog!</description>
     <link>http://haroel.github.io/i/</link>
     <atom:link href="http://haroel.github.io/i/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 13 Jul 2015 13:29:34 +0800</pubDate>
-    <lastBuildDate>Mon, 13 Jul 2015 13:29:34 +0800</lastBuildDate>
+    <pubDate>Tue, 14 Jul 2015 15:13:42 +0800</pubDate>
+    <lastBuildDate>Tue, 14 Jul 2015 15:13:42 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>经典算法总结</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;1 取平方根 ` 作者：约翰-卡马克`&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; float Q_rsqrt( float number )
+ {
+     long i;
+     float x2, y;
+     const float threehalfs = 1.5F;
+     x2 = number * 0.5F;
+     y   = number;
+     i   = * ( long * ) &amp;amp;y;   // evil floating point bit level hacking
+     i   = 0x5f3759df - ( i &amp;gt;&amp;gt; 1 ); // what the fuck?
+     y   = * ( float * ) &amp;amp;i;
+     y   = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration
+     // y   = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
+
+     #ifndef Q3_VM
+     #ifdef __linux__
+      assert( !isnan(y) ); // bk010122 - FPE?
+     #endif
+     #endif
+     return y;
+ }  
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;2 绝对值 ` 作者：约翰-卡马克`&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  float Q_fabs( float f ) 
+  {
+      int tmp = * ( int * ) &amp;amp;f;
+      tmp &amp;amp;= 0x7FFFFFFF;
+      return * ( float * ) &amp;amp;tmp;
+  }
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;3 不用临时变量交换两个数的值&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  a = a ^ b;
+  b = b ^ a;
+  a = a ^ b;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;4 求最大公约数&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;  int gcd(int x,int y)
+  { 
+      return y?gcd(y,x%y):x; 
+  }
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Tue, 14 Jul 2015 21:09:00 +0800</pubDate>
+        <link>http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/cpp%E7%AC%94%E8%AE%B0.html</link>
+        <guid isPermaLink="true">http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/cpp%E7%AC%94%E8%AE%B0.html</guid>
+        
+        
+        <category>算法</category>
+        
+      </item>
     
       <item>
         <title>c++ 读取并解析excel文件方法</title>
@@ -19,80 +87,77 @@
 
 &lt;p&gt;getSheetArray返回的是excel的 行数组 ，因为c++里面难以实现动态类结构，所以不得已写成这种方式，一般情况下该数据拿到后需要二次加工，你可以拿一个简单的excel表格（比如道具物品表），测试打个断点就知道有哪些数据结构。 我还有一个纯js版本的，适合cocos2d-js使用，待日后完善了再丢出来。&lt;/p&gt;
 
-&lt;blockquote&gt;
+&lt;p&gt;Excel.h&lt;/p&gt;
 
-  &lt;p&gt;Excel.h
-   &lt;br /&gt;基于com.lipi.excel as3 版本设计，感谢lipi的源码参考
-   &lt;br /&gt; auto excel =  new Excel();
-    &lt;br /&gt;bool result = excel-&amp;gt;parseExcelFile(filepath, 1);
-    &lt;br /&gt;std::vector&lt;lineinfo&gt; arr = std::move( excel-&amp;gt;getSheetArray() );&lt;/lineinfo&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;//基于com.lipi.excel as3 版本设计，感谢lipi的源码参考
+// auto excel =  new Excel();
+// bool result = excel-&amp;gt;parseExcelFile(filepath, 1);
+// std::vector&amp;lt;LineInfo&amp;gt; arr = std::move( excel-&amp;gt;getSheetArray() );
 
-&lt;p&gt;````&lt;/p&gt;
+#ifndef __ModelEditor__Excel__
+#define __ModelEditor__Excel__
 
-&lt;h1 id=&quot;ifndef-modeleditorexcel&quot;&gt;ifndef &lt;strong&gt;ModelEditor__Excel&lt;/strong&gt;&lt;/h1&gt;
-&lt;p&gt;#define &lt;strong&gt;ModelEditor__Excel&lt;/strong&gt;&lt;/p&gt;
+#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;vector&amp;gt;
+#include &amp;lt;map&amp;gt;
 
-&lt;h1 id=&quot;include-stdioh&quot;&gt;include &lt;stdio.h&gt;&lt;/stdio.h&gt;&lt;/h1&gt;
-&lt;p&gt;#include &lt;vector&gt;
-#include &amp;lt;map&amp;gt;&lt;/vector&gt;&lt;/p&gt;
 
-&lt;p&gt;struct LineInfo
+struct LineInfo
 {
     int lineIndex;
-    std::vector&lt;std::string&gt; array;
-};&lt;/std::string&gt;&lt;/p&gt;
+    std::vector&amp;lt;std::string&amp;gt; array;
+};
 
-&lt;p&gt;class Excel
+class Excel
 {
 public:
-    Excel();&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;bool parseExcelFile(const std::string &amp;amp;filepath,int sheetIndex);
-
-std::vector&amp;lt;LineInfo&amp;gt; getSheetArray();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;private:
-    std::vector&lt;std::string&gt; _getValueArray();
+    Excel();
+    
+    bool parseExcelFile(const std::string &amp;amp;filepath,int sheetIndex);
+    
+    std::vector&amp;lt;LineInfo&amp;gt; getSheetArray();
+    
+private:
+    std::vector&amp;lt;std::string&amp;gt; _getValueArray();
 private:
     std::map&amp;lt;int,LineInfo&amp;gt; excelHash;
     std::string _excelFilePath;
-};&lt;/std::string&gt;&lt;/p&gt;
+};
 
-&lt;h1 id=&quot;endif--definedmodeleditorexcel-&quot;&gt;endif /* defined(&lt;strong&gt;ModelEditor__Excel&lt;/strong&gt;) */&lt;/h1&gt;
+#endif /* defined(__ModelEditor__Excel__) */
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Excel.cpp 实现部分&lt;/p&gt;
 
-&lt;p&gt;//
+&lt;pre&gt;&lt;code&gt;//
 //  Excel.cpp
 //
 //  Created by howe on 15/5/5.
-//&lt;br /&gt;
-//&lt;/p&gt;
+//  
+//
 
-&lt;h1 id=&quot;include-iostream&quot;&gt;include &lt;iostream&gt;&lt;/iostream&gt;&lt;/h1&gt;
-&lt;p&gt;#include &lt;string&gt;&lt;/string&gt;&lt;/p&gt;
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;string&amp;gt;
 
-&lt;h1 id=&quot;include-excelh&quot;&gt;include “Excel.h”&lt;/h1&gt;
-&lt;p&gt;#include “cocos2d.h”&lt;/p&gt;
+#include &quot;Excel.h&quot;
+#include &quot;cocos2d.h&quot;
 
-&lt;h1 id=&quot;include-externaltinyxml2tinyxml2h&quot;&gt;include “external/tinyxml2/tinyxml2.h”&lt;/h1&gt;
+#include &quot;external/tinyxml2/tinyxml2.h&quot;
 
-&lt;p&gt;using namespace tinyxml2;
-using namespace std;&lt;/p&gt;
+using namespace tinyxml2;
+using namespace std;
 
-&lt;p&gt;unsigned char* getFileDataFromZip(const std::string&amp;amp; zipFilePath, const std::string&amp;amp; filename, ssize_t *size)
+unsigned char* getFileDataFromZip(const std::string&amp;amp; zipFilePath, const std::string&amp;amp; filename, ssize_t *size)
 {
     return cocos2d::FileUtils::getInstance()-&amp;gt;getFileDataFromZip(zipFilePath, filename, size);
-}&lt;/p&gt;
+}
 
-&lt;p&gt;void deleteNum( std::string &amp;amp;content)
+void deleteNum( std::string &amp;amp;content)
 {
     string::iterator t = content.begin();
     while(t != content.end())
     {
-        if(*t &amp;gt;= ‘0’ &amp;amp;&amp;amp; *t &amp;lt;= ‘9’)
+        if(*t &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; *t &amp;lt;= &#39;9&#39;)
         {
            content.erase(t);
         }
@@ -113,139 +178,138 @@ int getColIndex(std::string &amp;amp;content)
         returnValue += cValue;
     }
     return returnValue - 1;
-}&lt;/p&gt;
+}
 
-&lt;p&gt;Excel::Excel()
-:_excelFilePath(“”)
-{&lt;/p&gt;
+Excel::Excel()
+:_excelFilePath(&quot;&quot;)
+{
+    
+}
 
-&lt;p&gt;}&lt;/p&gt;
-
-&lt;p&gt;bool Excel::parseExcelFile(const std::string &amp;amp;ilepath, int sheetIndex)
+bool Excel::parseExcelFile(const std::string &amp;amp;ilepath, int sheetIndex)
 {
     _excelFilePath = ilepath;
-    excelHash.clear();&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;char xml_file[256] = {0};
-sprintf(xml_file, &quot;xl/worksheets/sheet%d.xml&quot;,sheetIndex+1);
-ssize_t size;
-
-auto fileData = getFileDataFromZip(_excelFilePath, xml_file, &amp;amp;size);
-if (!fileData)
-{
-    CCLOG(ilepath.c_str(), &quot;The excel file is not exist！&quot;);
-    return false;
-}
-auto valueArray = std::move(_getValueArray());
-
-tinyxml2::XMLDocument doc;
-
-doc.Parse((const char*)fileData,size);
-
-XMLElement *root = doc.RootElement();
-
-XMLElement * sheetDataElement = root-&amp;gt;FirstChildElement(&quot;sheetData&quot;);
-XMLElement * rowElement =sheetDataElement-&amp;gt;FirstChildElement(&quot;row&quot;);
-
-while (rowElement)
-{
-    LineInfo lineInfo;
-    auto rowIndex = atoi(rowElement-&amp;gt;Attribute(&quot;r&quot;)) - 1;
-    lineInfo.lineIndex = rowIndex;
-    std::vector&amp;lt;std::string&amp;gt; &amp;amp;rowArray = lineInfo.array;
-    auto cElement = rowElement-&amp;gt;FirstChildElement(&quot;c&quot;);
-    while (cElement)
+    excelHash.clear();
+    
+    char xml_file[256] = {0};
+    sprintf(xml_file, &quot;xl/worksheets/sheet%d.xml&quot;,sheetIndex+1);
+    ssize_t size;
+    
+    auto fileData = getFileDataFromZip(_excelFilePath, xml_file, &amp;amp;size);
+    if (!fileData)
     {
-        std::string cc = cElement-&amp;gt;Attribute(&quot;r&quot;);
-        deleteNum(cc);
-        auto colIndex  = getColIndex( cc );
-        std::string t = &quot;&quot;;
-        std::string v = &quot;&quot;;
+        CCLOG(ilepath.c_str(), &quot;The excel file is not exist！&quot;);
+        return false;
+    }
+    auto valueArray = std::move(_getValueArray());
 
-        if (cElement-&amp;gt;Attribute(&quot;t&quot;))
+    tinyxml2::XMLDocument doc;
+
+    doc.Parse((const char*)fileData,size);
+    
+    XMLElement *root = doc.RootElement();
+    
+    XMLElement * sheetDataElement = root-&amp;gt;FirstChildElement(&quot;sheetData&quot;);
+    XMLElement * rowElement =sheetDataElement-&amp;gt;FirstChildElement(&quot;row&quot;);
+    
+    while (rowElement)
+    {
+        LineInfo lineInfo;
+        auto rowIndex = atoi(rowElement-&amp;gt;Attribute(&quot;r&quot;)) - 1;
+        lineInfo.lineIndex = rowIndex;
+        std::vector&amp;lt;std::string&amp;gt; &amp;amp;rowArray = lineInfo.array;
+        auto cElement = rowElement-&amp;gt;FirstChildElement(&quot;c&quot;);
+        while (cElement)
         {
-            t = cElement-&amp;gt;Attribute(&quot;t&quot;);
-        }
-        auto vElement = cElement-&amp;gt;FirstChildElement(&quot;v&quot;);
-        if (vElement)
-        {
-            v = vElement-&amp;gt;GetText();
-        }
-        if (rowArray.size() &amp;lt; colIndex)
-        {
-            int len = rowArray.size();
-            for (auto i = 0;i &amp;lt; colIndex - len;i++)
+            std::string cc = cElement-&amp;gt;Attribute(&quot;r&quot;);
+            deleteNum(cc);
+            auto colIndex  = getColIndex( cc );
+            std::string t = &quot;&quot;;
+            std::string v = &quot;&quot;;
+
+            if (cElement-&amp;gt;Attribute(&quot;t&quot;))
             {
-                rowArray.push_back(&quot;&quot;); //
+                t = cElement-&amp;gt;Attribute(&quot;t&quot;);
+            }
+            auto vElement = cElement-&amp;gt;FirstChildElement(&quot;v&quot;);
+            if (vElement)
+            {
+                v = vElement-&amp;gt;GetText();
+            }
+            if (rowArray.size() &amp;lt; colIndex)
+            {
+                int len = rowArray.size();
+                for (auto i = 0;i &amp;lt; colIndex - len;i++)
+                {
+                    rowArray.push_back(&quot;&quot;); //
+                }
+            }
+            if (t == &quot;s&quot;)
+            {
+                rowArray.push_back(valueArray[atoi(v.c_str())]);
+            }
+            else
+            {
+                rowArray.push_back(v);
+            }
+            cElement = cElement-&amp;gt;NextSiblingElement(&quot;c&quot;);
+        }
+        auto bb = false;
+        for (auto iii : rowArray)
+        {
+            if (iii.length() &amp;gt; 1)
+            {
+                bb = true;
+                break;
             }
         }
-        if (t == &quot;s&quot;)
+        if (bb)
         {
-            rowArray.push_back(valueArray[atoi(v.c_str())]);
+            excelHash[rowIndex] = lineInfo;
         }
-        else
-        {
-            rowArray.push_back(v);
-        }
-        cElement = cElement-&amp;gt;NextSiblingElement(&quot;c&quot;);
+        rowElement = rowElement-&amp;gt;NextSiblingElement(&quot;row&quot;);
     }
-    auto bb = false;
-    for (auto iii : rowArray)
-    {
-        if (iii.length() &amp;gt; 1)
-        {
-            bb = true;
-            break;
-        }
-    }
-    if (bb)
-    {
-        excelHash[rowIndex] = lineInfo;
-    }
-    rowElement = rowElement-&amp;gt;NextSiblingElement(&quot;row&quot;);
+    return true;
 }
-return true; }
-&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;std::vector&lt;std::string&gt; Excel::_getValueArray()
+std::vector&amp;lt;std::string&amp;gt; Excel::_getValueArray()
 {
-    std::vector&lt;std::string&gt; result;&lt;/std::string&gt;&lt;/std::string&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ssize_t size;
-auto fileData = getFileDataFromZip(_excelFilePath,  &quot;xl/sharedStrings.xml&quot;, &amp;amp;size);
-
-tinyxml2::XMLDocument doc;
-doc.Parse((const char*)fileData,size);
-XMLElement *root = doc.RootElement();
-XMLElement *siElement = root-&amp;gt;FirstChildElement(&quot;si&quot;);
-
-while (siElement)
-{
-    std::string temp = &quot;&quot;;
-    auto tElement = siElement-&amp;gt;FirstChildElement(&quot;t&quot;);
-    while (tElement)
+    std::vector&amp;lt;std::string&amp;gt; result;
+    
+    ssize_t size;
+    auto fileData = getFileDataFromZip(_excelFilePath,  &quot;xl/sharedStrings.xml&quot;, &amp;amp;size);
+	    
+    tinyxml2::XMLDocument doc;
+    doc.Parse((const char*)fileData,size);
+    XMLElement *root = doc.RootElement();
+    XMLElement *siElement = root-&amp;gt;FirstChildElement(&quot;si&quot;);
+    
+    while (siElement)
     {
-        temp = temp + tElement-&amp;gt;GetText();
-        tElement = tElement-&amp;gt;NextSiblingElement(&quot;t&quot;);
+        std::string temp = &quot;&quot;;
+        auto tElement = siElement-&amp;gt;FirstChildElement(&quot;t&quot;);
+        while (tElement)
+        {
+            temp = temp + tElement-&amp;gt;GetText();
+            tElement = tElement-&amp;gt;NextSiblingElement(&quot;t&quot;);
+        }
+        result.push_back(temp);
+        siElement = siElement-&amp;gt;NextSiblingElement(&quot;si&quot;);
     }
-    result.push_back(temp);
-    siElement = siElement-&amp;gt;NextSiblingElement(&quot;si&quot;);
+    return result;
 }
-return result; }
-&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;std::vector&lt;lineinfo&gt; Excel::getSheetArray()
+std::vector&amp;lt;LineInfo&amp;gt; Excel::getSheetArray()
 {
-    std::vector&lt;lineinfo&gt; result;
+    std::vector&amp;lt;LineInfo&amp;gt; result;
     for ( auto ite = excelHash.begin();ite != excelHash.end();ite++)
     {
         auto &amp;amp;lineInfo_ = ite-&amp;gt;second;
         result.push_back(lineInfo_);
     }
     return result;
-}&lt;/lineinfo&gt;&lt;/lineinfo&gt;&lt;/p&gt;
-
-&lt;p&gt;````&lt;/p&gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
 </description>
         <pubDate>Mon, 13 Jul 2015 21:21:00 +0800</pubDate>
         <link>http://haroel.github.io/i/c/c++/cocos/2015/07/13/cpp-excel.html</link>

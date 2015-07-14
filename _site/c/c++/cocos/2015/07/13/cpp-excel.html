@@ -69,80 +69,77 @@
 
 <p>getSheetArray返回的是excel的 行数组 ，因为c++里面难以实现动态类结构，所以不得已写成这种方式，一般情况下该数据拿到后需要二次加工，你可以拿一个简单的excel表格（比如道具物品表），测试打个断点就知道有哪些数据结构。 我还有一个纯js版本的，适合cocos2d-js使用，待日后完善了再丢出来。</p>
 
-<blockquote>
+<p>Excel.h</p>
 
-  <p>Excel.h
-   <br />基于com.lipi.excel as3 版本设计，感谢lipi的源码参考
-   <br /> auto excel =  new Excel();
-    <br />bool result = excel-&gt;parseExcelFile(filepath, 1);
-    <br />std::vector<lineinfo> arr = std::move( excel-&gt;getSheetArray() );</lineinfo></p>
-</blockquote>
+<pre><code>//基于com.lipi.excel as3 版本设计，感谢lipi的源码参考
+// auto excel =  new Excel();
+// bool result = excel-&gt;parseExcelFile(filepath, 1);
+// std::vector&lt;LineInfo&gt; arr = std::move( excel-&gt;getSheetArray() );
 
-<p>````</p>
+#ifndef __ModelEditor__Excel__
+#define __ModelEditor__Excel__
 
-<h1 id="ifndef-modeleditorexcel">ifndef <strong>ModelEditor__Excel</strong></h1>
-<p>#define <strong>ModelEditor__Excel</strong></p>
+#include &lt;stdio.h&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
 
-<h1 id="include-stdioh">include <stdio.h></stdio.h></h1>
-<p>#include <vector>
-#include &lt;map&gt;</vector></p>
 
-<p>struct LineInfo
+struct LineInfo
 {
     int lineIndex;
-    std::vector<std::string> array;
-};</std::string></p>
+    std::vector&lt;std::string&gt; array;
+};
 
-<p>class Excel
+class Excel
 {
 public:
-    Excel();</p>
-
-<pre><code>bool parseExcelFile(const std::string &amp;filepath,int sheetIndex);
-
-std::vector&lt;LineInfo&gt; getSheetArray();
-</code></pre>
-
-<p>private:
-    std::vector<std::string> _getValueArray();
+    Excel();
+    
+    bool parseExcelFile(const std::string &amp;filepath,int sheetIndex);
+    
+    std::vector&lt;LineInfo&gt; getSheetArray();
+    
+private:
+    std::vector&lt;std::string&gt; _getValueArray();
 private:
     std::map&lt;int,LineInfo&gt; excelHash;
     std::string _excelFilePath;
-};</std::string></p>
+};
 
-<h1 id="endif--definedmodeleditorexcel-">endif /* defined(<strong>ModelEditor__Excel</strong>) */</h1>
+#endif /* defined(__ModelEditor__Excel__) */
+</code></pre>
 
 <p>Excel.cpp 实现部分</p>
 
-<p>//
+<pre><code>//
 //  Excel.cpp
 //
 //  Created by howe on 15/5/5.
-//<br />
-//</p>
+//  
+//
 
-<h1 id="include-iostream">include <iostream></iostream></h1>
-<p>#include <string></string></p>
+#include &lt;iostream&gt;
+#include &lt;string&gt;
 
-<h1 id="include-excelh">include “Excel.h”</h1>
-<p>#include “cocos2d.h”</p>
+#include "Excel.h"
+#include "cocos2d.h"
 
-<h1 id="include-externaltinyxml2tinyxml2h">include “external/tinyxml2/tinyxml2.h”</h1>
+#include "external/tinyxml2/tinyxml2.h"
 
-<p>using namespace tinyxml2;
-using namespace std;</p>
+using namespace tinyxml2;
+using namespace std;
 
-<p>unsigned char* getFileDataFromZip(const std::string&amp; zipFilePath, const std::string&amp; filename, ssize_t *size)
+unsigned char* getFileDataFromZip(const std::string&amp; zipFilePath, const std::string&amp; filename, ssize_t *size)
 {
     return cocos2d::FileUtils::getInstance()-&gt;getFileDataFromZip(zipFilePath, filename, size);
-}</p>
+}
 
-<p>void deleteNum( std::string &amp;content)
+void deleteNum( std::string &amp;content)
 {
     string::iterator t = content.begin();
     while(t != content.end())
     {
-        if(*t &gt;= ‘0’ &amp;&amp; *t &lt;= ‘9’)
+        if(*t &gt;= '0' &amp;&amp; *t &lt;= '9')
         {
            content.erase(t);
         }
@@ -163,139 +160,138 @@ int getColIndex(std::string &amp;content)
         returnValue += cValue;
     }
     return returnValue - 1;
-}</p>
+}
 
-<p>Excel::Excel()
-:_excelFilePath(“”)
-{</p>
+Excel::Excel()
+:_excelFilePath("")
+{
+    
+}
 
-<p>}</p>
-
-<p>bool Excel::parseExcelFile(const std::string &amp;ilepath, int sheetIndex)
+bool Excel::parseExcelFile(const std::string &amp;ilepath, int sheetIndex)
 {
     _excelFilePath = ilepath;
-    excelHash.clear();</p>
-
-<pre><code>char xml_file[256] = {0};
-sprintf(xml_file, "xl/worksheets/sheet%d.xml",sheetIndex+1);
-ssize_t size;
-
-auto fileData = getFileDataFromZip(_excelFilePath, xml_file, &amp;size);
-if (!fileData)
-{
-    CCLOG(ilepath.c_str(), "The excel file is not exist！");
-    return false;
-}
-auto valueArray = std::move(_getValueArray());
-
-tinyxml2::XMLDocument doc;
-
-doc.Parse((const char*)fileData,size);
-
-XMLElement *root = doc.RootElement();
-
-XMLElement * sheetDataElement = root-&gt;FirstChildElement("sheetData");
-XMLElement * rowElement =sheetDataElement-&gt;FirstChildElement("row");
-
-while (rowElement)
-{
-    LineInfo lineInfo;
-    auto rowIndex = atoi(rowElement-&gt;Attribute("r")) - 1;
-    lineInfo.lineIndex = rowIndex;
-    std::vector&lt;std::string&gt; &amp;rowArray = lineInfo.array;
-    auto cElement = rowElement-&gt;FirstChildElement("c");
-    while (cElement)
+    excelHash.clear();
+    
+    char xml_file[256] = {0};
+    sprintf(xml_file, "xl/worksheets/sheet%d.xml",sheetIndex+1);
+    ssize_t size;
+    
+    auto fileData = getFileDataFromZip(_excelFilePath, xml_file, &amp;size);
+    if (!fileData)
     {
-        std::string cc = cElement-&gt;Attribute("r");
-        deleteNum(cc);
-        auto colIndex  = getColIndex( cc );
-        std::string t = "";
-        std::string v = "";
+        CCLOG(ilepath.c_str(), "The excel file is not exist！");
+        return false;
+    }
+    auto valueArray = std::move(_getValueArray());
 
-        if (cElement-&gt;Attribute("t"))
+    tinyxml2::XMLDocument doc;
+
+    doc.Parse((const char*)fileData,size);
+    
+    XMLElement *root = doc.RootElement();
+    
+    XMLElement * sheetDataElement = root-&gt;FirstChildElement("sheetData");
+    XMLElement * rowElement =sheetDataElement-&gt;FirstChildElement("row");
+    
+    while (rowElement)
+    {
+        LineInfo lineInfo;
+        auto rowIndex = atoi(rowElement-&gt;Attribute("r")) - 1;
+        lineInfo.lineIndex = rowIndex;
+        std::vector&lt;std::string&gt; &amp;rowArray = lineInfo.array;
+        auto cElement = rowElement-&gt;FirstChildElement("c");
+        while (cElement)
         {
-            t = cElement-&gt;Attribute("t");
-        }
-        auto vElement = cElement-&gt;FirstChildElement("v");
-        if (vElement)
-        {
-            v = vElement-&gt;GetText();
-        }
-        if (rowArray.size() &lt; colIndex)
-        {
-            int len = rowArray.size();
-            for (auto i = 0;i &lt; colIndex - len;i++)
+            std::string cc = cElement-&gt;Attribute("r");
+            deleteNum(cc);
+            auto colIndex  = getColIndex( cc );
+            std::string t = "";
+            std::string v = "";
+
+            if (cElement-&gt;Attribute("t"))
             {
-                rowArray.push_back(""); //
+                t = cElement-&gt;Attribute("t");
+            }
+            auto vElement = cElement-&gt;FirstChildElement("v");
+            if (vElement)
+            {
+                v = vElement-&gt;GetText();
+            }
+            if (rowArray.size() &lt; colIndex)
+            {
+                int len = rowArray.size();
+                for (auto i = 0;i &lt; colIndex - len;i++)
+                {
+                    rowArray.push_back(""); //
+                }
+            }
+            if (t == "s")
+            {
+                rowArray.push_back(valueArray[atoi(v.c_str())]);
+            }
+            else
+            {
+                rowArray.push_back(v);
+            }
+            cElement = cElement-&gt;NextSiblingElement("c");
+        }
+        auto bb = false;
+        for (auto iii : rowArray)
+        {
+            if (iii.length() &gt; 1)
+            {
+                bb = true;
+                break;
             }
         }
-        if (t == "s")
+        if (bb)
         {
-            rowArray.push_back(valueArray[atoi(v.c_str())]);
+            excelHash[rowIndex] = lineInfo;
         }
-        else
-        {
-            rowArray.push_back(v);
-        }
-        cElement = cElement-&gt;NextSiblingElement("c");
+        rowElement = rowElement-&gt;NextSiblingElement("row");
     }
-    auto bb = false;
-    for (auto iii : rowArray)
-    {
-        if (iii.length() &gt; 1)
-        {
-            bb = true;
-            break;
-        }
-    }
-    if (bb)
-    {
-        excelHash[rowIndex] = lineInfo;
-    }
-    rowElement = rowElement-&gt;NextSiblingElement("row");
+    return true;
 }
-return true; }
-</code></pre>
 
-<p>std::vector<std::string> Excel::_getValueArray()
+std::vector&lt;std::string&gt; Excel::_getValueArray()
 {
-    std::vector<std::string> result;</std::string></std::string></p>
-
-<pre><code>ssize_t size;
-auto fileData = getFileDataFromZip(_excelFilePath,  "xl/sharedStrings.xml", &amp;size);
-
-tinyxml2::XMLDocument doc;
-doc.Parse((const char*)fileData,size);
-XMLElement *root = doc.RootElement();
-XMLElement *siElement = root-&gt;FirstChildElement("si");
-
-while (siElement)
-{
-    std::string temp = "";
-    auto tElement = siElement-&gt;FirstChildElement("t");
-    while (tElement)
+    std::vector&lt;std::string&gt; result;
+    
+    ssize_t size;
+    auto fileData = getFileDataFromZip(_excelFilePath,  "xl/sharedStrings.xml", &amp;size);
+	    
+    tinyxml2::XMLDocument doc;
+    doc.Parse((const char*)fileData,size);
+    XMLElement *root = doc.RootElement();
+    XMLElement *siElement = root-&gt;FirstChildElement("si");
+    
+    while (siElement)
     {
-        temp = temp + tElement-&gt;GetText();
-        tElement = tElement-&gt;NextSiblingElement("t");
+        std::string temp = "";
+        auto tElement = siElement-&gt;FirstChildElement("t");
+        while (tElement)
+        {
+            temp = temp + tElement-&gt;GetText();
+            tElement = tElement-&gt;NextSiblingElement("t");
+        }
+        result.push_back(temp);
+        siElement = siElement-&gt;NextSiblingElement("si");
     }
-    result.push_back(temp);
-    siElement = siElement-&gt;NextSiblingElement("si");
+    return result;
 }
-return result; }
-</code></pre>
 
-<p>std::vector<lineinfo> Excel::getSheetArray()
+std::vector&lt;LineInfo&gt; Excel::getSheetArray()
 {
-    std::vector<lineinfo> result;
+    std::vector&lt;LineInfo&gt; result;
     for ( auto ite = excelHash.begin();ite != excelHash.end();ite++)
     {
         auto &amp;lineInfo_ = ite-&gt;second;
         result.push_back(lineInfo_);
     }
     return result;
-}</lineinfo></lineinfo></p>
-
-<p>````</p>
+}
+</code></pre>
 
   </article>
   
