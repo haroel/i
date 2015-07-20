@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cocos 设置shader以后，setOpacity无效的问题</title>
+    <meta name="description" content="Welcome to my blog!">
+
+    <link rel="stylesheet" href="/i/css/main.css">
+    <link rel="canonical" href="http://haroel.github.io/i/cocos/2015/07/20/cocos-shader-opacity.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/i/">i</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/i/About/">About me</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Cocos 设置shader以后，setOpacity无效的问题</h1>
+    <p class="post-meta">Jul 20, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <p><br />
+从网上拔下来一个Shader效果，设置shader后，加上FadeOut action无效。</p>
+
+<p>为简单起见，我就用黑白色来说明这个问题 
+<br /></p>
+
+<pre><code>// Shader from http://www.iquilezles.org/apps/shadertoy/
+#ifdef GL_ES 
+precision mediump float; 
+#endif 
+varying vec2 v_texCoord;
+
+void main(void) 
+{ 
+    // Convert to greyscale using NTSC weightings 
+    vec4 col = texture2D(CC_Texture0, v_texCoord); 
+    float grey = dot(col.rgb, vec3(0.299, 0.587, 0.114));
+    gl_FragColor =  vec4(grey, grey, grey, col.a);
+}
+</code></pre>
+
+<ul>
+  <li>1 把这个shader加载后，设置给Sprite对象，不出意外会将纹理图片设置成灰色</li>
+  <li>2 然后对这个Sprite设置FadeOut效果， 然后问题来了，它并没用</li>
+</ul>
+
+<p>问题出在哪了，对比官方默认的Shader，可以很容易找到差别所在，比如在</p>
+
+<p><code> render/shaders/ccShader_PositionTextureColor_noMVP.frag</code> 的最后一段代码</p>
+
+<pre><code>...
+void main()
+{
+	gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord);
+}
+...
+</code></pre>
+
+<p>很明显，默认的shader 在给<code>gl_FragColor</code>赋值时，<code>乘</code>了一个<code>v_fragmentColor</code>，好，我们把上面的灰色shader改成这样</p>
+
+<pre><code>// Shader from http://www.iquilezles.org/apps/shadertoy/
+#ifdef GL_ES 
+precision mediump float; 
+#endif 
+varying vec2 v_texCoord;
+varying vec4 v_fragmentColor;
+
+void main(void) 
+{ 
+    // Convert to greyscale using NTSC weightings 
+    vec4 col = texture2D(CC_Texture0, v_texCoord); 
+    float grey = dot(col.rgb, vec3(0.299, 0.587, 0.114));
+    gl_FragColor = v_fragmentColor * vec4(grey, grey, grey, col.a);
+}
+</code></pre>
+
+<p>再次运行，设置FadeOut，我们可以看到起效了。</p>
+
+<p>问题的核心就是<code>v_fragmentColor</code>，它其实是一个纹理颜色，这个数据是由顶点着色器传递过来的，注意声明称varying（varying类型的变量是在vertex shader和fragment shader之间传递数据用的），我们通常根据<code>texture2D(CC_Texture0, v_texCoord)</code>计算出来的其实是一个顶点颜色，两者是不同的概念 ，一个有效的输出颜色应该是纹理颜色乘以顶点颜色</p>
+
+
+  </article>
+  
+</div>
+<!-- 多说评论框 start -->
+ <div class="ds-thread" data-thread-key="201507201" data-title="Cocos 设置shader以后，setOpacity无效的问题" data-url="http://haroel.github.io/i/cocos/2015/07/20/cocos-shader-opacity.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"haroel"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+  
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li><a href="mailto:ihowe@outlook.com">ihowe@outlook.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Welcome to my blog!</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

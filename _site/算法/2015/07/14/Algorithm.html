@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>经典算法总结</title>
+    <meta name="description" content="Welcome to my blog!">
+
+    <link rel="stylesheet" href="/i/css/main.css">
+    <link rel="canonical" href="http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/Algorithm.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/i/">i</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/i/About/">About me</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">经典算法总结</h1>
+    <p class="post-meta">Jul 14, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <ul>
+  <li>
+    <p>1 取平方根 ` 作者：约翰-卡马克`</p>
+
+    <pre><code> float Q_rsqrt( float number )
+ {
+     long i;
+     float x2, y;
+     const float threehalfs = 1.5F;
+     x2 = number * 0.5F;
+     y   = number;
+     i   = * ( long * ) &amp;y;   // evil floating point bit level hacking
+     i   = 0x5f3759df - ( i &gt;&gt; 1 ); // what the fuck?
+     y   = * ( float * ) &amp;i;
+     y   = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration
+     // y   = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
+
+     #ifndef Q3_VM
+     #ifdef __linux__
+      assert( !isnan(y) ); // bk010122 - FPE?
+     #endif
+     #endif
+     return y;
+ }  
+</code></pre>
+  </li>
+  <li>
+    <p>2 绝对值 ` 作者：约翰-卡马克`</p>
+
+    <pre><code>  float Q_fabs( float f ) 
+  {
+      int tmp = * ( int * ) &amp;f;
+      tmp &amp;= 0x7FFFFFFF;
+      return * ( float * ) &amp;tmp;
+  }
+</code></pre>
+  </li>
+  <li>
+    <p>3 不用临时变量交换两个数的值</p>
+
+    <pre><code>  a = a ^ b;
+  b = b ^ a;
+  a = a ^ b;
+</code></pre>
+  </li>
+  <li>
+    <p>4 求最大公约数</p>
+
+    <pre><code>  int gcd(int x,int y)
+  { 
+      return y?gcd(y,x%y):x; 
+  }
+</code></pre>
+  </li>
+</ul>
+
+
+  </article>
+  
+</div>
+<!-- 多说评论框 start -->
+ <div class="ds-thread" data-thread-key="20150714" data-title="经典算法总结" data-url="http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/Algorithm.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"haroel"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+  
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li><a href="mailto:ihowe@outlook.com">ihowe@outlook.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Welcome to my blog!</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

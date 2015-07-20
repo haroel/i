@@ -5,9 +5,393 @@
     <description>Welcome to my blog!</description>
     <link>http://haroel.github.io/i/</link>
     <atom:link href="http://haroel.github.io/i/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 14 Jul 2015 15:13:42 +0800</pubDate>
-    <lastBuildDate>Tue, 14 Jul 2015 15:13:42 +0800</lastBuildDate>
+    <pubDate>Mon, 20 Jul 2015 10:55:36 +0800</pubDate>
+    <lastBuildDate>Mon, 20 Jul 2015 10:55:36 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Cocos 设置shader以后，setOpacity无效的问题</title>
+        <description>&lt;p&gt;&lt;br /&gt;
+从网上拔下来一个Shader效果，设置shader后，加上FadeOut action无效。&lt;/p&gt;
+
+&lt;p&gt;为简单起见，我就用黑白色来说明这个问题 
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Shader from http://www.iquilezles.org/apps/shadertoy/
+#ifdef GL_ES 
+precision mediump float; 
+#endif 
+varying vec2 v_texCoord;
+
+void main(void) 
+{ 
+    // Convert to greyscale using NTSC weightings 
+    vec4 col = texture2D(CC_Texture0, v_texCoord); 
+    float grey = dot(col.rgb, vec3(0.299, 0.587, 0.114));
+    gl_FragColor =  vec4(grey, grey, grey, col.a);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1 把这个shader加载后，设置给Sprite对象，不出意外会将纹理图片设置成灰色&lt;/li&gt;
+  &lt;li&gt;2 然后对这个Sprite设置FadeOut效果， 然后问题来了，它并没用&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;问题出在哪了，对比官方默认的Shader，可以很容易找到差别所在，比如在&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt; render/shaders/ccShader_PositionTextureColor_noMVP.frag&lt;/code&gt; 的最后一段代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;...
+void main()
+{
+	gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord);
+}
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;很明显，默认的shader 在给&lt;code&gt;gl_FragColor&lt;/code&gt;赋值时，&lt;code&gt;乘&lt;/code&gt;了一个&lt;code&gt;v_fragmentColor&lt;/code&gt;，好，我们把上面的灰色shader改成这样&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Shader from http://www.iquilezles.org/apps/shadertoy/
+#ifdef GL_ES 
+precision mediump float; 
+#endif 
+varying vec2 v_texCoord;
+varying vec4 v_fragmentColor;
+
+void main(void) 
+{ 
+    // Convert to greyscale using NTSC weightings 
+    vec4 col = texture2D(CC_Texture0, v_texCoord); 
+    float grey = dot(col.rgb, vec3(0.299, 0.587, 0.114));
+    gl_FragColor = v_fragmentColor * vec4(grey, grey, grey, col.a);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;再次运行，设置FadeOut，我们可以看到起效了。&lt;/p&gt;
+
+&lt;p&gt;问题的核心就是&lt;code&gt;v_fragmentColor&lt;/code&gt;，它其实是一个纹理颜色，这个数据是由顶点着色器传递过来的，注意声明称varying（varying类型的变量是在vertex shader和fragment shader之间传递数据用的），我们通常根据&lt;code&gt;texture2D(CC_Texture0, v_texCoord)&lt;/code&gt;计算出来的其实是一个顶点颜色，两者是不同的概念 ，一个有效的输出颜色应该是纹理颜色乘以顶点颜色&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 20 Jul 2015 18:35:00 +0800</pubDate>
+        <link>http://haroel.github.io/i/cocos/2015/07/20/cocos-shader-opacity.html</link>
+        <guid isPermaLink="true">http://haroel.github.io/i/cocos/2015/07/20/cocos-shader-opacity.html</guid>
+        
+        
+        <category>cocos</category>
+        
+      </item>
+    
+      <item>
+        <title>C++笔记</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;
+    &lt;ol&gt;
+      &lt;li&gt;
+        &lt;p&gt;unsigned char * 转 char *&lt;/p&gt;
+
+        &lt;pre&gt;&lt;code&gt;   reinterpret_cast&amp;lt;const char*&amp;gt;(   )
+		
+   (const char*)(  )
+&lt;/code&gt;&lt;/pre&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Thu, 16 Jul 2015 01:45:00 +0800</pubDate>
+        <link>http://haroel.github.io/i/c/c++/2015/07/16/cpp-note.html</link>
+        <guid isPermaLink="true">http://haroel.github.io/i/c/c++/2015/07/16/cpp-note.html</guid>
+        
+        
+        <category>c/c++</category>
+        
+      </item>
+    
+      <item>
+        <title>LZMA压缩</title>
+        <description>&lt;pre&gt;&lt;code&gt;//
+//  LZMAUtil.cpp
+//  MegoGame
+//
+//  Created by howe on 15/7/15.
+//
+//
+
+#include &quot;LZMAUtil.h&quot;
+#include &quot;LzmaDec.h&quot;
+#include &quot;Types.h&quot;
+
+unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
+{
+    bool dictionaryIsDefined = false;
+    UInt32 dictionary = (UInt32)-1;
+    UString mf = L&quot;BT4&quot;;
+    UInt32 numThreads = 2/*(UInt32)-1*/;
+    
+    CMyComPtr&amp;lt;ISequentialInStream&amp;gt; inStream;
+    CInFileStream *inStreamSpec = 0;
+    inStreamSpec = new CInFileStream;
+    inStream = inStreamSpec;
+    if (!inStreamSpec-&amp;gt;Open(GetSystemString(filein)))
+    {
+        // Error: can not open input file
+        return 1;
+    }
+    
+    CMyComPtr&amp;lt;ISequentialOutStream&amp;gt; outStream;
+    COutFileStream * outStreamSpec = new COutFileStream;
+    outStream = outStreamSpec;
+    if (!outStreamSpec-&amp;gt;Create(GetSystemString(fileout), true))
+    {
+        // Error: can not open output file
+        return 1;
+    }
+    
+    NCompress::NLzma::CEncoder *encoderSpec = new NCompress::NLzma::CEncoder;
+    CMyComPtr&amp;lt;ICompressCoder&amp;gt; encoder = encoderSpec;
+    
+    if (!dictionaryIsDefined)
+        dictionary = 1 &amp;lt;&amp;lt; 23;
+    
+    UInt32 pb = 2; // posStateBits
+    UInt32 lc = 3; // litContextBits,  = 0; for 32-bit data
+    UInt32 lp = 0; // litPosBits, = 2; for 32-bit data
+    UInt32 algo = 1; // algorithm
+    UInt32 fb = 128; // numFastBytes
+    UInt32 mc = 16 + fb / 2;
+    bool mcDefined = false;
+    
+    PROPID propIDs[] =
+    {
+        NCoderPropID::kDictionarySize,
+        NCoderPropID::kPosStateBits,
+        NCoderPropID::kLitContextBits,
+        NCoderPropID::kLitPosBits,
+        NCoderPropID::kAlgorithm,
+        NCoderPropID::kNumFastBytes,
+        NCoderPropID::kMatchFinder,
+        NCoderPropID::kEndMarker,
+        NCoderPropID::kNumThreads,
+        NCoderPropID::kMatchFinderCycles,
+    };
+    const int kNumPropsMax = sizeof(propIDs) / sizeof(propIDs[0]);
+    
+    PROPVARIANT properties[kNumPropsMax];
+    for (int p = 0; p &amp;lt; 6; p++) properties[p].vt = VT_UI4;
+    
+    properties[0].ulVal = (UInt32)dictionary;
+    properties[1].ulVal = (UInt32)pb;
+    properties[2].ulVal = (UInt32)lc;
+    properties[3].ulVal = (UInt32)lp;
+    properties[4].ulVal = (UInt32)algo;
+    properties[5].ulVal = (UInt32)fb;
+    
+    properties[6].vt = VT_BSTR;
+    properties[6].bstrVal = (BSTR)(const wchar_t *)mf;
+    
+    properties[7].vt = VT_BOOL;
+    properties[7].boolVal = VARIANT_FALSE;
+    
+    properties[8].vt = VT_UI4;
+    properties[8].ulVal = (UInt32)numThreads;
+    
+    // it must be last in property list
+    properties[9].vt = VT_UI4;
+    properties[9].ulVal = (UInt32)mc;
+    
+    int numProps = kNumPropsMax;
+    if (!mcDefined) numProps--;
+    
+    if (encoderSpec-&amp;gt;SetCoderProperties(propIDs, properties, kNumPropsMax) != S_OK)
+    {
+        //throw &quot;Incorrect command&quot;;
+        return 1;
+    }
+    
+    encoderSpec-&amp;gt;WriteCoderProperties(outStream);
+    
+    UInt64 fileSize = (UInt64)(Int64)-1;
+    inStreamSpec-&amp;gt;File.GetLength(fileSize);
+    
+    for (int i = 0; i &amp;lt; 8; i++)
+    {
+        BYTE b = BYTE(fileSize &amp;gt;&amp;gt; (8 * i));
+        if (outStream-&amp;gt;Write(&amp;amp;b, sizeof(b), 0) != S_OK)
+        {
+            // Write error
+            return 1;
+        }
+    }
+    
+    HRESULT result = encoder-&amp;gt;Code(inStream, outStream, 0, 0,0);
+    if (result == E_OUTOFMEMORY)
+    {
+        // Error: Can not allocate memory
+        return 1;
+    }
+    else if (result != S_OK)
+    {
+        // Encoder error: result
+        return 1;
+    }
+    
+    if (outStreamSpec != NULL)
+    {
+        if (outStreamSpec-&amp;gt;Close() != S_OK)
+        {
+            // File closing error
+            return 1;
+        }
+    }
+    
+    return 0;
+}
+
+unsigned long LZMAUtil::UncompressFile(char *filein, char *fileout)
+{
+    CMyComPtr&amp;lt;ISequentialInStream&amp;gt; inStream;
+    CInFileStream *inStreamSpec = 0;
+    inStreamSpec = new CInFileStream;
+    inStream = inStreamSpec;
+    if (!inStreamSpec-&amp;gt;Open(GetSystemString(filein)))
+    {
+        // Error: can not open input file
+        return 1;
+    }
+    CMyComPtr&amp;lt;ISequentialOutStream&amp;gt; outStream;
+    COutFileStream *outStreamSpec = NULL;
+    outStreamSpec = new COutFileStream;
+    outStream = outStreamSpec;
+    if (!outStreamSpec-&amp;gt;Create(GetSystemString(fileout), true))
+    {
+        // Error: can not open output file
+        return 1;
+    }
+    
+    NCompress::NLzma::CDecoder *decoderSpec = new NCompress::NLzma::CDecoder;
+    CMyComPtr&amp;lt;ICompressCoder&amp;gt; decoder = decoderSpec;
+    decoderSpec-&amp;gt;FinishStream = true;
+    
+    const UInt32 kPropertiesSize = 5;
+    Byte header[kPropertiesSize + 8];
+    if (ReadStream_FALSE(inStream, header, kPropertiesSize + 8) != S_OK)
+    {
+        // Read error
+        return 1;
+    }
+    if (decoderSpec-&amp;gt;SetDecoderProperties2(header, kPropertiesSize) != S_OK)
+    {
+        // SetDecoderProperties error
+        return 1;
+    }
+    
+    UInt64 fileSize = 0;
+    for (int i = 0; i &amp;lt; 8; i++)
+        fileSize |= ((UInt64)header[kPropertiesSize + i]) &amp;lt;&amp;lt; (8 * i);
+    
+    if (decoder-&amp;gt;Code(inStream, outStream, 0, (fileSize == (UInt64)(Int64)-1) ? 0 : &amp;amp;fileSize, 0) != S_OK)
+    {
+        // Decoder error
+        return 1;
+    }
+    
+    if (outStreamSpec != NULL)
+    {
+        if (outStreamSpec-&amp;gt;Close() != S_OK)
+        {
+            // File closing error
+            return 1;
+        }
+    }
+    
+    return 0;
+}
+
+unsigned long CompressBuffer(unsigned char *inBuffer, unsigned long inSize,
+                             unsigned char *outBuffer, unsigned long outSize, size_t *outSizeProcessed)
+{
+    bool dictDefined = false;
+    UInt32 dict = (UInt32)-1;
+    
+    if ((inSize == 0) || (inBuffer == 0)) return 1;
+    if (/*(outSize == 0) || */(outBuffer == 0)) return 1;
+    
+    Byte *outBuffer2 = 0;
+    size_t outSize2;
+    
+    // we allocate 105% of original size for output buffer
+    outSize2 = (size_t)inSize / 20 * 21 + (1 &amp;lt;&amp;lt; 16); //fileSize / 20 * 21 + (1 &amp;lt;&amp;lt; 16)
+    if (outSize2 != 0)
+    {
+        outBuffer2 = (Byte *)MyAlloc((size_t)outSize2);
+        if (outBuffer2 == 0) return 1;//throw &quot;Can not allocate memory&quot;;
+    }
+    
+    if (!dictDefined) dict = 1 &amp;lt;&amp;lt; 23;
+    
+    *outSizeProcessed = outSize2; // !!
+    int res = Lzma86_Encode(outBuffer2, outSizeProcessed, inBuffer, inSize,
+                            5, dict, SZ_FILTER_AUTO);
+    if (res != 0)
+    {
+        // Encoder error = (int)res
+        return 1;
+    }
+    
+    memcpy(outBuffer, outBuffer2, *outSizeProcessed);
+    
+    MyFree(outBuffer2);
+    
+    return *outSizeProcessed == 0 ?1:0;
+}
+
+unsigned long UncompressBuffer(unsigned char *inBuffer, unsigned long inSize,
+                               unsigned char *outBuffer, unsigned long outSize, size_t *outSizeProcessed)
+{
+    if ((inSize == 0) || (inBuffer == 0)) return 1;
+    if (/*(outSize == 0) || */(outBuffer == 0)) return 1;
+    
+    Byte *outBuffer2 = 0;
+    size_t outSize2;
+    
+    UInt64 outSize64;
+    if (Lzma86_GetUnpackSize(inBuffer, inSize, &amp;amp;outSize64) != 0)
+        return 1;//throw &quot;data error&quot;;
+    outSize2 = (size_t)outSize64;
+    if (outSize2 != outSize64)
+        return 1;//throw &quot;too big&quot;;
+    if (outSize2 != 0)
+    {
+        outBuffer2 = (Byte *)MyAlloc(outSize2);
+        if (outBuffer2 == 0)
+            return 1;//throw &quot;Can not allocate memory&quot;;
+    }
+    
+    size_t inSize2 = inSize;
+    *outSizeProcessed = outSize2;
+    int res = Lzma86_Decode(outBuffer2, outSizeProcessed, inBuffer, &amp;amp;inSize2);
+    if (inSize2 != (size_t)inSize)
+        return 1;//throw &quot;incorrect processed size&quot;;
+    if (res != 0)
+        return 1;//throw &quot;LzmaDecoder error&quot;;
+    
+    memcpy(outBuffer, outBuffer2, *outSizeProcessed);
+    
+    MyFree(outBuffer2);
+    
+    return *outSizeProcessed == 0 ?1:0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Wed, 15 Jul 2015 18:45:00 +0800</pubDate>
+        <link>http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/15/lzma.html</link>
+        <guid isPermaLink="true">http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/15/lzma.html</guid>
+        
+        
+        <category>算法</category>
+        
+      </item>
     
       <item>
         <title>经典算法总结</title>
@@ -69,8 +453,8 @@
 
 </description>
         <pubDate>Tue, 14 Jul 2015 21:09:00 +0800</pubDate>
-        <link>http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/cpp%E7%AC%94%E8%AE%B0.html</link>
-        <guid isPermaLink="true">http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/cpp%E7%AC%94%E8%AE%B0.html</guid>
+        <link>http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/Algorithm.html</link>
+        <guid isPermaLink="true">http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/Algorithm.html</guid>
         
         
         <category>算法</category>

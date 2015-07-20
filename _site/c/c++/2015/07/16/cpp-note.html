@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>经典算法总结</title>
+    <title>C++笔记</title>
     <meta name="description" content="Welcome to my blog!">
 
     <link rel="stylesheet" href="/i/css/main.css">
-    <link rel="canonical" href="http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/cpp%E7%AC%94%E8%AE%B0.html">
+    <link rel="canonical" href="http://haroel.github.io/i/c/c++/2015/07/16/cpp-note.html">
 </head>
 
 
@@ -56,64 +56,23 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">经典算法总结</h1>
-    <p class="post-meta">Jul 14, 2015</p>
+    <h1 class="post-title">C++笔记</h1>
+    <p class="post-meta">Jul 16, 2015</p>
   </header>
 
   <article class="post-content">
     <ul>
   <li>
-    <p>1 取平方根 ` 作者：约翰-卡马克`</p>
+    <ol>
+      <li>
+        <p>unsigned char * 转 char *</p>
 
-    <pre><code> float Q_rsqrt( float number )
- {
-     long i;
-     float x2, y;
-     const float threehalfs = 1.5F;
-     x2 = number * 0.5F;
-     y   = number;
-     i   = * ( long * ) &amp;y;   // evil floating point bit level hacking
-     i   = 0x5f3759df - ( i &gt;&gt; 1 ); // what the fuck?
-     y   = * ( float * ) &amp;i;
-     y   = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration
-     // y   = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
-
-     #ifndef Q3_VM
-     #ifdef __linux__
-      assert( !isnan(y) ); // bk010122 - FPE?
-     #endif
-     #endif
-     return y;
- }  
+        <pre><code>   reinterpret_cast&lt;const char*&gt;(   )
+		
+   (const char*)(  )
 </code></pre>
-  </li>
-  <li>
-    <p>2 绝对值 ` 作者：约翰-卡马克`</p>
-
-    <pre><code>  float Q_fabs( float f ) 
-  {
-      int tmp = * ( int * ) &amp;f;
-      tmp &amp;= 0x7FFFFFFF;
-      return * ( float * ) &amp;tmp;
-  }
-</code></pre>
-  </li>
-  <li>
-    <p>3 不用临时变量交换两个数的值</p>
-
-    <pre><code>  a = a ^ b;
-  b = b ^ a;
-  a = a ^ b;
-</code></pre>
-  </li>
-  <li>
-    <p>4 求最大公约数</p>
-
-    <pre><code>  int gcd(int x,int y)
-  { 
-      return y?gcd(y,x%y):x; 
-  }
-</code></pre>
+      </li>
+    </ol>
   </li>
 </ul>
 
@@ -122,7 +81,7 @@
   
 </div>
 <!-- 多说评论框 start -->
- <div class="ds-thread" data-thread-key="20150714" data-title="经典算法总结" data-url="http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/cpp%E7%AC%94%E8%AE%B0.html"></div>
+ <div class="ds-thread" data-thread-key="201507152" data-title="C++笔记" data-url="http://haroel.github.io/i/c/c++/2015/07/16/cpp-note.html"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
