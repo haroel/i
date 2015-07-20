@@ -5,8 +5,8 @@
     <description>Welcome to my blog!</description>
     <link>http://haroel.github.io/i/</link>
     <atom:link href="http://haroel.github.io/i/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 20 Jul 2015 10:55:36 +0800</pubDate>
-    <lastBuildDate>Mon, 20 Jul 2015 10:55:36 +0800</lastBuildDate>
+    <pubDate>Mon, 20 Jul 2015 11:02:01 +0800</pubDate>
+    <lastBuildDate>Mon, 20 Jul 2015 11:02:01 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -70,6 +70,10 @@ void main(void)
 &lt;p&gt;再次运行，设置FadeOut，我们可以看到起效了。&lt;/p&gt;
 
 &lt;p&gt;问题的核心就是&lt;code&gt;v_fragmentColor&lt;/code&gt;，它其实是一个纹理颜色，这个数据是由顶点着色器传递过来的，注意声明称varying（varying类型的变量是在vertex shader和fragment shader之间传递数据用的），我们通常根据&lt;code&gt;texture2D(CC_Texture0, v_texCoord)&lt;/code&gt;计算出来的其实是一个顶点颜色，两者是不同的概念 ，一个有效的输出颜色应该是纹理颜色乘以顶点颜色&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;若有帮助请点个赞 :)&lt;/p&gt;
+&lt;/blockquote&gt;
 
 </description>
         <pubDate>Mon, 20 Jul 2015 18:35:00 +0800</pubDate>

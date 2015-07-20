@@ -65,6 +65,8 @@ categories: [Cocos]
 再次运行，设置FadeOut，我们可以看到起效了。
 	
 问题的核心就是`v_fragmentColor`，它其实是一个纹理颜色，这个数据是由顶点着色器传递过来的，注意声明称varying（varying类型的变量是在vertex shader和fragment shader之间传递数据用的），我们通常根据`texture2D(CC_Texture0, v_texCoord)`计算出来的其实是一个顶点颜色，两者是不同的概念 ，一个有效的输出颜色应该是纹理颜色乘以顶点颜色
+
+> 若有帮助请点个赞 :)
 	
 	
 	
