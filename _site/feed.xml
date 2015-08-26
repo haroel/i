@@ -5,244 +5,202 @@
     <description>Welcome to my blog!</description>
     <link>http://haroel.github.io/i/</link>
     <atom:link href="http://haroel.github.io/i/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 25 Aug 2015 11:02:41 +0800</pubDate>
-    <lastBuildDate>Tue, 25 Aug 2015 11:02:41 +0800</lastBuildDate>
+    <pubDate>Wed, 26 Aug 2015 15:58:24 +0800</pubDate>
+    <lastBuildDate>Wed, 26 Aug 2015 15:58:24 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
         <title>C++11新特性</title>
-        <description>&lt;h2 id=&quot;constexpr&quot;&gt;常数初始化，使用constexpr关键字&lt;/h2&gt;
+        <description>&lt;h2&gt;常数初始化，使用constexpr关键字&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    constexpr in getNum(){return 4};
+    int some_arr[getNum + 3];   
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;初始化列表&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;//std::initializer_list
+auto list = {1,2,35,57}; //list是一个initializer_list容器
 
-&lt;p&gt;```
-	constexpr in getNum(){return 4};
-	int some_arr[getNum + 3];&lt;/p&gt;
 
-&lt;p&gt;```&lt;/p&gt;
-
-&lt;h2 id=&quot;section&quot;&gt;初始化列表&lt;/h2&gt;
-
-&lt;p&gt;```
-//std::initializer_list
-auto list = {1,2,35,57}; //list是一个initializer_list容器&lt;/p&gt;
-
-&lt;p&gt;class InitClass
+class InitClass
 {
-	public:
-	InitClass(std::initializer_list&lt;int&gt; list);
-}&lt;/int&gt;&lt;/p&gt;
-
-&lt;p&gt;InitClass var = {0,12,33};&lt;/p&gt;
-
-&lt;p&gt;//标准库容器初始化&lt;/p&gt;
-
-&lt;p&gt;std::vector&lt;string&gt; arr = {&quot;apple&quot;,&quot;google&quot;,&quot;adobe&quot;};
-std::map&amp;lt;string,bool&amp;gt; mapSample = { {&quot;.xml&quot;,false },{&quot;.plist&quot;,false },{&quot;.csb&quot;,false },{&quot;.json&quot;,false },{&quot;.ExportJson&quot;,false },{&quot;.js&quot;,true }  };&lt;/string&gt;&lt;/p&gt;
-
-&lt;p&gt;```&lt;/p&gt;
-
-&lt;h2 id=&quot;section-1&quot;&gt;统一初始化&lt;/h2&gt;
-
-&lt;p&gt;```
-	struct IDVO
-	{
-		string name;
-		int age;
-	} &lt;br /&gt;
-	// 自动将const char* 转成string
-	IDVO var = {“Steven”,667};&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;IDVO getById()
-{
-	return {&quot;Jobs&quot;,78};
+    public:
+    InitClass(std::initializer_list&amp;lt;int&amp;gt; list);
 }
-//统一初始化不会取代构造函数
-&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;```&lt;/p&gt;
+InitClass var = {0,12,33};
 
-&lt;h2 id=&quot;section-2&quot;&gt;自动类型推导&lt;/h2&gt;
+//标准库容器初始化
 
-&lt;p&gt;```
-//使用auto关键字实现参数类型推导&lt;/p&gt;
+std::vector&amp;lt;string&amp;gt; arr = {&amp;quot;apple&amp;quot;,&amp;quot;google&amp;quot;,&amp;quot;adobe&amp;quot;};
+std::map&amp;lt;string,bool&amp;gt; mapSample = { {&amp;quot;.xml&amp;quot;,false },{&amp;quot;.plist&amp;quot;,false },{&amp;quot;.csb&amp;quot;,false },{&amp;quot;.json&amp;quot;,false },{&amp;quot;.ExportJson&amp;quot;,false },{&amp;quot;.js&amp;quot;,true }  };
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;统一初始化&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    struct IDVO
+    {
+        string name;
+        int age;
+    }   
+    // 自动将const char* 转成string
+    IDVO var = {&amp;quot;Steven&amp;quot;,667};
 
-&lt;p&gt;auto a = 1;       // a是int类型
-auto b = “hello”; // b是const char *&lt;/p&gt;
+    IDVO getById()
+    {
+        return {&amp;quot;Jobs&amp;quot;,78};
+    }
+    //统一初始化不会取代构造函数
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;自动类型推导&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;//使用auto关键字实现参数类型推导
 
-&lt;p&gt;int abc(int a,int b,int c)
+auto a = 1;       // a是int类型
+auto b = &amp;quot;hello&amp;quot;; // b是const char *
+
+int abc(int a,int b,int c)
 {
     return a + b + c;
 }
-auto bindFuc = std::bind(abc, std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);&lt;/p&gt;
+auto bindFuc = std::bind(abc, std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
 
-&lt;p&gt;//注意下面的写法&lt;/p&gt;
+//注意下面的写法
 
-&lt;p&gt;auto myarr[2] = {1,2};//错误，编译器报错
+auto myarr[2] = {1,2};//错误，编译器报错
 int myarr1[2] = {1,2};//正确
-decltype(myarr1) myarr2; //正确&lt;/p&gt;
+decltype(myarr1) myarr2; //正确
 
-&lt;p&gt;//还可以向下面这样使用&lt;/p&gt;
 
-&lt;p&gt;std::vector&lt;string&gt; arr = {&quot;apple&quot;,&quot;google&quot;,&quot;adobe&quot;};&lt;/string&gt;&lt;/p&gt;
+//还可以向下面这样使用
 
-&lt;p&gt;for (auto ite = arr.begin();ite != arr.end(),ite++)
-{&lt;/p&gt;
+std::vector&amp;lt;string&amp;gt; arr = {&amp;quot;apple&amp;quot;,&amp;quot;google&amp;quot;,&amp;quot;adobe&amp;quot;};
 
-&lt;p&gt;}&lt;/p&gt;
+for (auto ite = arr.begin();ite != arr.end(),ite++)
+{
 
-&lt;p&gt;//与decltype的配合用法&lt;/p&gt;
+}
 
-&lt;p&gt;int sint = 1;
-decltype(sint) bint = 4;//&lt;/p&gt;
 
-&lt;p&gt;auto d = bint;//
-auto c = 0;&lt;/p&gt;
+//与decltype的配合用法
 
-&lt;p&gt;decltype(c) e; //e为int类型
-decltype((c)) f = e; // f为int&amp;amp;类型，&lt;/p&gt;
+int sint = 1;
+decltype(sint) bint = 4;//
 
-&lt;p&gt;```&lt;/p&gt;
+auto d = bint;//
+auto c = 0;
 
-&lt;h2 id=&quot;for&quot;&gt;for循环&lt;/h2&gt;
+decltype(c) e; //e为int类型
+decltype((c)) f = e; // f为int&amp;amp;类型，
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;for循环&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;int myarr3[3] = {1,2，3};
 
-&lt;p&gt;```
-int myarr3[3] = {1,2，3};&lt;/p&gt;
+for (int &amp;amp;x : myarr3)
+{
 
-&lt;p&gt;for (int &amp;amp;x : myarr3)
-{&lt;/p&gt;
+}
 
-&lt;p&gt;}&lt;/p&gt;
-
-&lt;p&gt;//
-    vector&lt;string&gt; arrVec = {&quot;apple&quot;,&quot;google&quot;,&quot;adobe&quot;};
+//
+    vector&amp;lt;string&amp;gt; arrVec = {&amp;quot;apple&amp;quot;,&amp;quot;google&amp;quot;,&amp;quot;adobe&amp;quot;};
     for (const auto &amp;amp;x : arrVec)
     {
-        printf(&quot;%s&quot;,x.c_str());
-    }&lt;/string&gt;&lt;/p&gt;
+        printf(&amp;quot;%s&amp;quot;,x.c_str());
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Lambda函数&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    //一个lambda实例， 参数在()中定义；返回值-&amp;gt; ,无返回值时可以去掉 ；函数体{}
 
-&lt;p&gt;```&lt;/p&gt;
+    auto sumFuc = [](int x,int y) -&amp;gt;int { return x+ y;};
+    int ret = sumFuc(1,222);
 
-&lt;h2 id=&quot;lambda&quot;&gt;Lambda函数&lt;/h2&gt;
-
-&lt;p&gt;```
-	//一个lambda实例， 参数在()中定义；返回值-&amp;gt; ,无返回值时可以去掉 ；函数体{}&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;auto sumFuc = [](int x,int y) -&amp;gt;int { return x+ y;};
-int ret = sumFuc(1,222);
-
-//以下定义了一个function
-std::function&amp;lt;int(int,int)&amp;gt; sumFuc1 =[](int x,int y) -&amp;gt;int { return x+ y;};
-int ret1 = sumFuc1(1,222);
+    //以下定义了一个function
+    std::function&amp;lt;int(int,int)&amp;gt; sumFuc1 =[](int x,int y) -&amp;gt;int { return x+ y;};
+    int ret1 = sumFuc1(1,222);
 
 
-//[] 内部定义了一个lambda内部如何使用外部变量
-[]  表示不能以任何形式使用外部变量
-[=] 表示任何被使用的外部参数将以传值形式加以使用
-[&amp;amp;] 表示任何被使用的外部参数将以引用形式加以使用
+    //[] 内部定义了一个lambda内部如何使用外部变量
+    []  表示不能以任何形式使用外部变量
+    [=] 表示任何被使用的外部参数将以传值形式加以使用
+    [&amp;amp;] 表示任何被使用的外部参数将以引用形式加以使用
 
-//下面是一个错误的例子，lambda无法直接使用外部ret1变量
-auto sumfuc2 = [](int z)-&amp;gt;int
-{
-	return ret1 + z;
-};
-//下面这个写法就是对的
-auto sumfuc2 = [&amp;amp;](int z)-&amp;gt;int
-{
-	return ret1 + z;
-};
-//可以使用不同的传值方式比如,ret显示的以引用使用，ret1则是传值方式
+    //下面是一个错误的例子，lambda无法直接使用外部ret1变量
+    auto sumfuc2 = [](int z)-&amp;gt;int
+    {
+        return ret1 + z;
+    };
+    //下面这个写法就是对的
+    auto sumfuc2 = [&amp;amp;](int z)-&amp;gt;int
+    {
+        return ret1 + z;
+    };
+    //可以使用不同的传值方式比如,ret显示的以引用使用，ret1则是传值方式
 
-auto sumFunc3 = [&amp;amp;ret,ret1]()-&amp;gt;int
-{
-	
-	return ret + ret1;
-};
+    auto sumFunc3 = [&amp;amp;ret,ret1]()-&amp;gt;int
+    {
 
-cocos2d-x中，很多地方可以使用lambda表示，如触摸的onTouchBegan方法我们可以这么写
-    auto touchListener = EventListenerTouchOneByOne::create();
-touchListener-&amp;gt;onTouchBegan = [](Touch *touch, Event *event)-&amp;gt;bool
-{
-    return true;
-};
-&lt;/code&gt;&lt;/pre&gt;
+        return ret + ret1;
+    };
 
-&lt;p&gt;```&lt;/p&gt;
+    cocos2d-x中，很多地方可以使用lambda表示，如触摸的onTouchBegan方法我们可以这么写
+        auto touchListener = EventListenerTouchOneByOne::create();
+    touchListener-&amp;gt;onTouchBegan = [](Touch *touch, Event *event)-&amp;gt;bool
+    {
+        return true;
+    };
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;std::bind 和std::function&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;std::function 可以绑定到全局函数/类静态函数，如果要绑定到类的实例的函数则使用std::bind;
 
-&lt;h2 id=&quot;stdbind-stdfunction&quot;&gt;std::bind 和std::function&lt;/h2&gt;
+std::bind 可以绑定lambda表达式；
 
-&lt;p&gt;```
-std::function 可以绑定到全局函数/类静态函数，如果要绑定到类的实例的函数则使用std::bind;&lt;/p&gt;
+注意 std::bind无法绑定重载函数（同名函数）
 
-&lt;p&gt;std::bind 可以绑定lambda表达式；&lt;/p&gt;
+std::bind的功能非常强大，常用的几种函数形式都可以用它来绑定，不过它的效率是不如std::function，但对于UI编程来说，开发效率是第一位的
 
-&lt;p&gt;注意 std::bind无法绑定重载函数（同名函数）&lt;/p&gt;
 
-&lt;p&gt;std::bind的功能非常强大，常用的几种函数形式都可以用它来绑定，不过它的效率是不如std::function，但对于UI编程来说，开发效率是第一位的&lt;/p&gt;
+具体可以参考cocos2d-x CC_CALLBACK的用法
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;nullptr和NULL&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;//关键字nullptr用来将空指针和整数0区分开来；nullptr的类型是nullptr_t，而NULL依然被定义为0
+//比如有两个函数
 
-&lt;p&gt;```&lt;/p&gt;
+void foo(char *); //&amp;lt;1&amp;gt;
+void foo(int);    //&amp;lt;2&amp;gt;
 
-&lt;h2 id=&quot;nullptrnull&quot;&gt;nullptr和NULL&lt;/h2&gt;
+foo(nullptr) //调用&amp;lt;1&amp;gt;
+foo(0)   //调用 &amp;lt;2&amp;gt;
 
-&lt;p&gt;```
-//关键字nullptr用来将空指针和整数0区分开来；nullptr的类型是nullptr_t，而NULL依然被定义为0
-//比如有两个函数&lt;/p&gt;
+//0依然可以代表空指针
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;字符串&lt;/h2&gt;
 
-&lt;p&gt;void foo(char *); //&amp;lt;1&amp;gt;
-void foo(int);    //&amp;lt;2&amp;gt;&lt;/p&gt;
+&lt;p&gt;c++11支持三种unicode编码方式：UTF-8；UTF-16和UTF-32. 新加入两种类型的字符类别char16&lt;em&gt;t和char32&lt;/em&gt;t，以支持UTF-16和UTF-32&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    const char str8[] = &amp;quot;c++11标准&amp;quot;;
+    int len = strlen(str8); // 11
 
-&lt;p&gt;foo(nullptr) //调用&amp;lt;1&amp;gt;
-foo(0)   //调用 &amp;lt;2&amp;gt;&lt;/p&gt;
+    //u8表示char ；u表示char16_t，U表示char32_t
 
-&lt;p&gt;//0依然可以代表空指针&lt;/p&gt;
+    const char16_t str16[] = u&amp;quot;c++11标准&amp;quot;;
+    std::u16string ss16(str16);  //引入u16string
+    //获取u16string长度
+    int l = ss16.length();  // 7
 
-&lt;p&gt;```&lt;/p&gt;
+    //还可以用下面这个方法获取长度
+    int l16 = sizeof(str16)/sizeof(str16[0]])
 
-&lt;h2 id=&quot;section-3&quot;&gt;字符串&lt;/h2&gt;
-
-&lt;p&gt;c++11支持三种unicode编码方式：UTF-8；UTF-16和UTF-32. 新加入两种类型的字符类别char16_t和char32_t，以支持UTF-16和UTF-32&lt;/p&gt;
-
-&lt;p&gt;```
-    const char str8[] = “c++11标准”;
-    int len = strlen(str8); // 11&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//u8表示char ；u表示char16_t，U表示char32_t
-
-const char16_t str16[] = u&quot;c++11标准&quot;;
-std::u16string ss16(str16);  //引入u16string
-//获取u16string长度
-int l = ss16.length();  // 7
-
-//还可以用下面这个方法获取长度
-int l16 = sizeof(str16)/sizeof(str16[0]])
-
-// utf-8和utf-16的相互转化
-    char str8_str[] = &quot;hi墨白科技&quot;;
-std::wstring_convert&amp;lt;std::codecvt_utf8_utf16&amp;lt;char16_t&amp;gt;,char16_t&amp;gt; utf16conv;
-//char 转 u16
-u16string str16_str = utf16conv.from_bytes(str8_str);
-int l16 = str16_str.length();
-const char16_t *str16_ss =str16_str.c_str();
-// u16string转string
-string c8str = utf16conv.to_bytes(str16_ss);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;```&lt;/p&gt;
-
-&lt;h2 id=&quot;section-4&quot;&gt;多线程&lt;/h2&gt;
-
-&lt;p&gt;```
-//多线程
-std::thread t;&lt;/p&gt;
-
-&lt;p&gt;```&lt;/p&gt;
-
-&lt;h2 id=&quot;stdmove&quot;&gt;右值引用 std::move&lt;/h2&gt;
-
-&lt;p&gt;```
-c++11标准库提供一种新的值引用，右值引用 &amp;amp;&amp;amp;  该功能极大的提高&lt;/p&gt;
-
-&lt;p&gt;```&lt;/p&gt;
-
-</description>
+    // utf-8和utf-16的相互转化
+        char str8_str[] = &amp;quot;hi墨白科技&amp;quot;;
+    std::wstring_convert&amp;lt;std::codecvt_utf8_utf16&amp;lt;char16_t&amp;gt;,char16_t&amp;gt; utf16conv;
+    //char 转 u16
+    u16string str16_str = utf16conv.from_bytes(str8_str);
+    int l16 = str16_str.length();
+    const char16_t *str16_ss =str16_str.c_str();
+    // u16string转string
+    string c8str = utf16conv.to_bytes(str16_ss);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;多线程&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;//多线程
+std::thread t;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;右值引用 std::move&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;c++11标准库提供一种新的值引用，右值引用 &amp;amp;&amp;amp;  该功能极大的提高
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         <pubDate>Tue, 25 Aug 2015 18:55:00 +0800</pubDate>
         <link>http://haroel.github.io/i/c/c++/2015/08/25/c++11.html</link>
         <guid isPermaLink="true">http://haroel.github.io/i/c/c++/2015/08/25/c++11.html</guid>
@@ -255,7 +213,6 @@ c++11标准库提供一种新的值引用，右值引用 &amp;amp;&amp;amp;  该
       <item>
         <title>Mac osx 上安装Jekyll</title>
         <description>&lt;p&gt;&lt;a href=&quot;http://beiyuu.com/github-pages/&quot;&gt;转&lt;/a&gt;&lt;/p&gt;
-
 </description>
         <pubDate>Tue, 25 Aug 2015 18:35:00 +0800</pubDate>
         <link>http://haroel.github.io/i/%E5%85%B6%E4%BB%96/2015/08/25/jekyll%E5%AE%89%E8%A3%85.html</link>
@@ -268,13 +225,12 @@ c++11标准库提供一种新的值引用，右值引用 &amp;amp;&amp;amp;  该
     
       <item>
         <title>Cocos 设置shader以后，setOpacity无效的问题</title>
-        <description>&lt;p&gt;&lt;br /&gt;
+        <description>&lt;p&gt;&lt;br&gt;
 从网上拔下来一个Shader效果，设置shader后，加上FadeOut action无效。&lt;/p&gt;
 
 &lt;p&gt;为简单起见，我就用黑白色来说明这个问题 
-&lt;br /&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// Shader from http://www.iquilezles.org/apps/shadertoy/
+&lt;br&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;// Shader from http://www.iquilezles.org/apps/shadertoy/
 #ifdef GL_ES 
 precision mediump float; 
 #endif 
@@ -287,28 +243,24 @@ void main(void)
     float grey = dot(col.rgb, vec3(0.299, 0.587, 0.114));
     gl_FragColor =  vec4(grey, grey, grey, col.a);
 }
-&lt;/code&gt;&lt;/pre&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ul&gt;
-  &lt;li&gt;1 把这个shader加载后，设置给Sprite对象，不出意外会将纹理图片设置成灰色&lt;/li&gt;
-  &lt;li&gt;2 然后对这个Sprite设置FadeOut效果， 然后问题来了，它并没用&lt;/li&gt;
+&lt;li&gt;1 把这个shader加载后，设置给Sprite对象，不出意外会将纹理图片设置成灰色&lt;/li&gt;
+&lt;li&gt;2 然后对这个Sprite设置FadeOut效果， 然后问题来了，它并没用&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;问题出在哪了，对比官方默认的Shader，可以很容易找到差别所在，比如在&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt; render/shaders/ccShader_PositionTextureColor_noMVP.frag&lt;/code&gt; 的最后一段代码&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;...
+&lt;p&gt;&lt;code&gt;render/shaders/ccShader_PositionTextureColor_noMVP.frag&lt;/code&gt; 的最后一段代码&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;...
 void main()
 {
-	gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord);
+    gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord);
 }
 ...
-&lt;/code&gt;&lt;/pre&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;很明显，默认的shader 在给&lt;code&gt;gl_FragColor&lt;/code&gt;赋值时，&lt;code&gt;乘&lt;/code&gt;了一个&lt;code&gt;v_fragmentColor&lt;/code&gt;，好，我们把上面的灰色shader改成这样&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// Shader from http://www.iquilezles.org/apps/shadertoy/
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;// Shader from http://www.iquilezles.org/apps/shadertoy/
 #ifdef GL_ES 
 precision mediump float; 
 #endif 
@@ -322,16 +274,14 @@ void main(void)
     float grey = dot(col.rgb, vec3(0.299, 0.587, 0.114));
     gl_FragColor = v_fragmentColor * vec4(grey, grey, grey, col.a);
 }
-&lt;/code&gt;&lt;/pre&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;再次运行，设置FadeOut，我们可以看到起效了。&lt;/p&gt;
 
 &lt;p&gt;问题的核心就是&lt;code&gt;v_fragmentColor&lt;/code&gt;，它其实是一个纹理颜色，这个数据是由顶点着色器传递过来的，注意声明称varying（varying类型的变量是在vertex shader和fragment shader之间传递数据用的），我们通常根据&lt;code&gt;texture2D(CC_Texture0, v_texCoord)&lt;/code&gt;计算出来的其实是一个顶点颜色，两者是不同的概念 ，一个有效的输出颜色应该是纹理颜色乘以顶点颜色&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;若有帮助请点个赞 :)&lt;/p&gt;
+&lt;p&gt;若有帮助请点个赞 :)&lt;/p&gt;
 &lt;/blockquote&gt;
-
 </description>
         <pubDate>Mon, 20 Jul 2015 18:35:00 +0800</pubDate>
         <link>http://haroel.github.io/i/cocos/2015/07/20/cocos-shader-opacity.html</link>
@@ -345,20 +295,14 @@ void main(void)
       <item>
         <title>C++笔记</title>
         <description>&lt;ul&gt;
-  &lt;li&gt;
-    &lt;ol&gt;
-      &lt;li&gt;
-        &lt;p&gt;unsigned char * 转 char *&lt;/p&gt;
+&lt;li&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;unsigned char * 转 char *&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;reinterpret_cast&amp;lt;const char*&amp;gt;(   )
 
-        &lt;pre&gt;&lt;code&gt;   reinterpret_cast&amp;lt;const char*&amp;gt;(   )
-		
-   (const char*)(  )
-&lt;/code&gt;&lt;/pre&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
+(const char*)(  )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
 </description>
         <pubDate>Thu, 16 Jul 2015 01:45:00 +0800</pubDate>
         <link>http://haroel.github.io/i/c/c++/2015/07/16/cpp-note.html</link>
@@ -371,7 +315,7 @@ void main(void)
     
       <item>
         <title>LZMA压缩</title>
-        <description>&lt;pre&gt;&lt;code&gt;//
+        <description>&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;//
 //  LZMAUtil.cpp
 //  MegoGame
 //
@@ -379,17 +323,17 @@ void main(void)
 //
 //
 
-#include &quot;LZMAUtil.h&quot;
-#include &quot;LzmaDec.h&quot;
-#include &quot;Types.h&quot;
+#include &amp;quot;LZMAUtil.h&amp;quot;
+#include &amp;quot;LzmaDec.h&amp;quot;
+#include &amp;quot;Types.h&amp;quot;
 
 unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
 {
     bool dictionaryIsDefined = false;
     UInt32 dictionary = (UInt32)-1;
-    UString mf = L&quot;BT4&quot;;
+    UString mf = L&amp;quot;BT4&amp;quot;;
     UInt32 numThreads = 2/*(UInt32)-1*/;
-    
+
     CMyComPtr&amp;lt;ISequentialInStream&amp;gt; inStream;
     CInFileStream *inStreamSpec = 0;
     inStreamSpec = new CInFileStream;
@@ -399,7 +343,7 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
         // Error: can not open input file
         return 1;
     }
-    
+
     CMyComPtr&amp;lt;ISequentialOutStream&amp;gt; outStream;
     COutFileStream * outStreamSpec = new COutFileStream;
     outStream = outStreamSpec;
@@ -408,13 +352,13 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
         // Error: can not open output file
         return 1;
     }
-    
+
     NCompress::NLzma::CEncoder *encoderSpec = new NCompress::NLzma::CEncoder;
     CMyComPtr&amp;lt;ICompressCoder&amp;gt; encoder = encoderSpec;
-    
+
     if (!dictionaryIsDefined)
         dictionary = 1 &amp;lt;&amp;lt; 23;
-    
+
     UInt32 pb = 2; // posStateBits
     UInt32 lc = 3; // litContextBits,  = 0; for 32-bit data
     UInt32 lp = 0; // litPosBits, = 2; for 32-bit data
@@ -422,7 +366,7 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
     UInt32 fb = 128; // numFastBytes
     UInt32 mc = 16 + fb / 2;
     bool mcDefined = false;
-    
+
     PROPID propIDs[] =
     {
         NCoderPropID::kDictionarySize,
@@ -437,44 +381,44 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
         NCoderPropID::kMatchFinderCycles,
     };
     const int kNumPropsMax = sizeof(propIDs) / sizeof(propIDs[0]);
-    
+
     PROPVARIANT properties[kNumPropsMax];
     for (int p = 0; p &amp;lt; 6; p++) properties[p].vt = VT_UI4;
-    
+
     properties[0].ulVal = (UInt32)dictionary;
     properties[1].ulVal = (UInt32)pb;
     properties[2].ulVal = (UInt32)lc;
     properties[3].ulVal = (UInt32)lp;
     properties[4].ulVal = (UInt32)algo;
     properties[5].ulVal = (UInt32)fb;
-    
+
     properties[6].vt = VT_BSTR;
     properties[6].bstrVal = (BSTR)(const wchar_t *)mf;
-    
+
     properties[7].vt = VT_BOOL;
     properties[7].boolVal = VARIANT_FALSE;
-    
+
     properties[8].vt = VT_UI4;
     properties[8].ulVal = (UInt32)numThreads;
-    
+
     // it must be last in property list
     properties[9].vt = VT_UI4;
     properties[9].ulVal = (UInt32)mc;
-    
+
     int numProps = kNumPropsMax;
     if (!mcDefined) numProps--;
-    
+
     if (encoderSpec-&amp;gt;SetCoderProperties(propIDs, properties, kNumPropsMax) != S_OK)
     {
-        //throw &quot;Incorrect command&quot;;
+        //throw &amp;quot;Incorrect command&amp;quot;;
         return 1;
     }
-    
+
     encoderSpec-&amp;gt;WriteCoderProperties(outStream);
-    
+
     UInt64 fileSize = (UInt64)(Int64)-1;
     inStreamSpec-&amp;gt;File.GetLength(fileSize);
-    
+
     for (int i = 0; i &amp;lt; 8; i++)
     {
         BYTE b = BYTE(fileSize &amp;gt;&amp;gt; (8 * i));
@@ -484,7 +428,7 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
             return 1;
         }
     }
-    
+
     HRESULT result = encoder-&amp;gt;Code(inStream, outStream, 0, 0,0);
     if (result == E_OUTOFMEMORY)
     {
@@ -496,7 +440,7 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
         // Encoder error: result
         return 1;
     }
-    
+
     if (outStreamSpec != NULL)
     {
         if (outStreamSpec-&amp;gt;Close() != S_OK)
@@ -505,7 +449,7 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
             return 1;
         }
     }
-    
+
     return 0;
 }
 
@@ -529,11 +473,11 @@ unsigned long LZMAUtil::UncompressFile(char *filein, char *fileout)
         // Error: can not open output file
         return 1;
     }
-    
+
     NCompress::NLzma::CDecoder *decoderSpec = new NCompress::NLzma::CDecoder;
     CMyComPtr&amp;lt;ICompressCoder&amp;gt; decoder = decoderSpec;
     decoderSpec-&amp;gt;FinishStream = true;
-    
+
     const UInt32 kPropertiesSize = 5;
     Byte header[kPropertiesSize + 8];
     if (ReadStream_FALSE(inStream, header, kPropertiesSize + 8) != S_OK)
@@ -546,17 +490,17 @@ unsigned long LZMAUtil::UncompressFile(char *filein, char *fileout)
         // SetDecoderProperties error
         return 1;
     }
-    
+
     UInt64 fileSize = 0;
     for (int i = 0; i &amp;lt; 8; i++)
         fileSize |= ((UInt64)header[kPropertiesSize + i]) &amp;lt;&amp;lt; (8 * i);
-    
+
     if (decoder-&amp;gt;Code(inStream, outStream, 0, (fileSize == (UInt64)(Int64)-1) ? 0 : &amp;amp;fileSize, 0) != S_OK)
     {
         // Decoder error
         return 1;
     }
-    
+
     if (outStreamSpec != NULL)
     {
         if (outStreamSpec-&amp;gt;Close() != S_OK)
@@ -565,7 +509,7 @@ unsigned long LZMAUtil::UncompressFile(char *filein, char *fileout)
             return 1;
         }
     }
-    
+
     return 0;
 }
 
@@ -574,23 +518,23 @@ unsigned long CompressBuffer(unsigned char *inBuffer, unsigned long inSize,
 {
     bool dictDefined = false;
     UInt32 dict = (UInt32)-1;
-    
+
     if ((inSize == 0) || (inBuffer == 0)) return 1;
     if (/*(outSize == 0) || */(outBuffer == 0)) return 1;
-    
+
     Byte *outBuffer2 = 0;
     size_t outSize2;
-    
+
     // we allocate 105% of original size for output buffer
     outSize2 = (size_t)inSize / 20 * 21 + (1 &amp;lt;&amp;lt; 16); //fileSize / 20 * 21 + (1 &amp;lt;&amp;lt; 16)
     if (outSize2 != 0)
     {
         outBuffer2 = (Byte *)MyAlloc((size_t)outSize2);
-        if (outBuffer2 == 0) return 1;//throw &quot;Can not allocate memory&quot;;
+        if (outBuffer2 == 0) return 1;//throw &amp;quot;Can not allocate memory&amp;quot;;
     }
-    
+
     if (!dictDefined) dict = 1 &amp;lt;&amp;lt; 23;
-    
+
     *outSizeProcessed = outSize2; // !!
     int res = Lzma86_Encode(outBuffer2, outSizeProcessed, inBuffer, inSize,
                             5, dict, SZ_FILTER_AUTO);
@@ -599,11 +543,11 @@ unsigned long CompressBuffer(unsigned char *inBuffer, unsigned long inSize,
         // Encoder error = (int)res
         return 1;
     }
-    
+
     memcpy(outBuffer, outBuffer2, *outSizeProcessed);
-    
+
     MyFree(outBuffer2);
-    
+
     return *outSizeProcessed == 0 ?1:0;
 }
 
@@ -612,39 +556,38 @@ unsigned long UncompressBuffer(unsigned char *inBuffer, unsigned long inSize,
 {
     if ((inSize == 0) || (inBuffer == 0)) return 1;
     if (/*(outSize == 0) || */(outBuffer == 0)) return 1;
-    
+
     Byte *outBuffer2 = 0;
     size_t outSize2;
-    
+
     UInt64 outSize64;
     if (Lzma86_GetUnpackSize(inBuffer, inSize, &amp;amp;outSize64) != 0)
-        return 1;//throw &quot;data error&quot;;
+        return 1;//throw &amp;quot;data error&amp;quot;;
     outSize2 = (size_t)outSize64;
     if (outSize2 != outSize64)
-        return 1;//throw &quot;too big&quot;;
+        return 1;//throw &amp;quot;too big&amp;quot;;
     if (outSize2 != 0)
     {
         outBuffer2 = (Byte *)MyAlloc(outSize2);
         if (outBuffer2 == 0)
-            return 1;//throw &quot;Can not allocate memory&quot;;
+            return 1;//throw &amp;quot;Can not allocate memory&amp;quot;;
     }
-    
+
     size_t inSize2 = inSize;
     *outSizeProcessed = outSize2;
     int res = Lzma86_Decode(outBuffer2, outSizeProcessed, inBuffer, &amp;amp;inSize2);
     if (inSize2 != (size_t)inSize)
-        return 1;//throw &quot;incorrect processed size&quot;;
+        return 1;//throw &amp;quot;incorrect processed size&amp;quot;;
     if (res != 0)
-        return 1;//throw &quot;LzmaDecoder error&quot;;
-    
+        return 1;//throw &amp;quot;LzmaDecoder error&amp;quot;;
+
     memcpy(outBuffer, outBuffer2, *outSizeProcessed);
-    
+
     MyFree(outBuffer2);
-    
+
     return *outSizeProcessed == 0 ?1:0;
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         <pubDate>Wed, 15 Jul 2015 18:45:00 +0800</pubDate>
         <link>http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/15/lzma.html</link>
         <guid isPermaLink="true">http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/15/lzma.html</guid>
@@ -657,61 +600,48 @@ unsigned long UncompressBuffer(unsigned char *inBuffer, unsigned long inSize,
       <item>
         <title>经典算法总结</title>
         <description>&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;1 取平方根 ` 作者：约翰-卡马克`&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;1 取平方根 &lt;code&gt;作者：约翰-卡马克&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;float Q_rsqrt( float number )
+{
+    long i;
+    float x2, y;
+    const float threehalfs = 1.5F;
+    x2 = number * 0.5F;
+    y   = number;
+    i   = * ( long * ) &amp;amp;y;   // evil floating point bit level hacking
+    i   = 0x5f3759df - ( i &amp;gt;&amp;gt; 1 ); // what the fuck?
+    y   = * ( float * ) &amp;amp;i;
+    y   = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration
+    // y   = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
 
-    &lt;pre&gt;&lt;code&gt; float Q_rsqrt( float number )
- {
-     long i;
-     float x2, y;
-     const float threehalfs = 1.5F;
-     x2 = number * 0.5F;
-     y   = number;
-     i   = * ( long * ) &amp;amp;y;   // evil floating point bit level hacking
-     i   = 0x5f3759df - ( i &amp;gt;&amp;gt; 1 ); // what the fuck?
-     y   = * ( float * ) &amp;amp;i;
-     y   = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration
-     // y   = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
-
-     #ifndef Q3_VM
-     #ifdef __linux__
-      assert( !isnan(y) ); // bk010122 - FPE?
-     #endif
-     #endif
-     return y;
- }  
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;2 绝对值 ` 作者：约翰-卡马克`&lt;/p&gt;
-
-    &lt;pre&gt;&lt;code&gt;  float Q_fabs( float f ) 
-  {
-      int tmp = * ( int * ) &amp;amp;f;
-      tmp &amp;amp;= 0x7FFFFFFF;
-      return * ( float * ) &amp;amp;tmp;
-  }
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;3 不用临时变量交换两个数的值&lt;/p&gt;
-
-    &lt;pre&gt;&lt;code&gt;  a = a ^ b;
-  b = b ^ a;
-  a = a ^ b;
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;4 求最大公约数&lt;/p&gt;
-
-    &lt;pre&gt;&lt;code&gt;  int gcd(int x,int y)
-  { 
-      return y?gcd(y,x%y):x; 
-  }
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
+    #ifndef Q3_VM
+    #ifdef __linux__
+     assert( !isnan(y) ); // bk010122 - FPE?
+    #endif
+    #endif
+    return y;
+}  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;2 绝对值 &lt;code&gt;作者：约翰-卡马克&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;float Q_fabs( float f ) 
+{
+    int tmp = * ( int * ) &amp;amp;f;
+    tmp &amp;amp;= 0x7FFFFFFF;
+    return * ( float * ) &amp;amp;tmp;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;3 不用临时变量交换两个数的值&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;a = a ^ b;
+b = b ^ a;
+a = a ^ b;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;4 求最大公约数&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;int gcd(int x,int y)
+{ 
+    return y?gcd(y,x%y):x; 
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
 </description>
         <pubDate>Tue, 14 Jul 2015 21:09:00 +0800</pubDate>
         <link>http://haroel.github.io/i/%E7%AE%97%E6%B3%95/2015/07/14/Algorithm.html</link>
@@ -733,8 +663,7 @@ unsigned long UncompressBuffer(unsigned char *inBuffer, unsigned long inSize,
 &lt;p&gt;getSheetArray返回的是excel的 行数组 ，因为c++里面难以实现动态类结构，所以不得已写成这种方式，一般情况下该数据拿到后需要二次加工，你可以拿一个简单的excel表格（比如道具物品表），测试打个断点就知道有哪些数据结构。 我还有一个纯js版本的，适合cocos2d-js使用，待日后完善了再丢出来。&lt;/p&gt;
 
 &lt;p&gt;Excel.h&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//基于com.lipi.excel as3 版本设计，感谢lipi的源码参考
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;//基于com.lipi.excel as3 版本设计，感谢lipi的源码参考
 // auto excel =  new Excel();
 // bool result = excel-&amp;gt;parseExcelFile(filepath, 1);
 // std::vector&amp;lt;LineInfo&amp;gt; arr = std::move( excel-&amp;gt;getSheetArray() );
@@ -757,11 +686,11 @@ class Excel
 {
 public:
     Excel();
-    
+
     bool parseExcelFile(const std::string &amp;amp;filepath,int sheetIndex);
-    
+
     std::vector&amp;lt;LineInfo&amp;gt; getSheetArray();
-    
+
 private:
     std::vector&amp;lt;std::string&amp;gt; _getValueArray();
 private:
@@ -770,11 +699,9 @@ private:
 };
 
 #endif /* defined(__ModelEditor__Excel__) */
-&lt;/code&gt;&lt;/pre&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Excel.cpp 实现部分&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;//
 //  Excel.cpp
 //
 //  Created by howe on 15/5/5.
@@ -784,10 +711,10 @@ private:
 #include &amp;lt;iostream&amp;gt;
 #include &amp;lt;string&amp;gt;
 
-#include &quot;Excel.h&quot;
-#include &quot;cocos2d.h&quot;
+#include &amp;quot;Excel.h&amp;quot;
+#include &amp;quot;cocos2d.h&amp;quot;
 
-#include &quot;external/tinyxml2/tinyxml2.h&quot;
+#include &amp;quot;external/tinyxml2/tinyxml2.h&amp;quot;
 
 using namespace tinyxml2;
 using namespace std;
@@ -802,7 +729,7 @@ void deleteNum( std::string &amp;amp;content)
     string::iterator t = content.begin();
     while(t != content.end())
     {
-        if(*t &amp;gt;= &#39;0&#39; &amp;amp;&amp;amp; *t &amp;lt;= &#39;9&#39;)
+        if(*t &amp;gt;= &amp;#39;0&amp;#39; &amp;amp;&amp;amp; *t &amp;lt;= &amp;#39;9&amp;#39;)
         {
            content.erase(t);
         }
@@ -826,24 +753,24 @@ int getColIndex(std::string &amp;amp;content)
 }
 
 Excel::Excel()
-:_excelFilePath(&quot;&quot;)
+:_excelFilePath(&amp;quot;&amp;quot;)
 {
-    
+
 }
 
 bool Excel::parseExcelFile(const std::string &amp;amp;ilepath, int sheetIndex)
 {
     _excelFilePath = ilepath;
     excelHash.clear();
-    
+
     char xml_file[256] = {0};
-    sprintf(xml_file, &quot;xl/worksheets/sheet%d.xml&quot;,sheetIndex+1);
+    sprintf(xml_file, &amp;quot;xl/worksheets/sheet%d.xml&amp;quot;,sheetIndex+1);
     ssize_t size;
-    
+
     auto fileData = getFileDataFromZip(_excelFilePath, xml_file, &amp;amp;size);
     if (!fileData)
     {
-        CCLOG(ilepath.c_str(), &quot;The excel file is not exist！&quot;);
+        CCLOG(ilepath.c_str(), &amp;quot;The excel file is not exist！&amp;quot;);
         return false;
     }
     auto valueArray = std::move(_getValueArray());
@@ -851,32 +778,32 @@ bool Excel::parseExcelFile(const std::string &amp;amp;ilepath, int sheetIndex)
     tinyxml2::XMLDocument doc;
 
     doc.Parse((const char*)fileData,size);
-    
+
     XMLElement *root = doc.RootElement();
-    
-    XMLElement * sheetDataElement = root-&amp;gt;FirstChildElement(&quot;sheetData&quot;);
-    XMLElement * rowElement =sheetDataElement-&amp;gt;FirstChildElement(&quot;row&quot;);
-    
+
+    XMLElement * sheetDataElement = root-&amp;gt;FirstChildElement(&amp;quot;sheetData&amp;quot;);
+    XMLElement * rowElement =sheetDataElement-&amp;gt;FirstChildElement(&amp;quot;row&amp;quot;);
+
     while (rowElement)
     {
         LineInfo lineInfo;
-        auto rowIndex = atoi(rowElement-&amp;gt;Attribute(&quot;r&quot;)) - 1;
+        auto rowIndex = atoi(rowElement-&amp;gt;Attribute(&amp;quot;r&amp;quot;)) - 1;
         lineInfo.lineIndex = rowIndex;
         std::vector&amp;lt;std::string&amp;gt; &amp;amp;rowArray = lineInfo.array;
-        auto cElement = rowElement-&amp;gt;FirstChildElement(&quot;c&quot;);
+        auto cElement = rowElement-&amp;gt;FirstChildElement(&amp;quot;c&amp;quot;);
         while (cElement)
         {
-            std::string cc = cElement-&amp;gt;Attribute(&quot;r&quot;);
+            std::string cc = cElement-&amp;gt;Attribute(&amp;quot;r&amp;quot;);
             deleteNum(cc);
             auto colIndex  = getColIndex( cc );
-            std::string t = &quot;&quot;;
-            std::string v = &quot;&quot;;
+            std::string t = &amp;quot;&amp;quot;;
+            std::string v = &amp;quot;&amp;quot;;
 
-            if (cElement-&amp;gt;Attribute(&quot;t&quot;))
+            if (cElement-&amp;gt;Attribute(&amp;quot;t&amp;quot;))
             {
-                t = cElement-&amp;gt;Attribute(&quot;t&quot;);
+                t = cElement-&amp;gt;Attribute(&amp;quot;t&amp;quot;);
             }
-            auto vElement = cElement-&amp;gt;FirstChildElement(&quot;v&quot;);
+            auto vElement = cElement-&amp;gt;FirstChildElement(&amp;quot;v&amp;quot;);
             if (vElement)
             {
                 v = vElement-&amp;gt;GetText();
@@ -886,10 +813,10 @@ bool Excel::parseExcelFile(const std::string &amp;amp;ilepath, int sheetIndex)
                 int len = rowArray.size();
                 for (auto i = 0;i &amp;lt; colIndex - len;i++)
                 {
-                    rowArray.push_back(&quot;&quot;); //
+                    rowArray.push_back(&amp;quot;&amp;quot;); //
                 }
             }
-            if (t == &quot;s&quot;)
+            if (t == &amp;quot;s&amp;quot;)
             {
                 rowArray.push_back(valueArray[atoi(v.c_str())]);
             }
@@ -897,7 +824,7 @@ bool Excel::parseExcelFile(const std::string &amp;amp;ilepath, int sheetIndex)
             {
                 rowArray.push_back(v);
             }
-            cElement = cElement-&amp;gt;NextSiblingElement(&quot;c&quot;);
+            cElement = cElement-&amp;gt;NextSiblingElement(&amp;quot;c&amp;quot;);
         }
         auto bb = false;
         for (auto iii : rowArray)
@@ -912,7 +839,7 @@ bool Excel::parseExcelFile(const std::string &amp;amp;ilepath, int sheetIndex)
         {
             excelHash[rowIndex] = lineInfo;
         }
-        rowElement = rowElement-&amp;gt;NextSiblingElement(&quot;row&quot;);
+        rowElement = rowElement-&amp;gt;NextSiblingElement(&amp;quot;row&amp;quot;);
     }
     return true;
 }
@@ -920,26 +847,26 @@ bool Excel::parseExcelFile(const std::string &amp;amp;ilepath, int sheetIndex)
 std::vector&amp;lt;std::string&amp;gt; Excel::_getValueArray()
 {
     std::vector&amp;lt;std::string&amp;gt; result;
-    
+
     ssize_t size;
-    auto fileData = getFileDataFromZip(_excelFilePath,  &quot;xl/sharedStrings.xml&quot;, &amp;amp;size);
-	    
+    auto fileData = getFileDataFromZip(_excelFilePath,  &amp;quot;xl/sharedStrings.xml&amp;quot;, &amp;amp;size);
+
     tinyxml2::XMLDocument doc;
     doc.Parse((const char*)fileData,size);
     XMLElement *root = doc.RootElement();
-    XMLElement *siElement = root-&amp;gt;FirstChildElement(&quot;si&quot;);
-    
+    XMLElement *siElement = root-&amp;gt;FirstChildElement(&amp;quot;si&amp;quot;);
+
     while (siElement)
     {
-        std::string temp = &quot;&quot;;
-        auto tElement = siElement-&amp;gt;FirstChildElement(&quot;t&quot;);
+        std::string temp = &amp;quot;&amp;quot;;
+        auto tElement = siElement-&amp;gt;FirstChildElement(&amp;quot;t&amp;quot;);
         while (tElement)
         {
             temp = temp + tElement-&amp;gt;GetText();
-            tElement = tElement-&amp;gt;NextSiblingElement(&quot;t&quot;);
+            tElement = tElement-&amp;gt;NextSiblingElement(&amp;quot;t&amp;quot;);
         }
         result.push_back(temp);
-        siElement = siElement-&amp;gt;NextSiblingElement(&quot;si&quot;);
+        siElement = siElement-&amp;gt;NextSiblingElement(&amp;quot;si&amp;quot;);
     }
     return result;
 }
@@ -954,8 +881,7 @@ std::vector&amp;lt;LineInfo&amp;gt; Excel::getSheetArray()
     }
     return result;
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         <pubDate>Mon, 13 Jul 2015 21:21:00 +0800</pubDate>
         <link>http://haroel.github.io/i/c/c++/cocos/2015/07/13/cpp-excel.html</link>
         <guid isPermaLink="true">http://haroel.github.io/i/c/c++/cocos/2015/07/13/cpp-excel.html</guid>
@@ -970,84 +896,23 @@ std::vector&amp;lt;LineInfo&amp;gt; Excel::getSheetArray()
       <item>
         <title>C++ 中list、vector和deque比较</title>
         <description>&lt;blockquote&gt;
-  &lt;p&gt;转自 &lt;a href=&quot;http://blog.csdn.net/xiaolajiao8787/article/details/5882609&quot;&gt;http://blog.csdn.net/xiaolajiao8787/article/details/5882609&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;转自 &lt;a href=&quot;http://blog.csdn.net/xiaolajiao8787/article/details/5882609&quot;&gt;http://blog.csdn.net/xiaolajiao8787/article/details/5882609&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h3 id=&quot;section&quot;&gt;性能比较&lt;/h3&gt;
+&lt;h3&gt;性能比较&lt;/h3&gt;
 
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;类型&lt;/th&gt;
-      &lt;th&gt;Vector&lt;/th&gt;
-      &lt;th&gt;Deque&lt;/th&gt;
-      &lt;th&gt;List&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;内存管理&lt;/td&gt;
-      &lt;td&gt;Poor&lt;/td&gt;
-      &lt;td&gt;Good&lt;/td&gt;
-      &lt;td&gt;perfect&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;使用[ ]和at() 操作访问数据&lt;/td&gt;
-      &lt;td&gt;Very good&lt;/td&gt;
-      &lt;td&gt;Normal&lt;/td&gt;
-      &lt;td&gt;N/A&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Iterator的访问速度&lt;/td&gt;
-      &lt;td&gt;Good&lt;/td&gt;
-      &lt;td&gt;Very good&lt;/td&gt;
-      &lt;td&gt;Good&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Push_back操作（后插入）&lt;/td&gt;
-      &lt;td&gt;Good&lt;/td&gt;
-      &lt;td&gt;Good&lt;/td&gt;
-      &lt;td&gt;Good&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Push_front操作（前插入）&lt;/td&gt;
-      &lt;td&gt;N/A&lt;/td&gt;
-      &lt;td&gt;Very good&lt;/td&gt;
-      &lt;td&gt;Good&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Insert（中间插入）&lt;/td&gt;
-      &lt;td&gt;Poor&lt;/td&gt;
-      &lt;td&gt;Perfect&lt;/td&gt;
-      &lt;td&gt;Perfect&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Erase（中间删除）&lt;/td&gt;
-      &lt;td&gt;Poor&lt;/td&gt;
-      &lt;td&gt;Perfect&lt;/td&gt;
-      &lt;td&gt;Perfect&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Pop_back（后部删除）&lt;/td&gt;
-      &lt;td&gt;Perfect&lt;/td&gt;
-      &lt;td&gt;Perfect&lt;/td&gt;
-      &lt;td&gt;Normal&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Swap（交换数据）&lt;/td&gt;
-      &lt;td&gt;Perfect&lt;/td&gt;
-      &lt;td&gt;Very good&lt;/td&gt;
-      &lt;td&gt;Good&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;遍历&lt;/td&gt;
-      &lt;td&gt;Perfect&lt;/td&gt;
-      &lt;td&gt;Good&lt;/td&gt;
-      &lt;td&gt;Normal&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
+&lt;p&gt;| 类型 | Vector | Deque | List |
+| ------------ | ------------- | ------------ |
+| 内存管理 | Poor  | Good | perfect |
+| 使用[ ]和at() 操作访问数据 | Very good  | Normal | N/A |
+| Iterator的访问速度 | Good  | Very good  | Good |
+| Push&lt;em&gt;back操作（后插入） | Good  | Good | Good |
+| Push&lt;/em&gt;front操作（前插入） | N/A  | Very good | Good |
+| Insert（中间插入） | Poor  | Perfect | Perfect |
+| Erase（中间删除） | Poor  | Perfect | Perfect |
+| Pop_back（后部删除） | Perfect  | Perfect | Normal |
+| Swap（交换数据） | Perfect  | Very good | Good |
+| 遍历 | Perfect  | Good | Normal |&lt;/p&gt;
 </description>
         <pubDate>Fri, 19 Sep 2014 21:45:00 +0800</pubDate>
         <link>http://haroel.github.io/i/c/c++/2014/09/19/stl-container.html</link>
@@ -1063,10 +928,10 @@ std::vector&amp;lt;LineInfo&amp;gt; Excel::getSheetArray()
         <description>&lt;p&gt;项目接了几十个渠道平台，每个平台都建了一个Android工程，引用Classes，由于才用java接口类来抽象出平台接口方法，所以每个工程的Android.mk是完全一致的，也就是说libgame.so是一样的。前期为了保证开发进度，没有做优化，所以发一次版本，几十个渠道都要编译一次c++，其过程之痛苦，令人不寒而栗！&lt;/p&gt;
 
 &lt;p&gt;　　想办法来优化发布过程，思路是这样的，A工程先正确的编译一次，得到一个libgame.so库文件，然后B工程里面，我们在jni目录下新建目录prebuilt，然后把libgame.so放上去，Android,mk修改成如下内容，这样，B工程根本毋须编译任何c++代码，速度提升了N倍　　
-　　　
-#####以下为MK配置&lt;/p&gt;
+　　　&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;　		　	
+&lt;h5&gt;以下为MK配置&lt;/h5&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;　     　 
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE := game
@@ -1074,11 +939,9 @@ LOCAL_SRC_FILES := prebuilt/libgame.so
 include $(PREBUILT_SHARED_LIBRARY 
 
 LOCAL_SHARED_LIBRARIES := game
-&lt;/code&gt;&lt;/pre&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;　　clean，然后编译，你将体会这种做法带来的便利.当然这么做的前提是你的安卓项目里面没有使用宏处理编译。
 　　&lt;/p&gt;
-
 </description>
         <pubDate>Fri, 19 Sep 2014 21:45:00 +0800</pubDate>
         <link>http://haroel.github.io/i/cocos/android/2014/09/19/cocos2dxandroidsolib.html</link>
@@ -1093,8 +956,7 @@ LOCAL_SHARED_LIBRARIES := game
     
       <item>
         <title>Hello Github page</title>
-        <description>&lt;h4 id=&quot;haroelgithubioihttpharoelgithubioi--&quot;&gt;今后，个人技术博客将迁移到&lt;a href=&quot;http://haroel.github.io/i&quot;&gt;haroel.github.io/i&lt;/a&gt; ，:-)&lt;/h4&gt;
-
+        <description>&lt;h4&gt;今后，个人技术博客将迁移到&lt;a href=&quot;http://haroel.github.io/i&quot;&gt;haroel.github.io/i&lt;/a&gt; ，:-)&lt;/h4&gt;
 </description>
         <pubDate>Fri, 19 Sep 2014 21:30:00 +0800</pubDate>
         <link>http://haroel.github.io/i/%E5%85%B6%E4%BB%96/2014/09/19/sayhey.html</link>

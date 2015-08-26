@@ -62,84 +62,23 @@
 
   <article class="post-content">
     <blockquote>
-  <p>转自 <a href="http://blog.csdn.net/xiaolajiao8787/article/details/5882609">http://blog.csdn.net/xiaolajiao8787/article/details/5882609</a></p>
+<p>转自 <a href="http://blog.csdn.net/xiaolajiao8787/article/details/5882609">http://blog.csdn.net/xiaolajiao8787/article/details/5882609</a></p>
 </blockquote>
 
-<h3 id="section">性能比较</h3>
+<h3>性能比较</h3>
 
-<table>
-  <thead>
-    <tr>
-      <th>类型</th>
-      <th>Vector</th>
-      <th>Deque</th>
-      <th>List</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>内存管理</td>
-      <td>Poor</td>
-      <td>Good</td>
-      <td>perfect</td>
-    </tr>
-    <tr>
-      <td>使用[ ]和at() 操作访问数据</td>
-      <td>Very good</td>
-      <td>Normal</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Iterator的访问速度</td>
-      <td>Good</td>
-      <td>Very good</td>
-      <td>Good</td>
-    </tr>
-    <tr>
-      <td>Push_back操作（后插入）</td>
-      <td>Good</td>
-      <td>Good</td>
-      <td>Good</td>
-    </tr>
-    <tr>
-      <td>Push_front操作（前插入）</td>
-      <td>N/A</td>
-      <td>Very good</td>
-      <td>Good</td>
-    </tr>
-    <tr>
-      <td>Insert（中间插入）</td>
-      <td>Poor</td>
-      <td>Perfect</td>
-      <td>Perfect</td>
-    </tr>
-    <tr>
-      <td>Erase（中间删除）</td>
-      <td>Poor</td>
-      <td>Perfect</td>
-      <td>Perfect</td>
-    </tr>
-    <tr>
-      <td>Pop_back（后部删除）</td>
-      <td>Perfect</td>
-      <td>Perfect</td>
-      <td>Normal</td>
-    </tr>
-    <tr>
-      <td>Swap（交换数据）</td>
-      <td>Perfect</td>
-      <td>Very good</td>
-      <td>Good</td>
-    </tr>
-    <tr>
-      <td>遍历</td>
-      <td>Perfect</td>
-      <td>Good</td>
-      <td>Normal</td>
-    </tr>
-  </tbody>
-</table>
-
+<p>| 类型 | Vector | Deque | List |
+| ------------ | ------------- | ------------ |
+| 内存管理 | Poor  | Good | perfect |
+| 使用[ ]和at() 操作访问数据 | Very good  | Normal | N/A |
+| Iterator的访问速度 | Good  | Very good  | Good |
+| Push<em>back操作（后插入） | Good  | Good | Good |
+| Push</em>front操作（前插入） | N/A  | Very good | Good |
+| Insert（中间插入） | Poor  | Perfect | Perfect |
+| Erase（中间删除） | Poor  | Perfect | Perfect |
+| Pop_back（后部删除） | Perfect  | Perfect | Normal |
+| Swap（交换数据） | Perfect  | Very good | Good |
+| 遍历 | Perfect  | Good | Normal |</p>
 
   </article>
   

@@ -62,61 +62,48 @@
 
   <article class="post-content">
     <ul>
-  <li>
-    <p>1 取平方根 ` 作者：约翰-卡马克`</p>
+<li><p>1 取平方根 <code>作者：约翰-卡马克</code></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">float Q_rsqrt( float number )
+{
+    long i;
+    float x2, y;
+    const float threehalfs = 1.5F;
+    x2 = number * 0.5F;
+    y   = number;
+    i   = * ( long * ) &amp;y;   // evil floating point bit level hacking
+    i   = 0x5f3759df - ( i &gt;&gt; 1 ); // what the fuck?
+    y   = * ( float * ) &amp;i;
+    y   = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration
+    // y   = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
 
-    <pre><code> float Q_rsqrt( float number )
- {
-     long i;
-     float x2, y;
-     const float threehalfs = 1.5F;
-     x2 = number * 0.5F;
-     y   = number;
-     i   = * ( long * ) &amp;y;   // evil floating point bit level hacking
-     i   = 0x5f3759df - ( i &gt;&gt; 1 ); // what the fuck?
-     y   = * ( float * ) &amp;i;
-     y   = y * ( threehalfs - ( x2 * y * y ) ); // 1st iteration
-     // y   = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
-
-     #ifndef Q3_VM
-     #ifdef __linux__
-      assert( !isnan(y) ); // bk010122 - FPE?
-     #endif
-     #endif
-     return y;
- }  
-</code></pre>
-  </li>
-  <li>
-    <p>2 绝对值 ` 作者：约翰-卡马克`</p>
-
-    <pre><code>  float Q_fabs( float f ) 
-  {
-      int tmp = * ( int * ) &amp;f;
-      tmp &amp;= 0x7FFFFFFF;
-      return * ( float * ) &amp;tmp;
-  }
-</code></pre>
-  </li>
-  <li>
-    <p>3 不用临时变量交换两个数的值</p>
-
-    <pre><code>  a = a ^ b;
-  b = b ^ a;
-  a = a ^ b;
-</code></pre>
-  </li>
-  <li>
-    <p>4 求最大公约数</p>
-
-    <pre><code>  int gcd(int x,int y)
-  { 
-      return y?gcd(y,x%y):x; 
-  }
-</code></pre>
-  </li>
+    #ifndef Q3_VM
+    #ifdef __linux__
+     assert( !isnan(y) ); // bk010122 - FPE?
+    #endif
+    #endif
+    return y;
+}  
+</code></pre></div></li>
+<li><p>2 绝对值 <code>作者：约翰-卡马克</code></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">float Q_fabs( float f ) 
+{
+    int tmp = * ( int * ) &amp;f;
+    tmp &amp;= 0x7FFFFFFF;
+    return * ( float * ) &amp;tmp;
+}
+</code></pre></div></li>
+<li><p>3 不用临时变量交换两个数的值</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">a = a ^ b;
+b = b ^ a;
+a = a ^ b;
+</code></pre></div></li>
+<li><p>4 求最大公约数</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">int gcd(int x,int y)
+{ 
+    return y?gcd(y,x%y):x; 
+}
+</code></pre></div></li>
 </ul>
-
 
   </article>
   

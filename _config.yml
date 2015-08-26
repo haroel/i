@@ -9,5 +9,5 @@ twitter_username: null
 github_username:  haroel
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet
 comments: true

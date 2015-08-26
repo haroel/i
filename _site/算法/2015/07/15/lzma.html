@@ -61,7 +61,7 @@
   </header>
 
   <article class="post-content">
-    <pre><code>//
+    <div class="highlight"><pre><code class="language-text" data-lang="text">//
 //  LZMAUtil.cpp
 //  MegoGame
 //
@@ -69,17 +69,17 @@
 //
 //
 
-#include "LZMAUtil.h"
-#include "LzmaDec.h"
-#include "Types.h"
+#include &quot;LZMAUtil.h&quot;
+#include &quot;LzmaDec.h&quot;
+#include &quot;Types.h&quot;
 
 unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
 {
     bool dictionaryIsDefined = false;
     UInt32 dictionary = (UInt32)-1;
-    UString mf = L"BT4";
+    UString mf = L&quot;BT4&quot;;
     UInt32 numThreads = 2/*(UInt32)-1*/;
-    
+
     CMyComPtr&lt;ISequentialInStream&gt; inStream;
     CInFileStream *inStreamSpec = 0;
     inStreamSpec = new CInFileStream;
@@ -89,7 +89,7 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
         // Error: can not open input file
         return 1;
     }
-    
+
     CMyComPtr&lt;ISequentialOutStream&gt; outStream;
     COutFileStream * outStreamSpec = new COutFileStream;
     outStream = outStreamSpec;
@@ -98,13 +98,13 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
         // Error: can not open output file
         return 1;
     }
-    
+
     NCompress::NLzma::CEncoder *encoderSpec = new NCompress::NLzma::CEncoder;
     CMyComPtr&lt;ICompressCoder&gt; encoder = encoderSpec;
-    
+
     if (!dictionaryIsDefined)
         dictionary = 1 &lt;&lt; 23;
-    
+
     UInt32 pb = 2; // posStateBits
     UInt32 lc = 3; // litContextBits,  = 0; for 32-bit data
     UInt32 lp = 0; // litPosBits, = 2; for 32-bit data
@@ -112,7 +112,7 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
     UInt32 fb = 128; // numFastBytes
     UInt32 mc = 16 + fb / 2;
     bool mcDefined = false;
-    
+
     PROPID propIDs[] =
     {
         NCoderPropID::kDictionarySize,
@@ -127,44 +127,44 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
         NCoderPropID::kMatchFinderCycles,
     };
     const int kNumPropsMax = sizeof(propIDs) / sizeof(propIDs[0]);
-    
+
     PROPVARIANT properties[kNumPropsMax];
     for (int p = 0; p &lt; 6; p++) properties[p].vt = VT_UI4;
-    
+
     properties[0].ulVal = (UInt32)dictionary;
     properties[1].ulVal = (UInt32)pb;
     properties[2].ulVal = (UInt32)lc;
     properties[3].ulVal = (UInt32)lp;
     properties[4].ulVal = (UInt32)algo;
     properties[5].ulVal = (UInt32)fb;
-    
+
     properties[6].vt = VT_BSTR;
     properties[6].bstrVal = (BSTR)(const wchar_t *)mf;
-    
+
     properties[7].vt = VT_BOOL;
     properties[7].boolVal = VARIANT_FALSE;
-    
+
     properties[8].vt = VT_UI4;
     properties[8].ulVal = (UInt32)numThreads;
-    
+
     // it must be last in property list
     properties[9].vt = VT_UI4;
     properties[9].ulVal = (UInt32)mc;
-    
+
     int numProps = kNumPropsMax;
     if (!mcDefined) numProps--;
-    
+
     if (encoderSpec-&gt;SetCoderProperties(propIDs, properties, kNumPropsMax) != S_OK)
     {
-        //throw "Incorrect command";
+        //throw &quot;Incorrect command&quot;;
         return 1;
     }
-    
+
     encoderSpec-&gt;WriteCoderProperties(outStream);
-    
+
     UInt64 fileSize = (UInt64)(Int64)-1;
     inStreamSpec-&gt;File.GetLength(fileSize);
-    
+
     for (int i = 0; i &lt; 8; i++)
     {
         BYTE b = BYTE(fileSize &gt;&gt; (8 * i));
@@ -174,7 +174,7 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
             return 1;
         }
     }
-    
+
     HRESULT result = encoder-&gt;Code(inStream, outStream, 0, 0,0);
     if (result == E_OUTOFMEMORY)
     {
@@ -186,7 +186,7 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
         // Encoder error: result
         return 1;
     }
-    
+
     if (outStreamSpec != NULL)
     {
         if (outStreamSpec-&gt;Close() != S_OK)
@@ -195,7 +195,7 @@ unsigned long LZMAUtil::CompressFile(char *filein, char *fileout)
             return 1;
         }
     }
-    
+
     return 0;
 }
 
@@ -219,11 +219,11 @@ unsigned long LZMAUtil::UncompressFile(char *filein, char *fileout)
         // Error: can not open output file
         return 1;
     }
-    
+
     NCompress::NLzma::CDecoder *decoderSpec = new NCompress::NLzma::CDecoder;
     CMyComPtr&lt;ICompressCoder&gt; decoder = decoderSpec;
     decoderSpec-&gt;FinishStream = true;
-    
+
     const UInt32 kPropertiesSize = 5;
     Byte header[kPropertiesSize + 8];
     if (ReadStream_FALSE(inStream, header, kPropertiesSize + 8) != S_OK)
@@ -236,17 +236,17 @@ unsigned long LZMAUtil::UncompressFile(char *filein, char *fileout)
         // SetDecoderProperties error
         return 1;
     }
-    
+
     UInt64 fileSize = 0;
     for (int i = 0; i &lt; 8; i++)
         fileSize |= ((UInt64)header[kPropertiesSize + i]) &lt;&lt; (8 * i);
-    
+
     if (decoder-&gt;Code(inStream, outStream, 0, (fileSize == (UInt64)(Int64)-1) ? 0 : &amp;fileSize, 0) != S_OK)
     {
         // Decoder error
         return 1;
     }
-    
+
     if (outStreamSpec != NULL)
     {
         if (outStreamSpec-&gt;Close() != S_OK)
@@ -255,7 +255,7 @@ unsigned long LZMAUtil::UncompressFile(char *filein, char *fileout)
             return 1;
         }
     }
-    
+
     return 0;
 }
 
@@ -264,23 +264,23 @@ unsigned long CompressBuffer(unsigned char *inBuffer, unsigned long inSize,
 {
     bool dictDefined = false;
     UInt32 dict = (UInt32)-1;
-    
+
     if ((inSize == 0) || (inBuffer == 0)) return 1;
     if (/*(outSize == 0) || */(outBuffer == 0)) return 1;
-    
+
     Byte *outBuffer2 = 0;
     size_t outSize2;
-    
+
     // we allocate 105% of original size for output buffer
     outSize2 = (size_t)inSize / 20 * 21 + (1 &lt;&lt; 16); //fileSize / 20 * 21 + (1 &lt;&lt; 16)
     if (outSize2 != 0)
     {
         outBuffer2 = (Byte *)MyAlloc((size_t)outSize2);
-        if (outBuffer2 == 0) return 1;//throw "Can not allocate memory";
+        if (outBuffer2 == 0) return 1;//throw &quot;Can not allocate memory&quot;;
     }
-    
+
     if (!dictDefined) dict = 1 &lt;&lt; 23;
-    
+
     *outSizeProcessed = outSize2; // !!
     int res = Lzma86_Encode(outBuffer2, outSizeProcessed, inBuffer, inSize,
                             5, dict, SZ_FILTER_AUTO);
@@ -289,11 +289,11 @@ unsigned long CompressBuffer(unsigned char *inBuffer, unsigned long inSize,
         // Encoder error = (int)res
         return 1;
     }
-    
+
     memcpy(outBuffer, outBuffer2, *outSizeProcessed);
-    
+
     MyFree(outBuffer2);
-    
+
     return *outSizeProcessed == 0 ?1:0;
 }
 
@@ -302,39 +302,38 @@ unsigned long UncompressBuffer(unsigned char *inBuffer, unsigned long inSize,
 {
     if ((inSize == 0) || (inBuffer == 0)) return 1;
     if (/*(outSize == 0) || */(outBuffer == 0)) return 1;
-    
+
     Byte *outBuffer2 = 0;
     size_t outSize2;
-    
+
     UInt64 outSize64;
     if (Lzma86_GetUnpackSize(inBuffer, inSize, &amp;outSize64) != 0)
-        return 1;//throw "data error";
+        return 1;//throw &quot;data error&quot;;
     outSize2 = (size_t)outSize64;
     if (outSize2 != outSize64)
-        return 1;//throw "too big";
+        return 1;//throw &quot;too big&quot;;
     if (outSize2 != 0)
     {
         outBuffer2 = (Byte *)MyAlloc(outSize2);
         if (outBuffer2 == 0)
-            return 1;//throw "Can not allocate memory";
+            return 1;//throw &quot;Can not allocate memory&quot;;
     }
-    
+
     size_t inSize2 = inSize;
     *outSizeProcessed = outSize2;
     int res = Lzma86_Decode(outBuffer2, outSizeProcessed, inBuffer, &amp;inSize2);
     if (inSize2 != (size_t)inSize)
-        return 1;//throw "incorrect processed size";
+        return 1;//throw &quot;incorrect processed size&quot;;
     if (res != 0)
-        return 1;//throw "LzmaDecoder error";
-    
+        return 1;//throw &quot;LzmaDecoder error&quot;;
+
     memcpy(outBuffer, outBuffer2, *outSizeProcessed);
-    
+
     MyFree(outBuffer2);
-    
+
     return *outSizeProcessed == 0 ?1:0;
 }
-</code></pre>
-
+</code></pre></div>
   </article>
   
 </div>

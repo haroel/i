@@ -61,13 +61,12 @@
   </header>
 
   <article class="post-content">
-    <p><br />
+    <p><br>
 从网上拔下来一个Shader效果，设置shader后，加上FadeOut action无效。</p>
 
 <p>为简单起见，我就用黑白色来说明这个问题 
-<br /></p>
-
-<pre><code>// Shader from http://www.iquilezles.org/apps/shadertoy/
+<br></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">// Shader from http://www.iquilezles.org/apps/shadertoy/
 #ifdef GL_ES 
 precision mediump float; 
 #endif 
@@ -80,28 +79,24 @@ void main(void)
     float grey = dot(col.rgb, vec3(0.299, 0.587, 0.114));
     gl_FragColor =  vec4(grey, grey, grey, col.a);
 }
-</code></pre>
-
+</code></pre></div>
 <ul>
-  <li>1 把这个shader加载后，设置给Sprite对象，不出意外会将纹理图片设置成灰色</li>
-  <li>2 然后对这个Sprite设置FadeOut效果， 然后问题来了，它并没用</li>
+<li>1 把这个shader加载后，设置给Sprite对象，不出意外会将纹理图片设置成灰色</li>
+<li>2 然后对这个Sprite设置FadeOut效果， 然后问题来了，它并没用</li>
 </ul>
 
 <p>问题出在哪了，对比官方默认的Shader，可以很容易找到差别所在，比如在</p>
 
-<p><code> render/shaders/ccShader_PositionTextureColor_noMVP.frag</code> 的最后一段代码</p>
-
-<pre><code>...
+<p><code>render/shaders/ccShader_PositionTextureColor_noMVP.frag</code> 的最后一段代码</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">...
 void main()
 {
-	gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord);
+    gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord);
 }
 ...
-</code></pre>
-
+</code></pre></div>
 <p>很明显，默认的shader 在给<code>gl_FragColor</code>赋值时，<code>乘</code>了一个<code>v_fragmentColor</code>，好，我们把上面的灰色shader改成这样</p>
-
-<pre><code>// Shader from http://www.iquilezles.org/apps/shadertoy/
+<div class="highlight"><pre><code class="language-text" data-lang="text">// Shader from http://www.iquilezles.org/apps/shadertoy/
 #ifdef GL_ES 
 precision mediump float; 
 #endif 
@@ -115,16 +110,14 @@ void main(void)
     float grey = dot(col.rgb, vec3(0.299, 0.587, 0.114));
     gl_FragColor = v_fragmentColor * vec4(grey, grey, grey, col.a);
 }
-</code></pre>
-
+</code></pre></div>
 <p>再次运行，设置FadeOut，我们可以看到起效了。</p>
 
 <p>问题的核心就是<code>v_fragmentColor</code>，它其实是一个纹理颜色，这个数据是由顶点着色器传递过来的，注意声明称varying（varying类型的变量是在vertex shader和fragment shader之间传递数据用的），我们通常根据<code>texture2D(CC_Texture0, v_texCoord)</code>计算出来的其实是一个顶点颜色，两者是不同的概念 ，一个有效的输出颜色应该是纹理颜色乘以顶点颜色</p>
 
 <blockquote>
-  <p>若有帮助请点个赞 :)</p>
+<p>若有帮助请点个赞 :)</p>
 </blockquote>
-
 
   </article>
   
