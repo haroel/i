@@ -199,10 +199,16 @@
 	/*filter:alpha(opacity=50);*/
 	/*-moz-opacity:0;*/
 	/*opacity: 0;*/
+	outline:none;
 }
 .menu-button-tag:hover
 {
-	border: 1.5px solid #ffffff;
+	border: 1.5px solid #f1f1f1;
 	color: #f1f1f1;
-
 }
+.menu-button-tag:active
+{
+	border: 1.5px solid #ffffff;
+	color: #ffffff;
+}
+

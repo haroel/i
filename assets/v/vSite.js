@@ -57,7 +57,7 @@ function changeURL( mdFileName)
     }else
     {
         var url = window.location.href;
-        if (url.indexOf("?") <0)
+        if (url.indexOf("?")<0)
         {
             url += "?";
         }

@@ -6,8 +6,6 @@
 var site = site || {};
 
 site.config = {
-
-
     author:{
         img:"http://tva4.sinaimg.cn/crop.0.0.180.180.180/6d0d5ef5jw1e8qgp5bmzyj2050050aa8.jpg",
         name:'ihowe',
@@ -18,7 +16,6 @@ site.config = {
 
     info:{
         menus:["最新","分类","演示","其他","关于"]
-
     },
     pages:
     [
