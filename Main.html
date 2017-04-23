@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>haroel</title>
+    <!-- Icon库-->
+    <link   href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- bootstrap -->
+    <link   href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" >
+    <link   href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <!--[if IE]>
+    <!--<script src="js/html5.js"></script>-->
+    <![endif]-->
+
+    <link   href="assets/css/common.css" rel="stylesheet" type="text/css"  />
+    <link   href="assets/css/menu_sideslide.css" rel="stylesheet" type="text/css"  />
+    <style>
+        .menu_mask
+        {
+            position:fixed;
+            top:1px;
+            left: 1px;
+            right: 1px;
+            bottom: 1px;
+            background-color: #ffffff;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body>
+<div id="mainDiv">
+    <nav class="navbar navbar-default navbar-fixed-top navbarzindex" id="navbar">
+        <div class="container-fluid">
+            <!--<div class="navbar-header">-->
+            <!--<a class="navbar-brand" href="#">haroel</a>-->
+            <!--</div>-->
+            <div class="navbar-left">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img id="leftMenuBtn" style="margin-top: 8px;margin-right: 8px;cursor: pointer"
+                     v-bind:src="author.img" width="32" @click="toggleMenus"/>
+            </div>
+            <div class="collapse navbar-collapse " role="navigation" >
+                <p class="navbar-text" id="title">{{pageTitle}}</p>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">查找</button>
+                </form>
+            </div>
+
+        </div>
+    </nav>
+    <div v-show="isShowMenu" class="menu_mask topzindex" @click="toggleMenus">
+    </div>
+    <div class="menu-wrap topzindex" align="center">
+        <div>
+            <img :src="author.img" class="logo"  width="90"/>
+        </div>
+        <div>
+            <button class="menu-button-tag"  v-for="tag in menuTags" @click="tagClick">{{tag}}</button>
+        </div>
+        <div class="navbar-fixed-bottom" style="bottom: 50px;color: #b1b1b1;">
+            <p>{{author.des}}</p>
+            <p>现居武汉</p>
+        </div>
+        <!-- 底部社交按钮-->
+        <div class="navbar-fixed-bottom menu-tab-link-icon">
+            <a href="http://weibo.com/haroel" target="_blank" class="menu-social-icon-n">
+                <i class='social fa fa-weibo'></i>
+            </a>
+            <a href="http://github.com/haroel" target="_blank" class="menu-social-icon">
+                <i class='social fa fa-github'></i>
+            </a>
+            <a href="tencent://message/?uin=2831275626&Site=&Menu=yes" target="_blank" class="menu-social-icon-n">
+                <i class='social fa fa-qq'></i>
+            </a>
+            <a href="mailto:ihowe@outlook.com" target="_blank" class="menu-social-icon">
+                <i class='social fa fa-envelope-o'></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="content-wrap">
+        <p style="margin-top: 60px"></p>
+        <div id="content" style="margin-left: 100px;margin-right:100px;" v-html="pageContent"></div>
+    </div>
+
+    <div class="navbar-fixed-bottom footer highzindex">
+        <p> 2017 <a href="mailto:ihowe@outlook.com">@ihowe</a>.</p>
+    </div>
+</div>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="assets/js/classie.js"></script>
+<script src="assets/v/config.js"></script>
+<script src="assets/v/vSite.js"></script>
+<script src="assets/js/markdown.min.js"></script>
+<!--<script src="assets/js/site.js"></script>-->
+
+<!--<script src="assets/v/vNavBar.js"></script>-->
+
+</body>
+</html>

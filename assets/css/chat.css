@@ -1,0 +1,100 @@
+
+#chat_loginWrapper {
+    position: absolute;
+    background-color: rgba(5, 5, 5, .8);
+    text-align: center;
+    vertical-align: middle;
+    color: #fff;
+    display: block;
+    left:0px;
+    top:0px;
+    bottom: 0px;
+    right: 0px;
+}
+#chat_content .chat_bg
+{
+    margin-left: 5px;
+    margin-right: 5px;
+    display: block;
+    background-color: azure;
+}
+
+.chat_panel
+{
+    top: 1px; height: 395px;width: 100%;overflow:auto;background-color: #FFFFFF;
+}
+#chat_content .chat_item_left .ptitle
+{
+    font-size: 0.7em;
+    color: #41A111;
+}
+#chat_content .nickname
+{
+    font-weight: 700;
+}
+
+#chat_content .chat_content
+{
+    color: #444;
+    margin-left: 10px;
+}
+
+
+#chat_content .chat_item_right .ptitle
+{
+    font-size: 0.7em;
+    color: #0480be;
+}
+
+
+
+#chat_content .chat_item_sys
+{
+    font-size: 0.8em;
+    text-align: center;
+    color: #B7B7B7;
+    display: block;
+}
+
+#chat_content .chat_item_other
+{
+    font-size: 0.8em;
+    text-align: center;
+    color: #f27474;
+    display: block;
+}
+
+#emojiWrapper {
+    display: none;
+    width: 100%;
+    bottom: 100px;
+    position: absolute;
+    background-color: rgba(244,244,244,0.7);
+    box-shadow: 0 0 10px #555;
+    margin-right: 3px;
+}
+#emojiWrapper img {
+    margin: 1px;
+    padding: 1px;
+    width: 50px;
+    height: 50px;
+}
+#emojiWrapper img:hover {
+    background-color: #d1d1d1;
+}
+
+.emoji
+{
+    width: 120px;
+    height: 120px;
+}
+
+.chat_trash {
+    cursor:pointer;
+    /*position: relative;*/
+    /*display: inline-block;*/
+}
+.chat_trash:hover
+{
+    color: #ff0000;
+}
