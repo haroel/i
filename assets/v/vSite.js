@@ -56,7 +56,12 @@ function changeURL( mdFileName)
         window.location.href= changeURLPar(window.location.href,"md",mdFileName);
     }else
     {
-        window.location.href= window.location.href + "&md=" + mdFileName;
+        var url = window.location.href;
+        if (url.indexOf("?") <0)
+        {
+            url += "?";
+        }
+        window.location.href= url + "&md=" + mdFileName;
     }
 }
 site.menuside = new Vue({
