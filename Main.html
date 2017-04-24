@@ -94,18 +94,19 @@
 
     <div class="content-wrap">
         <p style="margin-top: 60px"></p>
-        <div id="content" style="margin-left: 100px;margin-right:100px;" v-html="pageContent"></div>
+        <div v-if="contentType === 0" style="margin-left: 100px;margin-right:100px;" v-html="pageContent"></div>
+        <p v-if="contentType === 1" v-for="tag in articles.tags">{{tag}}</p>
     </div>
 
     <div class="navbar-fixed-bottom footer highzindex">
         <p> 2017 <a href="mailto:ihowe@outlook.com">@ihowe</a>.</p>
     </div>
 </div>
+<script src="assets/js/markdown.min.js"></script>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="assets/js/classie.js"></script>
 <script src="assets/v/config.js"></script>
 <script src="assets/v/vSite.js"></script>
-<script src="assets/js/markdown.min.js"></script>
 <!--<script src="assets/js/site.js"></script>-->
 </body>
 </html>

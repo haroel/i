@@ -1,4 +1,6 @@
-* date:1492958951149
+* date:`1493022893817`
+
+
 * title:`Cocos creator Acition 重构`
 * tags:`cocos`,`creator`,`js
 

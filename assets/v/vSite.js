@@ -5,6 +5,11 @@
  */
 var site = site || {};
 
+site._ContentType ={
+    ARTICLE:0,
+    TAGS:1,
+
+};
 
 var bodyEl = document.body;
 
@@ -68,11 +73,13 @@ site.menuside = new Vue({
     el:'#mainDiv',
     data:
     {
+        articles:site.config.articles,
         author:site.config.author,
         menuTags:["最新","分类","演示","其他","关于"],
         isShowMenu:false,
         pageTitle:"",
-        pageContent:""
+        pageContent:"",
+        contentType:site._ContentType.ARTICLE
     },
     created:function ()
     {
@@ -81,6 +88,7 @@ site.menuside = new Vue({
         {
             var that = this;
             $.get("article/" + mdFile,function(data){
+                this.pageTitle = "关于";
                 that.pageContent = markdown.toHTML(data,"Maruku");
             }).error(function() { alert("error"); });
         }else
@@ -107,6 +115,7 @@ site.menuside = new Vue({
                 }
                 case "分类":
                 {
+                    this.contentType = site._ContentType.TAGS;
                     break;
                 }
                 case "演示":

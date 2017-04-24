@@ -5,46 +5,22 @@
  */
 var site = site || {};
 
-site.getTags = function () {
-    var tags = {};
-    for(var i = 0;i<site.config.pages.length;i++)
-    {
-        var info = site.config.pages[i];
-        if (info.tags)
-        {
-            for (var j=0;j<info.tags.length;j++)
-            {
-                tags[ info.tags[j].toLowerCase() ] = 1;
-            }
-        }
-    }
-    var result = [];
-    for (var k in tags)
-    {
-        result.push(k);
-    }
-    return result;
-};
+site.getLatestPage = function () {
 
-site.getPagesByTag = function ( tag ) {
-    tag = tag.toLowerCase();
-    var result = [];
-    for(var i = 0;i<site.config.pages.length;i++)
+    var lastPage = null;
+    var _p = site.config.articles.pages;
+    var _date = 0;
+    for (var year in _p)
     {
-        var info = site.config.pages[i];
-        if (info.tags)
+        var yps = _p[year];
+        yps.forEach(function (obj)
         {
-            for (var j=0;j<info.tags.length;j++)
+            if (obj.date>_date)
             {
-                var __tag = info.tags[j].toLowerCase();
-                if (tag === __tag)
-                {
-                    result.push(info);
-                    break;
-                }
+                lastPage = obj;
             }
-        }
+        })
     }
-    return result;
+
 };
 
