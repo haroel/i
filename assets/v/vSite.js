@@ -8,7 +8,7 @@ var site = site || {};
 site._ContentType ={
     ARTICLE:0,
     TAGS:1,
-
+    NEWS:2,
 };
 
 var bodyEl = document.body;
@@ -84,17 +84,17 @@ site.menuside = new Vue({
     created:function ()
     {
         var mdFile = GetQueryString("md");
-        if (mdFile)
+        var pageInfo = site.getPageInfoByMDFile(mdFile);
+        if (pageInfo)
         {
             var that = this;
-            $.get("article/" + mdFile,function(data){
-                this.pageTitle = "关于";
+            $.get("article/" + pageInfo.file,function(data){
+                that.pageTitle = pageInfo.title;
                 that.pageContent = markdown.toHTML(data,"Maruku");
-            }).error(function() { alert("error"); });
-        }else
-        {
-            // 显示默认的最新文章
-
+            }).error(function()
+            {
+                alert("error");
+            });
         }
     },
     methods:{
@@ -110,7 +110,9 @@ site.menuside = new Vue({
             {
                 case "最新":
                 {
-
+                    this.contentType = site._ContentType.NEWS;
+                    // var pageInfo = site.getLatestPage();
+                    // changeURL(pageInfo.file);
                     break;
                 }
                 case "分类":

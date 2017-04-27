@@ -2,7 +2,7 @@
 
 
 * title:`Cocos creator Acition 重构`
-* tags:`cocos`,`creator`,`js
+* tags:`cocos`,`creator`,`js`
 
 ---
 

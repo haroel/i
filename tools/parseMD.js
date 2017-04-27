@@ -22,6 +22,11 @@ let articlePath = path.join( projPath ,"article" );
 let files = fs.readdirSync(articlePath);
 jsonContents.articles = {};
 jsonContents.articles.pages = {};
+jsonContents.articles.pages["0"] =
+[{
+    title:"关于",
+    file:"about.md"
+}];
 let ss = new Set();
 for (let dir of files)
 {

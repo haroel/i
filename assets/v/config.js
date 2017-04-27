@@ -1,5 +1,5 @@
 
-    /*** date: 4/24/2017, 4:34:58 PM ***/
+    /*** date: 4/25/2017, 9:18:37 PM ***/
     var site = site || {};
     site.config = {
     "author": {
@@ -18,6 +18,12 @@
     ],
     "articles": {
         "pages": {
+            "0": [
+                {
+                    "title": "关于",
+                    "file": "about.md"
+                }
+            ],
             "2017": [
                 {
                     "date": "1493022893817",
@@ -26,7 +32,7 @@
                     "tags": [
                         "cocos",
                         "creator",
-                        "j"
+                        "js"
                     ]
                 }
             ]
@@ -34,7 +40,7 @@
         "tags": [
             "cocos",
             "creator",
-            "j"
+            "js"
         ]
     }
 }

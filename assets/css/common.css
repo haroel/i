@@ -89,8 +89,8 @@ div.itemHover {
     padding: 4px;
     line-height: 1.42857143;
     background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    border: 1px solid transparent;
+    /*border-radius: 10px;*/
     -webkit-transition: border .3s ease-in-out;
     -o-transition: border .3s ease-in-out;
     transition: border .3s ease-in-out;
@@ -99,11 +99,24 @@ div.itemHover {
 div.itemHover:hover,
 div.itemHover:focus,
 div.itemHover.active {
-    border-color: #ff0000;
+    border-color: #ddd;
 }
 
 .center-vertical {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+}
+div.bottomLine
+{
+    -webkit-transition: border .3s ease-in-out;
+    -o-transition: border .3s ease-in-out;
+    transition: border .3s ease-in-out;
+
+    border-bottom: 1px solid #ddd;
+}
+div.bottomLine:hover,
+div.bottomLine:focus,
+div.bottomLine.active {
+    border-bottom: 1px solid #aaa;
 }

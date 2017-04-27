@@ -51,7 +51,7 @@
                      v-bind:src="author.img" width="32" @click="toggleMenus"/>
             </div>
             <div class="collapse navbar-collapse " role="navigation" >
-                <p class="navbar-text" id="title">{{pageTitle}}</p>
+                <span class="navbar-text">{{pageTitle}}</span>
                 <form class="navbar-form navbar-right" role="search">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Search">
@@ -93,9 +93,33 @@
     </div>
 
     <div class="content-wrap">
-        <p style="margin-top: 60px"></p>
-        <div v-if="contentType === 0" style="margin-left: 100px;margin-right:100px;" v-html="pageContent"></div>
-        <p v-if="contentType === 1" v-for="tag in articles.tags">{{tag}}</p>
+        <div style="margin-top: 60px ;  margin-left: 10%;margin-right:10%;">
+
+            <div v-if="contentType === 0"  v-html="pageContent"></div>
+            <p v-if="contentType === 1" v-for="tag in articles.tags">{{tag}}</p>
+            <div v-if="contentType === 2">
+                <p>最新</p>
+                <div class="bottomLine" style="margin-top: 50px;height: 100px">
+                    <p>标签:<span>cocos</span></p>
+                    <p>日期:2017年4月25日</p>
+                    <h5>cocos渲染架构</h5>
+                </div>
+
+                <div class="bottomLine" style="margin-top: 50px;height: 100px">
+                    <p>标签:<span>cocos</span></p>
+                    <p>日期:2017年4月25日</p>
+                    <h5>cocos渲染架构</h5>
+                </div>
+
+                <div class="bottomLine" style="margin-top: 50px;height: 100px">
+                    <p>标签:<span>cocos</span></p>
+                    <p>日期:2017年4月25日</p>
+                    <h5>cocos渲染架构</h5>
+                </div>
+            </div>
+
+
+        </div>
     </div>
 
     <div class="navbar-fixed-bottom footer highzindex">
@@ -106,6 +130,7 @@
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="assets/js/classie.js"></script>
 <script src="assets/v/config.js"></script>
+<script src="assets/v/datamodel.js"></script>
 <script src="assets/v/vSite.js"></script>
 <!--<script src="assets/js/site.js"></script>-->
 </body>
