@@ -1,5 +1,5 @@
 
-    /*** date: 4/25/2017, 9:18:37 PM ***/
+    /*** date: 4/29/2017, 9:16:54 PM ***/
     var site = site || {};
     site.config = {
     "author": {
@@ -38,9 +38,27 @@
             ]
         },
         "tags": [
-            "cocos",
-            "creator",
-            "js"
+            {
+                "name": "cocos",
+                "data": {
+                    "count": 1,
+                    "lastUpdate": "1493022893817"
+                }
+            },
+            {
+                "name": "creator",
+                "data": {
+                    "count": 1,
+                    "lastUpdate": "1493022893817"
+                }
+            },
+            {
+                "name": "js",
+                "data": {
+                    "count": 1,
+                    "lastUpdate": "1493022893817"
+                }
+            }
         ]
     }
 }

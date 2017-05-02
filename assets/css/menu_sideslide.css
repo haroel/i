@@ -6,7 +6,7 @@
 }
 .menu-wrap a:hover,
 .menu-wrap a:focus {
-	color: #d94e50;
+	color: #FFFFFF;
 }
 
 .content-wrap {
@@ -114,22 +114,6 @@
 	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
 	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
 }
-
-.show-menu .icon-list,
-.show-menu .icon-list a {
-	-webkit-transform: translate3d(0,0,0);
-	transform: translate3d(0,0,0);
-	-webkit-transition: -webkit-transform 0.8s;
-	transition: transform 0.8s;
-	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
-	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
-}
-
-.show-menu .icon-list a {
-	-webkit-transition-duration: 0.9s;
-	transition-duration: 0.9s;
-}
-
 .show-menu .content::before {
 	opacity: 1;
 	-webkit-transition: opacity 0.8s;
@@ -155,31 +139,6 @@
 {
 	bottom: 10px
 }
-
-.menu-item
-{
-	list-style-type:none;
-	text-align: left;
-}
-
-.menu-item li
-{
-	width: 220px;
-	padding-top: 0.2em;
-	padding-bottom: 0.2em;
-	padding-left: 2.2em;
-}
-.menu-item a
-{
-	display:block;
-}
-
-.menu-item a span {
-	margin-left: 10px;
-	font-weight: 700;
-	font-size:110%;
-}
-
 
 .menu-button-tag {
 	padding: 8px 10px;

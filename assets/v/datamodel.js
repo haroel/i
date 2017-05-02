@@ -5,24 +5,67 @@
  */
 var site = site || {};
 
-site.getLatestPage = function () {
-
-    var lastPage = null;
+site.getLatestPage = function ( num ) {
+    num = num||1;
+    var result = [];
     var _p = site.config.articles.pages;
-    var _date = 0;
     for (var year in _p)
     {
         var yps = _p[year];
         yps.forEach(function (obj)
         {
-            if (obj.date>_date)
+            if (!obj.date)
             {
-                lastPage = obj;
+                return;
+            }
+            if (result.length < num)
+            {
+                result.push(obj);
+            }else
+            {
+                for (var i =0;i< num;i++)
+                {
+                    if (result[i].date>obj.date)
+                    {
+                        result[i] = obj;
+                        break;
+                    }
+                }
             }
         })
     }
-    return lastPage;
+    result.sort(function (a,b)
+    {
+        if (a.date < b.date)
+        {
+            return 1;
+        }
+        if (a.date < b.date)
+        {
+            return -1;
+        }
+        return 0;
+    });
+    return result;
 };
+
+
+site.getAllPageNames = function ()
+{
+    var arr = [];
+    var _p = site.config.articles.pages;
+    for (var year in _p)
+    {
+        var yps = _p[year];
+        for(var i=0;i<yps.length;i++)
+        {
+            var obj = yps[i];
+            arr.push(obj);
+        }
+    }
+    return arr;
+};
+
 site.getPageInfoByMDFile = function (mdFile)
 {
     if (!mdFile)
@@ -41,4 +84,30 @@ site.getPageInfoByMDFile = function (mdFile)
         }
     }
     console.log("not found",mdFile);
-}
+};
+
+site.getPagesByTag = function ( tag )
+{
+    if (!tag)
+    {return null}
+    var result = [];
+    var _p = site.config.articles.pages;
+    for (var year in _p)
+    {
+        var yps = _p[year];
+        for(var i=0;i<yps.length;i++)
+        {
+            var obj = yps[i];
+            if (!obj.date)
+            {
+                continue;
+            }
+            if (obj.tags.indexOf(tag) >= 0)
+            {
+                result.push(obj);
+            }
+        }
+    }
+    return result;
+};
+

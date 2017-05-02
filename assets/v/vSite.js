@@ -8,7 +8,7 @@ var site = site || {};
 site._ContentType ={
     ARTICLE:0,
     TAGS:1,
-    NEWS:2,
+    LIST:2,
 };
 
 var bodyEl = document.body;
@@ -22,53 +22,37 @@ function _toggleMenu( isOpen ) {
     }
 }
 
-function GetQueryString(name)
+function parseUrlToObject()
 {
-    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if(r!=null)return  unescape(r[2]); return null;
+    var result = {};
+    //http://localhost:63342/i/Main.html?_ijt=va6rsa882cmbsmck0a0dget0c2&md=about.md
+    var paramsStr = window.location.search;
+    var reg = /\??&?([^=]+)=([^&]+)/g;
+
+    var match = reg.exec(paramsStr);
+    while (match)
+    {
+        result[match[1]] = match[2];
+        match = reg.exec(paramsStr);
+    }
+    return result;
 }
 
-function changeURLPar(destiny, par, par_value)
+function changeURL( params )
 {
-    var pattern = par+'=([^&]*)';
-    var replaceText = par+'='+par_value;
-    if (destiny.match(pattern))
+    var searchs = [];
+    for(var k in params)
     {
-        var tmp = '/\\'+par+'=[^&]*/';
-        tmp = destiny.replace(eval(tmp), replaceText);
-        return (tmp);
-    }
-    else
-    {
-        if (destiny.match('[\?]'))
+        if (params[k] && params[k].length>0)
         {
-            return destiny+'&'+ replaceText;
-        }
-        else
-        {
-            return destiny+'?'+replaceText;
+            searchs.push( k +"="+params[k] );
         }
     }
-    return destiny+'\n'+par+'\n'+par_value;
+    var url = window.location.href;
+    url = url.split("?")[0] + "?" +searchs.join("&");
+    window.location.href = url;
 }
 
-function changeURL( mdFileName)
-{
-    var mdFile = GetQueryString("md");
-    if (mdFile)
-    {
-        window.location.href= changeURLPar(window.location.href,"md",mdFileName);
-    }else
-    {
-        var url = window.location.href;
-        if (url.indexOf("?")<0)
-        {
-            url += "?";
-        }
-        window.location.href= url + "&md=" + mdFileName;
-    }
-}
 site.menuside = new Vue({
     el:'#mainDiv',
     data:
@@ -78,65 +62,157 @@ site.menuside = new Vue({
         menuTags:["最新","分类","演示","其他","关于"],
         isShowMenu:false,
         pageTitle:"",
-        pageContent:"",
-        contentType:site._ContentType.ARTICLE
+        contentType:site._ContentType.ARTICLE,
+
+        Articles:[],
     },
     created:function ()
     {
-        var mdFile = GetQueryString("md");
-        var pageInfo = site.getPageInfoByMDFile(mdFile);
-        if (pageInfo)
+        var params = parseUrlToObject();
+        if (params["md"])
         {
-            var that = this;
-            $.get("article/" + pageInfo.file,function(data){
-                that.pageTitle = pageInfo.title;
-                that.pageContent = markdown.toHTML(data,"Maruku");
-            }).error(function()
+            var pageInfo = site.getPageInfoByMDFile(params.md);
+            if (pageInfo)
             {
-                alert("error");
-            });
+                var that = this;
+                $.get("article/" + pageInfo.file,function(data){
+                    that.pageTitle = pageInfo.title;
+                    $("#content").html( markdown.toHTML(data,"Maruku") );
+                    $('#content table').addClass("table table-hover table-striped");
+                    $('#content img').addClass("img-rounded")
+
+                }).error(function()
+                {
+                    alert("error");
+                });
+            }else
+            {
+                alert("无法找到制定的文章<" + params.md +">" );
+            }
+            return;
         }
+        if (params["tag"])
+        {
+            this.Articles = site.getPagesByTag(params.tag);
+            this.pageTitle = "标签:" + params.tag;
+            this.contentType = site._ContentType.LIST;
+            return;
+        }
+        this.Articles = site.getLatestPage(5);
+        this.pageTitle = "最新";
+        this.contentType = site._ContentType.LIST;
     },
+    mounted:function () {
+
+        var sources = [];
+        for (var i=0;i<site.config.articles.tags.length;i++)
+        {
+            var tagInfo = site.config.articles.tags[i];
+            sources.push({
+                type:"tag",
+                id:sources.length,
+                name:tagInfo.name,
+                value:tagInfo.name
+            })
+        }
+        var pages = site.getAllPageNames();
+        for(var i=0;i<pages.length;i++)
+        {
+            sources.push({
+                id:sources.length,
+                type:"md",
+                name:pages[i].title,
+                value:pages[i].file
+            })
+        }
+        this._sources = sources;
+
+        $("#searchInput").typeahead({
+            source: sources,
+
+            highlighter: function(item) {
+                return item;
+            },
+
+            updater: function(item) {
+                console.log("'" + item + "' selected.");
+                return item;
+            }
+        });
+    },
+
     methods:{
+
+        formatDate: function ( time ) {
+
+            var d = new Date( parseInt(time) );
+            return d.getFullYear() + "/" + (d.getMonth()+1) + "/" + d.getDate()+" " +d.getHours() +":"+d.getMinutes();
+        },
+
         toggleMenus:function ()
         {
             _toggleMenu(this.isShowMenu);
             this.isShowMenu = !this.isShowMenu;
         },
-        tagClick:function (event)
+        searchHandler:function ()
+        {
+            var ii = $("#searchInput").val();
+            var arr = this._sources;
+            for (var i=0;i<arr.length;i++)
+            {
+                var obj = arr[i];
+                if (obj.name == ii)
+                {
+                    var params = parseUrlToObject();
+                    delete params["tag"];
+                    delete params["md"];
+                    params[obj.type] = obj.value;
+                    changeURL( params );
+                    return;
+                }
+            }
+            alert("无法找到搜索结果",ii);
+        },
+        menuTagClick:function (event)
         {
             var tag = event.target.outerText;
             switch(tag)
             {
                 case "最新":
                 {
-                    this.contentType = site._ContentType.NEWS;
-                    // var pageInfo = site.getLatestPage();
-                    // changeURL(pageInfo.file);
+                    var params = parseUrlToObject();
+                    delete params["tag"];
+                    delete params["md"];
+                    changeURL(params);
                     break;
                 }
                 case "分类":
                 {
+                    this.pageTitle = tag;
                     this.contentType = site._ContentType.TAGS;
                     break;
                 }
                 case "演示":
                 {
+                    this.pageTitle = tag;
+                    this.contentType = site._ContentType.ARTICLE;
                     break;
                 }
                 case "其他":
                 {
+                    this.pageTitle = tag;
+                    this.contentType = site._ContentType.ARTICLE;
                     break;
                 }
                 case "关于":
                 {
-                    changeURL("about.md");
+                    var params = parseUrlToObject();
+                    params.md = "about.md";
+                    delete params["tag"];
+                    changeURL( params );
                     break;
                 }
             }
         }
     }
-
-
-
 });

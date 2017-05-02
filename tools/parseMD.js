@@ -27,7 +27,7 @@ jsonContents.articles.pages["0"] =
     title:"关于",
     file:"about.md"
 }];
-let ss = new Set();
+let tagMap = new Map();
 for (let dir of files)
 {
     if(/\d+/.test(dir))
@@ -63,14 +63,40 @@ for (let dir of files)
             let _tags = /\*\s+tags:([^\n]+)/gm.exec(mdContent)[1];
             obj.tags = _tags.split(",").map( function ( tag ) {
                 tag = tag.substr(1,tag.length-2);
-                ss.add(tag);
+                if (tagMap.has(tag))
+                {
+                    let obj = tagMap.get(tag);
+                    obj.count = obj.count +1;
+                    if (obj.lastUpdate < _date)
+                    {
+                        obj.lastUpdate = _date;
+                    }
+                }else
+                {
+                    let obj = {};
+                    obj.count = 1;
+                    obj.lastUpdate = _date;
+                    tagMap.set(tag,obj);
+                }
                 return tag;
             });
             jsonContents.articles.pages[dir].push(obj);
         }
     }
 }
-jsonContents.articles.tags = Array.from(ss);
+
+jsonContents.articles.tags = [];
+let arrrr = jsonContents.articles.tags;
+let k = 0;
+for (let item of tagMap.entries()) {
+    // console.log(item[0], item[1]);
+    let obj = {};
+    obj.name = item[0];
+    obj.data = item[1];
+    arrrr[k++] = obj;
+}
+
+// jsonContents.articles.tags = Array.from(ss);
 // console.log(ss);
 let pageStr = JSON.stringify(jsonContents,null,4);
 

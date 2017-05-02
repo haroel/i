@@ -4,15 +4,6 @@ body.common
     background-color:#eee;
 }
 
-body.dinner
-{
-    background-image: url(../img/bg.png);
-    background-repeat:no-repeat;
-    background-position:center;
-    -webkit-background-size:cover;
-    background-size:cover;
-}
-
 .topzindex
 {
     z-index: 1002;
@@ -107,7 +98,7 @@ div.itemHover.active {
     top: 50%;
     transform: translateY(-50%);
 }
-div.bottomLine
+div.ItemRenderer
 {
     -webkit-transition: border .3s ease-in-out;
     -o-transition: border .3s ease-in-out;
@@ -115,8 +106,8 @@ div.bottomLine
 
     border-bottom: 1px solid #ddd;
 }
-div.bottomLine:hover,
-div.bottomLine:focus,
-div.bottomLine.active {
+div.ItemRenderer:hover,
+div.ItemRenderer:focus,
+div.ItemRenderer.active {
     border-bottom: 1px solid #aaa;
 }
