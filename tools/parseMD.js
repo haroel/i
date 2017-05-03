@@ -14,8 +14,10 @@ jsonContents.author = {
     "img":"assets/img/howe.png",
     "name": "ihowe",
     "email": "ihowe@outlook.com",
-    "address": "武汉",
-    "des": "程序员"
+    "address": " 武汉",
+    "career": "程序员  ",
+    "desc":"蛰伏中，寻求灵感",
+    "version":"v0.9beta"
 };
 jsonContents.menus = ["最新","分类","演示","其他","关于"];
 

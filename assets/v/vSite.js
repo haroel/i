@@ -28,7 +28,6 @@ function parseUrlToObject()
     //http://localhost:63342/i/Main.html?_ijt=va6rsa882cmbsmck0a0dget0c2&md=about.md
     var paramsStr = window.location.search;
     var reg = /\??&?([^=]+)=([^&]+)/g;
-
     var match = reg.exec(paramsStr);
     while (match)
     {
@@ -67,6 +66,7 @@ site.menuside = new Vue({
         menuTags:["最新","分类","演示","其他","关于"],
         isShowMenu:false,
         pageTitle:"",
+        pageContent:"",
         contentType:site._ContentType.ARTICLE,
 
         Articles:[],
@@ -82,10 +82,18 @@ site.menuside = new Vue({
                 var that = this;
                 $.get("article/" + pageInfo.file,function(data){
                     that.pageTitle = pageInfo.title;
-                    $("#content").html( markdown.toHTML(data,"Maruku") );
+                    // var reg = /`([^`]+)`/gm;
+                    // data = data.replace(reg,function (match,$1) {
+                    //     console.log($1);
+                    //     return "<span class='LabelTag'>" + $1 + "</span>";
+                    // });
+                    that.pageContent = markdown.toHTML(data,"Maruku");
+                    // that.pageContent.replace("code","span");
+                    $('#content').html(that.pageContent);
+
+                    $('#content code').addClass("LabelTag");
                     $('#content table').addClass("table table-hover table-striped");
                     $('#content img').addClass("img-rounded")
-
                 }).error(function()
                 {
                     alert("error");
@@ -138,7 +146,6 @@ site.menuside = new Vue({
             highlighter: function(item) {
                 return item;
             },
-
             updater: function(item) {
                 console.log("'" + item + "' selected.");
                 return item;
@@ -201,12 +208,16 @@ site.menuside = new Vue({
                 {
                     this.pageTitle = tag;
                     this.contentType = site._ContentType.ARTICLE;
+                    this.pageContent = "暂时没有内容";
+                    $('#content').html(this.pageContent);
                     break;
                 }
                 case "其他":
                 {
                     this.pageTitle = tag;
                     this.contentType = site._ContentType.ARTICLE;
+                    this.pageContent = "暂时没有内容";
+                    $('#content').html(this.pageContent);
                     break;
                 }
                 case "关于":

@@ -3,6 +3,11 @@ body.common
 {
     background-color:#eee;
 }
+a:link,
+a:visited,
+a:hover{
+    text-decoration:none;  /*超链接无下划线*/
+}
 
 .topzindex
 {
@@ -111,3 +116,22 @@ div.ItemRenderer:focus,
 div.ItemRenderer.active {
     border-bottom: 1px solid #aaa;
 }
+
+.LabelTag
+{
+    -webkit-transition: border .3s ease-in-out;
+    -o-transition: border .3s ease-in-out;
+    transition: border .3s ease-in-out;
+    border: 1.5px solid #ddd;
+    border-radius: 5px;
+    padding: 3px 5px;
+    cursor: pointer;
+    margin-left: 4px;
+    margin-right: 4px;
+    background: transparent;
+}
+.LabelTag:hover,
+.LabelTag:focus,
+.LabelTag.active {
+     border: 1.5px solid #005AB5;
+ }
