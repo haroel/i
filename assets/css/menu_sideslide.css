@@ -85,7 +85,6 @@
 /* Menu */
 .menu-wrap {
 	position: fixed;
-	z-index: 1002;
 	width: 270px;
 	height: 100%;
 	/*background: #a7abc9;*/
@@ -100,17 +99,18 @@
 	/*padding-bottom: 40px*/
 	overflow-y:auto;
 	overflow-x: hidden;
-	padding:6px 10px;
-	background-color: #111111;
-	opacity: 0.9;
+	/*padding:6px 10px;*/
+	/*background-color: #111111;*/
+	/*opacity: 0.9;*/
+
 }
 .menuBg
 {
-	position: fixed;
-	width: 100%;
+	position: absolute;
+	width: 270px;
 	height: 100%;
-	background-color: #111111;
-	opacity: 0.9;
+	background-color: #000;
+	opacity: 0.68;
 }
 
 /* Shown menu */

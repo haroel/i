@@ -4,11 +4,11 @@
     site.config = {
     "author": {
         "icon": "http://tva4.sinaimg.cn/crop.0.0.180.180.180/6d0d5ef5jw1e8qgp5bmzyj2050050aa8.jpg",
-        "img":"assets/img/howe.jpg",
+        "img":"assets/img/howe.png",
         "name": "ihowe",
         "email": "ihowe@outlook.com",
-        "address": "现居武汉",
-        "des": "也可能是最好的三流程序员。"
+        "address": "武汉",
+        "des": "程序员。"
     },
     "menus": [
         "最新",

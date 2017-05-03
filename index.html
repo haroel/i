@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="author" content="ihowe">
     <title>iHowe</title>
+    <link type="favicon" rel="shortcut icon" href="favicon.ico" />
     <!-- Icon库-->
     <link   href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- bootstrap -->
@@ -70,14 +71,17 @@
     <div v-show="isShowMenu" class="menu_mask topzindex" @click="toggleMenus">
     </div>
     <div class="menu-wrap topzindex" align="center">
-        <div>
-            <img :src="author.img" class="img-circle" style="border:5px solid white;"  width="90"/>
+        <div class="menuBg " style="z-index: -1"></div>
+        <div style="margin-top: 10px">
+            <img :src="author.img" class="img-circle" style="border:4px solid white;"  width="90"/>
         </div>
-        <div>
+        <br/>
+        <div style="padding:6px 10px;">
             <button class="menu-button-tag"  v-for="tag in menuTags" @click="menuTagClick">{{tag}}</button>
         </div>
         <div class="navbar-fixed-bottom" style="bottom: 50px;color: #b1b1b1;">
             <p>{{author.des}}</p>
+            <p> <i class="fa fa-map-marker"></i> <small>{{author.address}}</small></p>
         </div>
         <!-- 底部社交按钮-->
         <div class="navbar-fixed-bottom menu-tab-link-icon">
@@ -118,10 +122,12 @@
         </div>
     </div>
 
+
     <div class="navbar-fixed-bottom footer highzindex">
         <p> {{new Date().getFullYear()}} <a v-bind:href="'mailto:'+author.email">{{author.name}}</a>.</p>
     </div>
 </div>
+
 <script src="assets/js/markdown.min.js"></script>
 <script src="assets/js/bootstrap-typeahead.js"></script>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
