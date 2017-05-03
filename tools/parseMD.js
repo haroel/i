@@ -10,7 +10,8 @@ let projPath = path.dirname(__dirname);
 let jsonContents = {};
 
 jsonContents.author = {
-    img:"http://tva4.sinaimg.cn/crop.0.0.180.180.180/6d0d5ef5jw1e8qgp5bmzyj2050050aa8.jpg",
+    icon:"http://tva4.sinaimg.cn/crop.0.0.180.180.180/6d0d5ef5jw1e8qgp5bmzyj2050050aa8.jpg",
+    img:"assets/img/howe.jpg",
     name:'ihowe',
     email:'ihowe@outlook.com',
     address:"现居武汉",
@@ -25,7 +26,7 @@ jsonContents.articles.pages = {};
 jsonContents.articles.pages["0"] =
 [{
     title:"关于",
-    file:"about.md"
+    file:"ihowe.md"
 }];
 let tagMap = new Map();
 for (let dir of files)

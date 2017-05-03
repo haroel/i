@@ -1,9 +1,10 @@
 
-    /*** date: 4/29/2017, 9:16:54 PM ***/
+    /*** date: 5/2/2017, 9:52:36 PM ***/
     var site = site || {};
     site.config = {
     "author": {
-        "img": "http://tva4.sinaimg.cn/crop.0.0.180.180.180/6d0d5ef5jw1e8qgp5bmzyj2050050aa8.jpg",
+        "icon": "http://tva4.sinaimg.cn/crop.0.0.180.180.180/6d0d5ef5jw1e8qgp5bmzyj2050050aa8.jpg",
+        "img":"assets/img/howe.jpg",
         "name": "ihowe",
         "email": "ihowe@outlook.com",
         "address": "现居武汉",
@@ -21,7 +22,7 @@
             "0": [
                 {
                     "title": "关于",
-                    "file": "about.md"
+                    "file": "ihowe.md"
                 }
             ],
             "2017": [

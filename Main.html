@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" >
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +18,7 @@
     <![endif]-->
     <link   href="assets/css/common.css" rel="stylesheet" type="text/css"  />
     <link   href="assets/css/menu_sideslide.css" rel="stylesheet" type="text/css"  />
-    <link href="http://github.com/yrgoldteeth/darkdowncss/raw/master/darkdown.css" rel="stylesheet"/>
+    <!--<link href="http://github.com/yrgoldteeth/darkdowncss/raw/master/darkdown.css" rel="stylesheet"/>-->
     <!--<link   href="http://kevinburke.bitbucket.org/markdowncss/markdown.css" rel="stylesheet"/>-->
     <style>
         /*table, th, td*/
@@ -54,7 +54,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <img id="leftMenuBtn" style="margin-top: 8px;margin-right: 8px;cursor: pointer"
-                     v-bind:src="author.img" width="32" @click="toggleMenus"/>
+                     v-bind:src="author.icon" width="32" @click="toggleMenus"/>
             </div>
             <div class="collapse navbar-collapse " role="navigation" >
                 <span class="navbar-text">{{pageTitle}}</span>
@@ -71,7 +71,7 @@
     </div>
     <div class="menu-wrap topzindex" align="center">
         <div>
-            <img :src="author.img" class="logo"  width="90"/>
+            <img :src="author.img" class="img-circle" style="border:5px solid white;"  width="90"/>
         </div>
         <div>
             <button class="menu-button-tag"  v-for="tag in menuTags" @click="menuTagClick">{{tag}}</button>
@@ -122,7 +122,6 @@
         <p> {{new Date().getFullYear()}} <a v-bind:href="'mailto:'+author.email">{{author.name}}</a>.</p>
     </div>
 </div>
-
 <script src="assets/js/markdown.min.js"></script>
 <script src="assets/js/bootstrap-typeahead.js"></script>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>

@@ -49,8 +49,13 @@ function changeURL( params )
         }
     }
     var url = window.location.href;
-    url = url.split("?")[0] + "?" +searchs.join("&");
-    window.location.href = url;
+    if (searchs.length < 1)
+    {
+        window.location.href = url.split("?")[0];
+    }else
+    {
+        window.location.href = url.split("?")[0] + "?" +searchs.join("&");
+    }
 }
 
 site.menuside = new Vue({
@@ -207,7 +212,7 @@ site.menuside = new Vue({
                 case "关于":
                 {
                     var params = parseUrlToObject();
-                    params.md = "about.md";
+                    params.md = "ihowe.md";
                     delete params["tag"];
                     changeURL( params );
                     break;
