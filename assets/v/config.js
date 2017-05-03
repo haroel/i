@@ -8,7 +8,7 @@
         "name": "ihowe",
         "email": "ihowe@outlook.com",
         "address": "武汉",
-        "des": "程序员。"
+        "des": "程序员"
     },
     "menus": [
         "最新",
