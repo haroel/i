@@ -12,7 +12,7 @@
 >  蛰伏中，寻求灵感。
 
 ## 联系
-如你愿意的话,可以通过以下方式联系我。
+如您愿意的话,可以通过以下方式联系到我。
 
 * Email：[ihowe@outlook.com](mailto:ihowe@outlook.com)
 * QQ：2831275626
