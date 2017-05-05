@@ -39,7 +39,7 @@
                      v-bind:src="author.icon" width="32" @click="toggleMenus"/>
             </div>
             <div class="collapse navbar-collapse " role="navigation" >
-                <span class="navbar-text">{{pageTitle}}</span>
+                <span class="navbar-text">{{pageInfo.title}}</span>
                 <div class="navbar-form navbar-right" role="search">
                     <input type="text" class="form-control" id="searchInput" data-provide="typeahead"
                            placeholder="Search">
@@ -81,6 +81,9 @@
     <div class="content-wrap">
         <div style="margin-top: 60px ;  margin-left: 10%;margin-right:10%;">
             <div v-if="contentType === 0">
+                <h4 v-if="pageInfo.date">{{pageInfo.title}}</h4>
+                <p  v-if="pageInfo.tags">标签 <span class="LabelTag" v-for="tag in pageInfo.tags">{{tag}}</span></p>
+                <h5 v-if="pageInfo.date"><small>日期 {{formatDate(pageInfo.date)}}</small></h5>
                 <div id="content"></div>
             </div>
             <div v-if="contentType === 1" >
@@ -104,7 +107,8 @@
         <p> {{new Date().getFullYear()}} <a v-bind:href="'mailto:'+author.email">{{author.name}}</a>. <small>{{author.version}}</small></p>
     </div>
 </div>
-<script src="assets/js/markdown.min.js"></script>
+
+<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
 <script src="assets/js/bootstrap-typeahead.js"></script>
 <script src="assets/js/vue.min.js"></script>
 <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->

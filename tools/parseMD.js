@@ -64,7 +64,7 @@ for (let dir of files)
             obj.file = dir + "/" + mdfile;
             obj.title = /\*\s+title:`([^`]+)`/gm.exec(mdContent)[1];
             let _tags = /\*\s+tags:([^\n]+)/gm.exec(mdContent)[1];
-            obj.tags = _tags.split(",").map( function ( tag ) {
+            obj.tags = _tags.split(/[\,\s]+/).map( function ( tag ) {
                 tag = tag.substr(1,tag.length-2);
                 if (tagMap.has(tag))
                 {

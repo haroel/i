@@ -1,10 +1,8 @@
 * date:`1493022893817`
-
-
 * title:`Cocos creator Acition 重构`
-* tags:`cocos`,`creator`,`js`
+* tags:`cocos` `creator` `js`
 
----
+----
 
 cocos2d-x的Action框架强大而丰富,其Action系统的核心在于继承和组合使用。
 由于creator是一个以cocos2d-x为基础的框架,这些核心特性也被完全保留了下来。
@@ -27,4 +25,3 @@ cocos2d-x的Action框架强大而丰富,其Action系统的核心在于继承和�
      }));
 
     * 如果用缓动
-

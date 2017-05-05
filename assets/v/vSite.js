@@ -5,6 +5,8 @@
  */
 var site = site || {};
 
+showdown.setFlavor('github');
+
 site._ContentType ={
     ARTICLE:0,
     TAGS:1,
@@ -65,10 +67,9 @@ site.menuside = new Vue({
         author:site.config.author,
         menuTags:["最新","分类","演示","其他","关于"],
         isShowMenu:false,
-        pageTitle:"",
         pageContent:"",
         contentType:site._ContentType.ARTICLE,
-
+        pageInfo:{},
         Articles:[],
     },
     created:function ()
@@ -81,17 +82,21 @@ site.menuside = new Vue({
             {
                 var that = this;
                 $.get("article/" + pageInfo.file,function(data){
-                    that.pageTitle = pageInfo.title;
-                    // var reg = /`([^`]+)`/gm;
-                    // data = data.replace(reg,function (match,$1) {
-                    //     console.log($1);
-                    //     return "<span class='LabelTag'>" + $1 + "</span>";
-                    // });
-                    that.pageContent = markdown.toHTML(data,"Maruku");
-                    // that.pageContent.replace("code","span");
+                    that.pageInfo = pageInfo;
+                    var markdownContent = data;
+                    var p = markdownContent.indexOf("---");
+                    markdownContent = markdownContent.substring(markdownContent.indexOf("---"));
+                    //https://github.com/showdownjs/showdown
+                    var converter = new showdown.Converter();
+                    converter.setOption('simplifiedAutoLink', true);
+                    converter.setOption('excludeTrailingPunctuationFromURLs', true);
+                    converter.setOption('tables', true);
+                    converter.setOption('tasklists', true);
+                    converter.setOption('simpleLineBreaks', true);
+                    converter.setOption('openLinksInNewWindow', true);
+                    that.pageContent = converter.makeHtml(markdownContent);
                     $('#content').html(that.pageContent);
-
-                    $('#content code').addClass("LabelTag");
+                    $('#content code').not("pre code").addClass("LabelTag");
                     $('#content table').addClass("table table-hover table-striped");
                     $('#content img').addClass("img-rounded")
                 }).error(function()
@@ -107,12 +112,12 @@ site.menuside = new Vue({
         if (params["tag"])
         {
             this.Articles = site.getPagesByTag(params.tag);
-            this.pageTitle = "标签:" + params.tag;
+            this.pageInfo.title = "标签:" + params.tag;
             this.contentType = site._ContentType.LIST;
             return;
         }
         this.Articles = site.getLatestPage(5);
-        this.pageTitle = "最新";
+        this.pageInfo.title = "最新";
         this.contentType = site._ContentType.LIST;
     },
     mounted:function () {
@@ -188,6 +193,8 @@ site.menuside = new Vue({
         menuTagClick:function (event)
         {
             var tag = event.target.outerText;
+            this.pageInfo = {};
+            this.pageInfo.title = tag;
             switch(tag)
             {
                 case "最新":
@@ -200,13 +207,11 @@ site.menuside = new Vue({
                 }
                 case "分类":
                 {
-                    this.pageTitle = tag;
                     this.contentType = site._ContentType.TAGS;
                     break;
                 }
                 case "演示":
                 {
-                    this.pageTitle = tag;
                     this.contentType = site._ContentType.ARTICLE;
                     this.pageContent = "暂时没有内容";
                     $('#content').html(this.pageContent);
@@ -214,7 +219,6 @@ site.menuside = new Vue({
                 }
                 case "其他":
                 {
-                    this.pageTitle = tag;
                     this.contentType = site._ContentType.ARTICLE;
                     this.pageContent = "暂时没有内容";
                     $('#content').html(this.pageContent);

@@ -1,16 +1,16 @@
 
-    /*** date: 5/2/2017, 9:52:36 PM ***/
+    /*** date: 5/4/2017, 10:43:57 PM ***/
     var site = site || {};
     site.config = {
     "author": {
         "icon": "http://tva4.sinaimg.cn/crop.0.0.180.180.180/6d0d5ef5jw1e8qgp5bmzyj2050050aa8.jpg",
-        "img":"assets/img/howe.png",
+        "img": "assets/img/howe.png",
         "name": "ihowe",
         "email": "ihowe@outlook.com",
         "address": " 武汉",
         "career": "程序员  ",
-        "desc":"蛰伏中，寻求灵感",
-        "version":"v0.9beta"
+        "desc": "蛰伏中，寻求灵感",
+        "version": "v0.9beta"
     },
     "menus": [
         "最新",

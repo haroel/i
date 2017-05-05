@@ -129,6 +129,7 @@ div.ItemRenderer.active {
     margin-left: 4px;
     margin-right: 4px;
     background: transparent;
+    line-height: 25px;
 }
 .LabelTag:hover,
 .LabelTag:focus,
