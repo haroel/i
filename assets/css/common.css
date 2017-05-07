@@ -45,7 +45,6 @@ div.margin-gap
     margin-top:30px;
 }
 
-
 div.footLine
 {
     border-top:1px solid #C0C0C0;
@@ -116,7 +115,6 @@ div.ItemRenderer:focus,
 div.ItemRenderer.active {
     border-bottom: 1px solid #aaa;
 }
-
 .LabelTag
 {
     -webkit-transition: border .3s ease-in-out;
@@ -124,12 +122,12 @@ div.ItemRenderer.active {
     transition: border .3s ease-in-out;
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 3px 5px;
+    padding: 2px 5px;
     cursor: pointer;
     margin-left: 4px;
     margin-right: 4px;
     background: transparent;
-    line-height: 25px;
+    line-height: 26px;
 }
 .LabelTag:hover,
 .LabelTag:focus,

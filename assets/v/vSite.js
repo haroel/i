@@ -11,6 +11,8 @@ site._ContentType ={
     ARTICLE:0,
     TAGS:1,
     LIST:2,
+    KEYNOTE:3,
+    LIFE:4
 };
 
 var bodyEl = document.body;
@@ -74,6 +76,7 @@ site.menuside = new Vue({
     },
     created:function ()
     {
+        this.pageContent = "";
         var params = parseUrlToObject();
         if (params["md"])
         {
@@ -105,7 +108,7 @@ site.menuside = new Vue({
                 });
             }else
             {
-                alert("无法找到制定的文章<" + params.md +">" );
+                alert("无法找到制定的文章 《" + params.md +"》" );
             }
             return;
         }
@@ -188,7 +191,7 @@ site.menuside = new Vue({
                     return;
                 }
             }
-            alert("无法找到搜索结果",ii);
+            alert("无法找到搜索结果:",ii);
         },
         menuTagClick:function (event)
         {
@@ -212,14 +215,14 @@ site.menuside = new Vue({
                 }
                 case "演示":
                 {
-                    this.contentType = site._ContentType.ARTICLE;
+                    this.contentType = site._ContentType.KEYNOTE;
                     this.pageContent = "暂时没有内容";
                     $('#content').html(this.pageContent);
                     break;
                 }
                 case "其他":
                 {
-                    this.contentType = site._ContentType.ARTICLE;
+                    this.contentType = site._ContentType.LIFE;
                     this.pageContent = "暂时没有内容";
                     $('#content').html(this.pageContent);
                     break;

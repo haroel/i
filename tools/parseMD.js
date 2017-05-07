@@ -10,14 +10,14 @@ let projPath = path.dirname(__dirname);
 let jsonContents = {};
 
 jsonContents.author = {
-    "icon": "http://tva4.sinaimg.cn/crop.0.0.180.180.180/6d0d5ef5jw1e8qgp5bmzyj2050050aa8.jpg",
+    "icon": "https://tva4.sinaimg.cn/crop.0.0.180.180.180/6d0d5ef5jw1e8qgp5bmzyj2050050aa8.jpg",
     "img":"assets/img/howe.png",
     "name": "ihowe",
     "email": "ihowe@outlook.com",
     "address": " 武汉",
     "career": "程序员  ",
     "desc":"蛰伏中，寻求灵感",
-    "version":"v0.9beta"
+    "version":"v0.9beta1"
 };
 jsonContents.menus = ["最新","分类","演示","其他","关于"];
 
@@ -101,13 +101,9 @@ for (let item of tagMap.entries()) {
 
 // jsonContents.articles.tags = Array.from(ss);
 // console.log(ss);
-let pageStr = JSON.stringify(jsonContents,null,4);
+let pageStr = JSON.stringify(jsonContents);
 
-let jsTem =`
-    /*** date: ${new Date().toLocaleString()} ***/
-    var site = site || {};
-    site.config = ${pageStr}
-`;
+let jsTem =`/*** date: ${new Date().toLocaleString()} ***/var site = site || {};site.config = ${pageStr};`;
 
 fs.writeFile( path.join( projPath, "assets","v","config.js"), jsTem,function (error) {
     if (error)

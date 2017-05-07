@@ -48,8 +48,6 @@ site.getLatestPage = function ( num ) {
     });
     return result;
 };
-
-
 site.getAllPageNames = function ()
 {
     var arr = [];
