@@ -101,7 +101,7 @@ site.menuside = new Vue({
                     $('#content').html(that.pageContent);
                     $('#content code').not("pre code").addClass("LabelTag");
                     $('#content table').addClass("table table-hover table-striped");
-                    $('#content img').addClass("img-rounded")
+                    $('#content img').addClass("LabelTag")
                 }).error(function()
                 {
                     alert("error");
