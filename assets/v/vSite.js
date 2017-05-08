@@ -73,9 +73,12 @@ site.menuside = new Vue({
         contentType:site._ContentType.ARTICLE,
         pageInfo:{},
         Articles:[],
+
+        showLoading:true,
     },
     created:function ()
     {
+        this.showLoading = false;
         this.pageContent = "";
         var params = parseUrlToObject();
         if (params["md"])

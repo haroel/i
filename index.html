@@ -104,6 +104,9 @@
     <div class="navbar-fixed-bottom footer highzindex">
         <p> {{new Date().getFullYear()}} <a v-bind:href="'mailto:'+author.email">{{author.name}}</a>. <small>{{author.version}}</small></p>
     </div>
+    <div class="loading" v-if="showLoading" >
+        <p> LOADING... </p>
+    </div>
 </div>
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
