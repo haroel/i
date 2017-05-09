@@ -17,7 +17,7 @@ jsonContents.author = {
     "address": " 武汉",
     "career": "程序员  ",
     "desc":"蛰伏中，寻求灵感",
-    "version":"v0.9beta1"
+    "version":"v0.9beta2"
 };
 jsonContents.menus = ["最新","分类","演示","其他","关于"];
 

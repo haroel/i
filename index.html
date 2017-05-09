@@ -105,7 +105,12 @@
         <p> {{new Date().getFullYear()}} <a v-bind:href="'mailto:'+author.email">{{author.name}}</a>. <small>{{author.version}}</small></p>
     </div>
     <div class="loading" v-if="showLoading" >
-        <p> LOADING... </p>
+        <div style="text-align: center">
+            <img class="img-circle" src="https://tva4.sinaimg.cn/crop.0.0.180.180.180/6d0d5ef5jw1e8qgp5bmzyj2050050aa8.jpg"
+                 width="40"/>
+            <br/><br/>
+            <p>LOADING</p>
+        </div>
     </div>
 </div>
 
