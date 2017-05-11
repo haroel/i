@@ -89,7 +89,7 @@ Action提供了一个CallFunc的组件,它用于Sequence对象某个阶段来回
 基于上述种种不便和困境,我决定重新写一套动作系统。
 核心目标: 新的动作系统应该`轻量级`、`易扩展`、`易用`、`高效`,并能充分利用js特性。
 
-我重写了一套新的纯js语言的Action框架—— `HAction`,该框架借鉴了 [tweenlite](http://greensock.com/tweenlite) 动画库的api特点,并保持了和cocos Action的类似的使用接口。
+我重写了一套新的纯js语言的Action框架—— `HAction`,该框架借鉴了 [tweenlite](http://greensock.com/tweenlite) 动画库,并保持了和cocos Action的类似的使用接口。
 
 
 

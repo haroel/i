@@ -29,7 +29,6 @@ function _toggleMenu( isOpen ) {
 function parseUrlToObject()
 {
     var result = {};
-    //http://localhost:63342/i/Main.html?_ijt=va6rsa882cmbsmck0a0dget0c2&md=about.md
     var paramsStr = window.location.search;
     var reg = /\??&?([^=]+)=([^&]+)/g;
     var match = reg.exec(paramsStr);
@@ -73,61 +72,19 @@ site.menuside = new Vue({
         contentType:site._ContentType.ARTICLE,
         pageInfo:{},
         Articles:[],
-
         showLoading:true,
     },
+
     created:function ()
     {
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
         this.showLoading = false;
         this.pageContent = "";
         var params = parseUrlToObject();
-        if (params["md"])
-        {
-            var pageInfo = site.getPageInfoByMDFile(params.md);
-            if (pageInfo)
-            {
-                var that = this;
-                $.get("article/" + pageInfo.file,function(data){
-                    that.pageInfo = pageInfo;
-                    var markdownContent = data;
-                    var p = markdownContent.indexOf("---");
-                    markdownContent = markdownContent.substring(markdownContent.indexOf("---"));
-                    //https://github.com/showdownjs/showdown
-                    var converter = new showdown.Converter();
-                    converter.setOption('simplifiedAutoLink', true);
-                    converter.setOption('excludeTrailingPunctuationFromURLs', true);
-                    converter.setOption('tables', true);
-                    converter.setOption('tasklists', true);
-                    converter.setOption('simpleLineBreaks', true);
-                    converter.setOption('openLinksInNewWindow', true);
-                    that.pageContent = converter.makeHtml(markdownContent);
-                    $('#content').html(that.pageContent);
-                    $('#content code').not("pre code").addClass("LabelTag");
-                    $('#content table').addClass("table table-hover table-striped");
-                    $('#content img').addClass("LabelTag")
-                }).error(function()
-                {
-                    alert("error");
-                });
-            }else
-            {
-                alert("无法找到制定的文章 《" + params.md +"》" );
-            }
-            return;
-        }
-        if (params["tag"])
-        {
-            this.Articles = site.getPagesByTag(params.tag);
-            this.pageInfo.title = "标签:" + params.tag;
-            this.contentType = site._ContentType.LIST;
-            return;
-        }
-        this.Articles = site.getLatestPage(5);
-        this.pageInfo.title = "最新";
-        this.contentType = site._ContentType.LIST;
+        this.renderPage(params);
     },
-    mounted:function () {
 
+    mounted:function () {
         var sources = [];
         for (var i=0;i<site.config.articles.tags.length;i++)
         {
@@ -150,7 +107,6 @@ site.menuside = new Vue({
             })
         }
         this._sources = sources;
-
         $("#searchInput").typeahead({
             source: sources,
 
@@ -165,7 +121,57 @@ site.menuside = new Vue({
     },
 
     methods:{
-
+        renderPage:function(params)
+        {
+            if (params["md"])
+            {
+                var pageInfo = site.getPageInfoByMDFile(params.md);
+                if (pageInfo)
+                {
+                    var that = this;
+                    $.get("article/" + pageInfo.file,function(data){
+                        that.pageInfo = pageInfo;
+                        var markdownContent = data;
+                        var p = markdownContent.indexOf("---");
+                        markdownContent = markdownContent.substring(markdownContent.indexOf("---"));
+                        //https://github.com/showdownjs/showdown
+                        var converter = new showdown.Converter();
+                        converter.setOption('simplifiedAutoLink', true);
+                        converter.setOption('excludeTrailingPunctuationFromURLs', true);
+                        converter.setOption('tables', true);
+                        converter.setOption('tasklists', true);
+                        converter.setOption('simpleLineBreaks', true);
+                        converter.setOption('openLinksInNewWindow', true);
+                        that.pageContent = converter.makeHtml(markdownContent);
+                        $('#content').html(that.pageContent);
+                        $('#content code').not("pre code").addClass("LabelTag");
+                        $('#content table').addClass("table table-hover table-striped");
+                        $('#content img').addClass("LabelTag")
+                    });
+                }else
+                {
+                    alert("无法找到制定的文章 《" + params.md +"》" );
+                }
+                return;
+            }
+            if (params["tag"])
+            {
+                this.Articles = site.getPagesByTag(params.tag);
+                this.pageInfo.title = "标签:" + params.tag;
+                this.contentType = site._ContentType.LIST;
+                return;
+            }
+            if (params["year"])
+            {
+                this.Articles = site.getPagesByYear(params.year);
+                this.pageInfo.title = "时间:" + params.year;
+                this.contentType = site._ContentType.LIST;
+                return;
+            }
+            this.Articles = site.getLatestPage(5);
+            this.pageInfo.title = "最新";
+            this.contentType = site._ContentType.LIST;
+        },
         formatDate: function ( time ) {
 
             var d = new Date( parseInt(time) );
@@ -180,19 +186,25 @@ site.menuside = new Vue({
         searchHandler:function ()
         {
             var ii = $("#searchInput").val();
+            if (ii.length < 1)
+            {return;}
             var arr = this._sources;
             for (var i=0;i<arr.length;i++)
             {
                 var obj = arr[i];
                 if (obj.name == ii)
                 {
-                    var params = parseUrlToObject();
-                    delete params["tag"];
-                    delete params["md"];
+                    var params = {};
                     params[obj.type] = obj.value;
-                    changeURL( params );
+                    this.renderPage(params);
                     return;
                 }
+            }
+            var ret = /[\d]{4}/.exec(ii);
+            if (ret)
+            {
+                this.renderPage({year:ret});
+                return;
             }
             alert("无法找到搜索结果:",ii);
         },

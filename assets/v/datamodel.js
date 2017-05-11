@@ -108,4 +108,10 @@ site.getPagesByTag = function ( tag )
     }
     return result;
 };
-
+site.getPagesByYear = function ( year )
+{
+    if (!year)
+    {return null}
+    var _p = site.config.articles.pages;
+    return _p[year];
+};
