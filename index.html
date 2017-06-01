@@ -111,7 +111,7 @@
         </div>
     </div>
     <div class="navbar-fixed-bottom footer highzindex">
-        <p> {{new Date().getFullYear()}} <a v-bind:href="'mailto:'+author.email">{{author.name}}</a>. <small>{{author.version}}</small></p>
+        <p> @{{new Date().getFullYear()}} <a v-bind:href="'mailto:'+author.email">{{author.name}}</a>. <small>{{author.version}}</small></p>
     </div>
     <div class="loading" v-if="showLoading" >
         <div style="text-align: center">

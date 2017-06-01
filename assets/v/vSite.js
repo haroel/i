@@ -196,14 +196,14 @@ site.menuside = new Vue({
                 {
                     var params = {};
                     params[obj.type] = obj.value;
-                    this.renderPage(params);
+                    changeURL(params);
                     return;
                 }
             }
             var ret = /[\d]{4}/.exec(ii);
             if (ret)
             {
-                this.renderPage({year:ret});
+                changeURL({year:ret});
                 return;
             }
             alert("无法找到搜索结果:",ii);
