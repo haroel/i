@@ -5,8 +5,6 @@
  */
 var site = site || {};
 
-showdown.setFlavor('github');
-
 site._ContentType ={
     ARTICLE:0,
     TAGS:1,
@@ -14,17 +12,6 @@ site._ContentType ={
     KEYNOTE:3,
     LIFE:4
 };
-
-var bodyEl = document.body;
-
-function _toggleMenu( isOpen ) {
-    if( isOpen ) {
-        classie.remove( bodyEl, 'show-menu' );
-    }
-    else {
-        classie.add( bodyEl, 'show-menu' );
-    }
-}
 
 function parseUrlToObject()
 {
@@ -78,6 +65,8 @@ site.menuside = new Vue({
     created:function ()
     {
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
+        showdown.setFlavor('github');
+
         this.showLoading = false;
         this.pageContent = "";
         var params = parseUrlToObject();
@@ -180,7 +169,6 @@ site.menuside = new Vue({
 
         toggleMenus:function ()
         {
-            _toggleMenu(this.isShowMenu);
             this.isShowMenu = !this.isShowMenu;
         },
         searchHandler:function ()

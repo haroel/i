@@ -28,7 +28,7 @@
     </script>
 </head>
 <body>
-<div id="mainDiv">
+<div id="mainDiv" :class="{'show-menu': isShowMenu}">
     <nav class="navbar navbar-default navbar-fixed-top navbarzindex" id="navbar">
         <div class="container-fluid">
             <!--<div class="navbar-header">-->
@@ -55,6 +55,7 @@
             </div>
         </div>
     </nav>
+
     <div v-show="isShowMenu" class="menu_mask topzindex" @click="toggleMenus"></div>
     <div class="menu-wrap topzindex" align="center">
         <div class="menuBg " style="z-index: -1"></div>
@@ -126,10 +127,10 @@
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.3.2/vue.min.js"></script>
+<!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
 <script src="https://cdn.bootcss.com/showdown/1.6.4/showdown.min.js"></script>
 <!--<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>-->
 <script src="assets/js/bootstrap-typeahead.js"></script>
-<script src="assets/js/classie.js"></script>
 <script src="assets/v/config.js"></script>
 <script src="assets/v/datamodel.js"></script>
 <script src="assets/v/vSite.js"></script>
