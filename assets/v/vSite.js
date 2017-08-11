@@ -66,7 +66,7 @@ site.menuside = new Vue({
     {
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
         showdown.setFlavor('github');
-
+        hljs.initHighlightingOnLoad();
         this.showLoading = false;
         this.pageContent = "";
         var params = parseUrlToObject();
@@ -135,7 +135,10 @@ site.menuside = new Vue({
                         $('#content').html(that.pageContent);
                         $('#content code').not("pre code").addClass("LabelTag");
                         $('#content table').addClass("table table-hover table-striped");
-                        $('#content img').addClass("LabelTag")
+                        $('#content img').addClass("LabelTag");
+                        $('pre code').each(function(i, block) {
+                            hljs.highlightBlock(block);
+                        });
                     });
                 }else
                 {

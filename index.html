@@ -49,7 +49,7 @@
                 <span class="navbar-text">{{pageInfo.title}}</span>
                 <div class="navbar-form navbar-right" role="search">
                     <input type="text" class="form-control" id="searchInput" data-provide="typeahead"
-                           placeholder="Search" data-toggle="tooltip" data-placement="bottom" title="可按标签、标题和年限搜索">
+                           placeholder="Search" >
                     <button @click="searchHandler" class="btn btn-success submit">查找</button>
                 </div>
             </div>
@@ -131,6 +131,10 @@
 <script src="https://cdn.bootcss.com/showdown/1.6.4/showdown.min.js"></script>
 <!--<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>-->
 <script src="assets/js/bootstrap-typeahead.js"></script>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
 <script src="assets/v/config.js"></script>
 <script src="assets/v/datamodel.js"></script>
 <script src="assets/v/vSite.js"></script>
