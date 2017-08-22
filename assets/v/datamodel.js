@@ -64,6 +64,19 @@ site.getAllPageNames = function ()
     return arr;
 };
 
+site.getYears = function ()
+{
+    var arr = [];
+    var _p = site.config.articles.pages;
+    for (var year in _p)
+    {
+        if (year >0){
+            arr.push(year)
+        }
+    }
+    return arr;
+};
+
 site.getPageInfoByMDFile = function (mdFile)
 {
     if (!mdFile)

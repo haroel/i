@@ -11,7 +11,10 @@
     <!-- Icon库-->
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- bootstrap -->
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.11.0/umd/popper.min.js" ></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <!--[if IE]>
     <!--<script src="js/html5.js"></script>-->
     <![endif]-->
@@ -29,47 +32,39 @@
 </head>
 <body>
 <div id="mainDiv" :class="{'show-menu': isShowMenu}">
-    <nav class="navbar navbar-default navbar-fixed-top navbarzindex" id="navbar">
-        <div class="container-fluid">
-            <!--<div class="navbar-header">-->
-            <!--<a class="navbar-brand" href="#">haroel</a>-->
-            <!--</div>-->
-            <div class="navbar-left">
-                <button class="navbar-toggle collapsed" type="button"
-                        data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <img class="img-circle" style="margin-top: 8px;margin-right: 8px;cursor: pointer"
-                     v-bind:src="author.icon" width="32" @click="toggleMenus"/>
-            </div>
-            <div class="collapse navbar-collapse " role="navigation" >
-                <span class="navbar-text">{{pageInfo.title}}</span>
-                <div class="navbar-form navbar-right" role="search">
-                    <input type="text" class="form-control" id="searchInput" data-provide="typeahead"
-                           placeholder="Search" >
-                    <button @click="searchHandler" class="btn btn-success submit">查找</button>
-                </div>
-            </div>
+    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top navbarzindex">
+        <img class="rounded-circle" style="cursor: pointer;margin-right: 20px"
+             v-bind:src="author.icon" width="32" @click="toggleMenus"/>
+        <button class="navbar-toggler" type="button"
+                data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            <span class="navbar-text mr-auto">{{pageInfo.title}}</span>
+            <form class="form-inline my-2 my-lg-0" style="position: relative;">
+                <span class="fa fa-search" style="position: absolute;margin-left: 7px;bottom: 12px"></span>
+                <input class="form-control mr-sm-2" style=" padding-left: 30px;" type="text"
+                       placeholder="Search" aria-label="Search" id="searchInput" data-provide="typeahead"/>
+                <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+            </form>
         </div>
     </nav>
-
     <div v-show="isShowMenu" class="menu_mask topzindex" @click="toggleMenus"></div>
     <div class="menu-wrap topzindex" align="center">
         <div class="menuBg " style="z-index: -1"></div>
         <div style="margin-top: 10px;margin-bottom: 15px;">
-            <img :src="author.img" class="img-circle" style="border:4px solid white;"  width="100" height="100"/>
+            <img :src="author.img" class="rounded-circle" style="border:4px solid white;"  width="100" height="100"/>
         </div>
         <div style="padding:6px 10px;">
             <button class="menu-button-tag"  v-for="tag in menuTags" @click="menuTagClick">{{tag}}</button>
         </div>
-        <div class="navbar-fixed-bottom" style="bottom: 30px;color: #b1b1b1;">
+        <div class="fixed-bottom" style="bottom: 30px;color: #b1b1b1;">
             <p>{{author.career}} <i class="fa fa-map-marker"></i>{{author.address}}</p>
             <p style="font-size: 0.6em;">{{author.desc}}</p>
         </div>
-        <div class="navbar-fixed-bottom menu-tab-link-icon">
+        <div class="fixed-bottom menu-tab-link-icon">
             <a href="https://weibo.com/haroel" target="_blank" class="menu-social-icon-n">
                 <i class='social fa fa-weibo'></i>
             </a>
@@ -111,7 +106,7 @@
             <div v-if="contentType === 4">{{pageContent}}</div>
         </div>
     </div>
-    <div class="navbar-fixed-bottom footer highzindex">
+    <div class="fixed-bottom footer highzindex">
         <p> @{{new Date().getFullYear()}} <a v-bind:href="'mailto:'+author.email">{{author.name}}</a>. <small>{{author.version}}</small></p>
     </div>
     <div class="loading" v-if="showLoading" >
@@ -124,17 +119,13 @@
     </div>
 </div>
 
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.3.2/vue.min.js"></script>
 <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
 <script src="https://cdn.bootcss.com/showdown/1.6.4/showdown.min.js"></script>
-<!--<script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>-->
-<script src="assets/js/bootstrap-typeahead.js"></script>
-
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
+<script src="assets/js/bootstrap-typeahead.js"></script>
 <script src="assets/v/config.js"></script>
 <script src="assets/v/datamodel.js"></script>
 <script src="assets/v/vSite.js"></script>

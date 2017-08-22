@@ -17,7 +17,7 @@ jsonContents.author = {
     "address": " 武汉",
     "career": "程序员  ",
     "desc":"蛰伏中，寻求灵感",
-    "version":"v0.9beta5"
+    "version":"v0.9beta6"
 };
 jsonContents.menus = ["最新","分类","演示","其他","关于"];
 
@@ -101,7 +101,7 @@ for (let item of tagMap.entries()) {
 
 // jsonContents.articles.tags = Array.from(ss);
 // console.log(ss);
-let pageStr = JSON.stringify(jsonContents);
+let pageStr = JSON.stringify(jsonContents,null,4);
 
 let jsTem =`/*** date: ${new Date().toLocaleString()} ***/var site = site || {};site.config = ${pageStr};`;
 

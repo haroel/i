@@ -75,36 +75,40 @@ site.menuside = new Vue({
 
     mounted:function () {
         var sources = [];
-        for (var i=0;i<site.config.articles.tags.length;i++)
-        {
-            var tagInfo = site.config.articles.tags[i];
-            sources.push({
-                type:"tag",
-                id:sources.length,
-                name:tagInfo.name,
-                value:tagInfo.name
-            })
-        }
-        var pages = site.getAllPageNames();
-        for(var i=0;i<pages.length;i++)
-        {
+        site.getAllPageNames().forEach(function (pageInfo) {
             sources.push({
                 id:sources.length,
                 type:"md",
-                name:pages[i].title,
-                value:pages[i].file
+                name:pageInfo.title,
+                value:pageInfo.file
             })
-        }
-        this._sources = sources;
-        $("#searchInput").typeahead({
+        });
+        site.config.articles.tags.forEach(function (tagInfo) {
+            sources.push({
+                type:"tag",
+                id:sources.length,
+                name:"标签:"+tagInfo.name,
+                value:tagInfo.name
+            })
+        });
+        site.getYears().forEach(function (year) {
+            sources.push({
+                id:sources.length,
+                type:"year",
+                name:"年份:"+year,
+                value:year
+            })
+        });
+        $("#searchInput").typeahead(
+            {
             source: sources,
-
-            highlighter: function(item) {
-                return item;
-            },
-            updater: function(item) {
-                console.log("'" + item + "' selected.");
-                return item;
+            autoSelect: true,
+            fitToElement:true,
+            afterSelect:function (item) {
+                console.log(item);
+                var params = {};
+                params[item.type] = item.value;
+                changeURL(params);
             }
         });
     },
@@ -173,31 +177,6 @@ site.menuside = new Vue({
         toggleMenus:function ()
         {
             this.isShowMenu = !this.isShowMenu;
-        },
-        searchHandler:function ()
-        {
-            var ii = $("#searchInput").val();
-            if (ii.length < 1)
-            {return;}
-            var arr = this._sources;
-            for (var i=0;i<arr.length;i++)
-            {
-                var obj = arr[i];
-                if (obj.name == ii)
-                {
-                    var params = {};
-                    params[obj.type] = obj.value;
-                    changeURL(params);
-                    return;
-                }
-            }
-            var ret = /[\d]{4}/.exec(ii);
-            if (ret)
-            {
-                changeURL({year:ret});
-                return;
-            }
-            alert("无法找到搜索结果:",ii);
         },
         menuTagClick:function (event)
         {
