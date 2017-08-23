@@ -45,7 +45,7 @@
             <span class="navbar-text mr-auto">{{pageInfo.title}}</span>
             <form class="form-inline my-2 my-lg-0" style="position: relative;">
                 <span class="fa fa-search" style="position: absolute;margin-left: 7px;bottom: 12px"></span>
-                <input class="form-control mr-sm-2" style=" padding-left: 30px;" type="text"
+                <input class="form-control mr-sm-4" style=" padding-left: 30px;" type="text"
                        placeholder="Search" aria-label="Search" id="searchInput" data-provide="typeahead"/>
                 <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
             </form>
@@ -84,14 +84,14 @@
             <div v-if="contentType === 0">
                 <h4 v-if="pageInfo.date">{{pageInfo.title}}</h4>
                 <p  v-if="pageInfo.tags">标签 <span class="LabelTag" v-for="tag in pageInfo.tags">{{tag}}</span></p>
-                <h5 v-if="pageInfo.date"><small>日期 {{formatDate(pageInfo.date)}}</small></h5>
+                <p  v-if="pageInfo.date" class="dateText">日期 {{formatDate(pageInfo.date)}}</p>
                 <div id="content"></div>
             </div>
             <div v-if="contentType === 1" >
                 <div class="ItemRenderer" style="margin-top: 33px;"
                      v-for="item in articles.tags" v-bind:key="item.data.lastUpdate">
                     <a v-bind:href="'?tag=' + item.name " class="LabelTag" >{{item.name}}  ({{item.data.count}})</a>
-                    <h5><small>最后更新 {{formatDate(item.data.lastUpdate)}}</small></h5>
+                    <p class="dateText">最后更新 {{formatDate(item.data.lastUpdate)}}</p>
                 </div>
             </div>
             <div v-if="contentType === 2">
@@ -99,7 +99,7 @@
                      v-bind:key="item.date" v-for="item in Articles">
                     <h5><a v-bind:href="'?md=' + item.file ">{{item.title}}</a></h5>
                     <p>标签 <span class="LabelTag" v-for="tag in item.tags">{{tag}}</span></p>
-                    <h5><small>日期 {{formatDate(item.date)}}</small></h5>
+                    <p class="dateText">日期 {{formatDate(item.date)}}</p>
                 </div>
             </div>
             <div v-if="contentType === 3">{{pageContent}}</div>
