@@ -68,15 +68,18 @@ site.menuside = new Vue({
     el:'#mainDiv',
     data:
     {
-        articles:site.config.articles,
-        author:site.config.author,
-        menuTags:["最新","分类","演示","其他","关于"],
+        showLoading:true,
         isShowMenu:false,
         pageContent:"",
+
+        articles:site.config.articles,
+        author:site.config.author,
+        menuTags:site.config.menus,
         contentType:site._ContentType.ARTICLE,
+        toolsList:site.config.toolsList,
         pageInfo:{},
         Articles:[],
-        showLoading:true,
+
     },
 
     created:function ()

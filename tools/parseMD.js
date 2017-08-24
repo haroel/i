@@ -21,6 +21,14 @@ jsonContents.author = {
 };
 jsonContents.menus = ["最新","分类","演示","其他","关于"];
 
+jsonContents.toolsList = [
+    {
+        title:"武汉公交",
+        text:" 查询公交站以及实时到站信息,所有数据来源于武汉公交集团http://www.wuhanbus.com/index.html",
+        url:'http://www.wuhanbus.com/index.html'
+    }
+];
+
 let articlePath = path.join( projPath ,"article" );
 let files = fs.readdirSync(articlePath);
 jsonContents.articles = {};
@@ -101,8 +109,8 @@ for (let item of tagMap.entries()) {
 
 // jsonContents.articles.tags = Array.from(ss);
 // console.log(ss);
-let pageStr = JSON.stringify(jsonContents,null,4);
-
+// let pageStr = JSON.stringify(jsonContents,null,4);
+let pageStr = JSON.stringify(jsonContents);
 let jsTem =`/*** date: ${new Date().toLocaleString()} ***/var site = site || {};site.config = ${pageStr};`;
 
 fs.writeFile( path.join( projPath, "assets","v","config.js"), jsTem,function (error) {

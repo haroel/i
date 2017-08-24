@@ -80,7 +80,7 @@
         </div>
     </div>
     <div class="content-wrap" v-if="pageInfo.title !== ''">
-        <div style="margin-top: 60px;margin-left: 10%;margin-right:10%;">
+        <div style="margin-top: 80px;margin-left: 10%;margin-right:10%;">
             <div v-if="contentType === 0">
                 <h4 v-if="pageInfo.date">{{pageInfo.title}}</h4>
                 <p  v-if="pageInfo.tags">标签 <span class="LabelTag" v-for="tag in pageInfo.tags">{{tag}}</span></p>
@@ -102,8 +102,21 @@
                     <p class="dateText">日期 {{formatDate(item.date)}}</p>
                 </div>
             </div>
-            <div v-if="contentType === 3">{{pageContent}}</div>
-            <div v-if="contentType === 4">{{pageContent}}</div>
+            <div v-if="contentType === 3">
+                {{pageContent}}
+            </div>
+            <div v-if="contentType === 4">
+                <!--<div class="row">-->
+                    <!--<div class="col-6 col-md-4 card" style="width: 20rem;" v-for="cardInfo in toolsList">-->
+                        <!--&lt;!&ndash;<img class="card-img-top" src="..." alt="Card image cap">&ndash;&gt;-->
+                        <!--<div class="card-body">-->
+                            <!--<h4 class="card-title">{{cardInfo.title}}</h4>-->
+                            <!--<p class="card-text">{{cardInfo.text}}</p>-->
+                            <!--<a href="http://www.wbus.cn/busWeb/myAround.jsp" class="btn btn-primary">查询公交</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
         </div>
     </div>
     <div class="fixed-bottom footer highzindex">
