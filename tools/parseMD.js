@@ -67,7 +67,7 @@ for (let dir of files)
             }
             mdContent = mdContent.split("---")[0];
             let obj = {};
-            obj.date = _date;
+            obj.date = _date.toString();
             obj.file = dir + "/" + mdfile;
             obj.title = /\*\s+title:`([^`]+)`/gm.exec(mdContent)[1];
             let _tags = /\*\s+tags:([^\n]+)/gm.exec(mdContent)[1];
@@ -118,6 +118,4 @@ fs.writeFile( path.join( projPath, "assets","v","config.js"), jsTem,function (er
         console.log(error);
     }
 });
-
 console.log( jsTem );
-

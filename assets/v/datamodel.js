@@ -5,6 +5,24 @@
  */
 var site = site || {};
 
+site._articles = [];
+site.init = function () {
+    var _p = site.config.articles.pages;
+    for (var year in _p) {
+        var yps = _p[year];
+        for(var i=0;i<yps.length;i++)
+        {
+            var obj = yps[i];
+            if (obj.tags && obj.date){
+                site._articles.push(obj);
+            }
+        }
+    }
+    site._articles.sort(function (a,b) {
+        return a.date - b.date;
+    });
+};
+
 site.getLatestPage = function ( num ) {
     num = num||1;
     var result = [];
@@ -90,7 +108,16 @@ site.getPageInfoByMDFile = function (mdFile)
             var obj = yps[i];
             if (obj.file == mdFile)
             {
-                return obj;
+                let ret = {};
+                ret.current = obj;
+                for (var i = 0;i<site._articles.length;i++){
+                    if (site._articles[i].file == mdFile)
+                    {
+                        ret.prev = site._articles[i-1];
+                        ret.next = site._articles[i+1];
+                    }
+                }
+                return ret;
             }
         }
     }

@@ -80,14 +80,17 @@ site.menuside = new Vue({
         pageInfo:{},
         Articles:[],
 
+        prevData:null,
+        nextData:null
     },
 
     created:function ()
     {
+        site.init();
+
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
         showdown.setFlavor('github');
         hljs.initHighlightingOnLoad();
-        this.showLoading = false;
         this.pageContent = "";
         var params = parseUrlToObject();
         this.renderPage(params);
@@ -136,14 +139,18 @@ site.menuside = new Vue({
     methods:{
         renderPage:function(params)
         {
+            this.showLoading = false;
             if (params["md"])
             {
-                var pageInfo = site.getPageInfoByMDFile(params.md);
-                if (pageInfo)
+                var pageData = site.getPageInfoByMDFile(params.md);
+                if (pageData)
                 {
                     var that = this;
-                    $.get("article/" + pageInfo.file,function(data){
-                        that.pageInfo = pageInfo;
+                    $.get("article/" + pageData.current.file,function(data){
+                        that.pageInfo = pageData.current;
+                        that.prevData = pageData.prev;
+                        that.nextData = pageData.next;
+
                         var markdownContent = data;
                         var p = markdownContent.indexOf("---");
                         markdownContent = markdownContent.substring(markdownContent.indexOf("---"));

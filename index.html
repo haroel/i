@@ -86,6 +86,11 @@
                 <p  v-if="pageInfo.tags">标签 <span class="LabelTag" v-for="tag in pageInfo.tags">{{tag}}</span></p>
                 <p  v-if="pageInfo.date" class="dateText">日期 {{formatDate(pageInfo.date)}}</p>
                 <div id="content"></div>
+                <div style="margin-top: 33px;">
+                    <hr v-if="prevData || nextData" style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+                    <h6 v-if="prevData"><a v-bind:href="'?md=' + prevData.file">上一篇：{{prevData.title}}</a></h6>
+                    <h6 v-if="nextData"><a v-bind:href="'?md=' + nextData.file">下一篇：{{nextData.title}}</a></h6>
+                </div>
             </div>
             <div v-if="contentType === 1" >
                 <div class="ItemRenderer" style="margin-top: 33px;"
@@ -106,6 +111,7 @@
                 {{pageContent}}
             </div>
             <div v-if="contentType === 4">
+                {{pageContent}}
                 <!--<div class="row">-->
                     <!--<div class="col-6 col-md-4 card" style="width: 20rem;" v-for="cardInfo in toolsList">-->
                         <!--&lt;!&ndash;<img class="card-img-top" src="..." alt="Card image cap">&ndash;&gt;-->
@@ -120,7 +126,7 @@
         </div>
     </div>
     <div class="fixed-bottom footer highzindex">
-        <p> @{{new Date().getFullYear()}} <a v-bind:href="'mailto:'+author.email">{{author.name}}</a>. <small>{{author.version}}</small></p>
+        <p> @{{new Date().getFullYear()}} <a v-bind:href="'mailto:'+author.email">Power by {{author.name}}</a>. <small>{{author.version}}</small></p>
     </div>
     <div class="loading" v-if="showLoading" >
         <div style="text-align: center">
