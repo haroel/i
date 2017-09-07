@@ -128,7 +128,6 @@ site.menuside = new Vue({
             autoSelect: true,
             fitToElement:true,
             afterSelect:function (item) {
-                console.log(item);
                 var params = {};
                 params[item.type] = item.value;
                 changeURL(params);
@@ -139,7 +138,6 @@ site.menuside = new Vue({
     methods:{
         renderPage:function(params)
         {
-            this.showLoading = false;
             if (params["md"])
             {
                 var pageData = site.getPageInfoByMDFile(params.md);
@@ -147,6 +145,9 @@ site.menuside = new Vue({
                 {
                     var that = this;
                     $.get("article/" + pageData.current.file,function(data){
+
+                        that.showLoading = false;
+
                         that.pageInfo = pageData.current;
                         that.prevData = pageData.prev;
                         that.nextData = pageData.next;
@@ -177,6 +178,7 @@ site.menuside = new Vue({
                 }
                 return;
             }
+            this.showLoading = false;
             if (params["tag"])
             {
                 this.Articles = site.getPagesByTag(params.tag);
