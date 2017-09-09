@@ -68,7 +68,7 @@ site.menuside = new Vue({
     el:'#mainDiv',
     data:
     {
-        showLoading:true,
+        showLoading:false,
         isShowMenu:false,
         pageContent:"",
 
@@ -87,11 +87,13 @@ site.menuside = new Vue({
     created:function ()
     {
         site.init();
+        this.showLoading = true;
+        this.pageContent = "";
 
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
         showdown.setFlavor('github');
         hljs.initHighlightingOnLoad();
-        this.pageContent = "";
+
         var params = parseUrlToObject();
         this.renderPage(params);
     },
@@ -145,8 +147,8 @@ site.menuside = new Vue({
                 {
                     var that = this;
                     $.get("article/" + pageData.current.file,function(data){
-
                         that.showLoading = false;
+
                         that.pageInfo = pageData.current;
                         that.prevData = pageData.prev;
                         that.nextData = pageData.next;
@@ -154,7 +156,7 @@ site.menuside = new Vue({
                         var markdownContent = data;
                         var p = markdownContent.indexOf("---");
                         markdownContent = markdownContent.substring(markdownContent.indexOf("---"));
-                        //https://github.com/showdownjs/showdown
+
                         var converter = new showdown.Converter();
                         converter.setOption('simplifiedAutoLink', true);
                         converter.setOption('excludeTrailingPunctuationFromURLs', true);
