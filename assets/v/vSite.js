@@ -147,7 +147,6 @@ site.menuside = new Vue({
                     $.get("article/" + pageData.current.file,function(data){
 
                         that.showLoading = false;
-
                         that.pageInfo = pageData.current;
                         that.prevData = pageData.prev;
                         that.nextData = pageData.next;
@@ -174,6 +173,7 @@ site.menuside = new Vue({
                     });
                 }else
                 {
+                    this.showLoading = false;
                     alert("无法找到制定的文章 《" + params.md +"》" );
                 }
                 return;
