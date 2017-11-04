@@ -80,6 +80,8 @@ site.menuside = new Vue({
         pageInfo:{},
         Articles:[],
 
+        rewardType:0, // 0表示支付宝，1表示微信；
+
         prevData:null,
         nextData:null
     },
@@ -207,9 +209,15 @@ site.menuside = new Vue({
         {
             this.isShowMenu = !this.isShowMenu;
         },
+        selectAlipay:function () {
+            this.rewardType = 0;
+        },
+        selectWechat:function () {
+            this.rewardType = 1;
+        },
         menuTagClick:function (event)
         {
-            var tag = event.target.outerText;
+            var tag = event.target.outerText || event.target.innerText;
             this.pageInfo = {};
             this.pageInfo.title = tag;
             switch(tag)

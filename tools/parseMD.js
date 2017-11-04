@@ -17,7 +17,7 @@ jsonContents.author = {
     "address": " 武汉",
     "career": "程序员  ",
     "desc":"蛰伏中，寻求灵感",
-    "version":"v0.9beta7"
+    "version":"v0.9beta8"
 };
 jsonContents.menus = ["最新","分类","演示","其他","关于"];
 jsonContents.toolsList = [
@@ -71,8 +71,13 @@ for (let dir of files)
             obj.file = dir + "/" + mdfile;
             obj.title = /\*\s+title:`([^`]+)`/gm.exec(mdContent)[1];
             let _tags = /\*\s+tags:([^\n]+)/gm.exec(mdContent)[1];
-            obj.tags = _tags.split(/[\,\s]+/).map( function ( tag ) {
-                tag = tag.substr(1,tag.length-2);
+            let rets = _tags.match(/[^`]+/g);
+            rets = rets.filter(function (tag) {
+                tag = tag.replace(/\s+/,"");
+                return !!tag;
+            });
+            obj.tags = rets.map( function ( tag ) {
+                // tag = tag.substr(1,tag.length-2);
                 if (tagMap.has(tag))
                 {
                     let obj = tagMap.get(tag);

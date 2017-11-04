@@ -79,7 +79,7 @@ Action提供了一个CallFunc的组件,它可以用于Sequence某个动作执行
     },
 
 执行结果    
-![logo](assets/img/a1.png)
+![logo](article/res/20170508action.jpeg)
 
 上面这个动作很简单, 四个callfunc串联执行,执行结果多少有点出乎意料。
 上面的log表明,Sequence内部action之间执行至少间隔一帧。
