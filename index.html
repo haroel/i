@@ -6,15 +6,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="author" content="ihowe,ihowe@outlook.com">
-    <meta name="keywords" content="cocos,creator,iap,ezplugin" />
-
+    <meta name="keywords" content="js,cocos,creator,iap,ezplugin" />
     <title>howe.ho</title>
     <link type="favicon" rel="shortcut icon" href="favicon.ico" />
     <!-- Icon库-->
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-
     <!--[if IE]>
     <!--<script src="js/html5.js"></script>-->
     <![endif]-->
@@ -141,10 +139,7 @@
             <p>LOADING</p>
         </div>
     </div>
-
-
-    <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -157,9 +152,9 @@
                     <div>
                         <div class="d-flex justify-content-center">
                             <img v-if="rewardType==0" src="assets/img/alipay.png" alt="扫码支持" title="支付宝扫一扫" />
-                            <img v-if="rewardType==1" src="assets/img/weixin.png" alt="扫码支持" title="微信扫一扫" />
+                            <img v-if="rewardType==1" src="assets/img/weixin.png" alt="扫码支持" title="微信扫一扫"></div>
                         </div>
-                        <div class="d-flex justify-content-around" style="padding: 20px">
+                        <div class="d-flex justify-content-around" style="padding: 10px">
                             <img src="assets/img/alipay_icon.png" alt="支付宝"
                                  class="img_frame" :class="{img_frame_selected:rewardType==0}" @click="selectAlipay"/>
                             <img src="assets/img/wechat_icon.jpg" alt="微信"
@@ -184,6 +179,8 @@
 <script src="https://cdn.bootcss.com/showdown/1.6.4/showdown.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+<script src="assets/js/marked.min.js"></script>
 
 <script src="assets/js/bootstrap-typeahead.js"></script>
 <script src="assets/v/config.js"></script>

@@ -22,15 +22,13 @@ ezplugin以源码方式集成，它非常轻量级，除系统sdk以外不依赖
 下载解压，分别有三个目录，分别拷贝到你的工程目录下。
 最后你的工程目录看起来差不多是这样
 
-Android工程截图
 ![img](article/res/Snip20170917_10.png)
-
-iOS工程截图
 ![img](article/res/Snip20170917_9.png)
+
 上面都预留了一个plugins空目录，后面创建的插件都将放在该目录下。
 
-js部分`Hash.js`、`PluginCore.js`和`PluginHelper.js`可以放在你creator脚本目录的任何路径，
-，但是一定不能`导入为插件`，只要确保最后可以require就可以。、
+js部分``PluginCore.js`和`PluginHelper.js`可以放在你creator脚本目录的任何路径，
+，但是一定不能`导入为插件`，只要确保require就可以。
 
 尝试编译一下，如果出错请检查代码导入是否正确。
 
@@ -38,127 +36,126 @@ js部分`Hash.js`、`PluginCore.js`和`PluginHelper.js`可以放在你creator脚
 
 我们建一个测试插件PluginTest来测试是否可以使用插件，流程是js调用native方法，native延迟2秒回调给js。
 
+
 1. 打开PluginHelper.js，修改文件头部的两个js数组对象。 这里我们声明了一个PluginTest插件，params定义了插件初始化参数。
+  PluginsConfig_android和PluginsConfig_IOS是插件配置列表，只有声明配置过的插件才会去初始化。注意pluginName值必须和java和oc里对应的类名一致。
 
 ```
-const PluginCoreJAVAPATH = "com/sdkplugin/core/PluginCore";
-const PluginsConfig_android = [
-    {
-        pluginName :"PluginTest",                                          
-        params     : {"appId":"Android_APPID_123", "debug": false}
-    }
-];
-
- // PluginCore插件iOS配置，
-const PluginCoreIOSPATH = "PluginCore";
-const PluginsConfig_IOS = [
-    {
-        pluginName :"PluginTest",                                          
-        params     : {"appId":"iOS_APPID_456", "debug": false}
-    }
-];
-
-...
+    const PluginCoreJAVAPATH = "com/sdkplugin/core/PluginCore";
+    const PluginsConfig_android = [
+        {
+            pluginName :"PluginTest",                                          
+            params     : {"appId":"Android_APPID_123", "debug": false}
+        }
+    ];
+    
+     // PluginCore插件iOS配置，
+    const PluginCoreIOSPATH = "PluginCore";
+    const PluginsConfig_IOS = [
+        {
+            pluginName :"PluginTest",                                          
+            params     : {"appId":"iOS_APPID_456", "debug": false}
+        }
+    ];
+    
+    ...
 
 ```
-PluginsConfig_android和PluginsConfig_IOS是插件配置列表，只有声明配置过的插件才会去初始化。注意pluginName值必须和java和oc里对应的类名一致。
 
 
 2. 在Android Studio工程打开项目，com/sdkplugin/plugins新建一个PluginTest.java类，这个类继承com.sdkplugin.core.PluginBase。
     为了模拟异步操作，我们在PluginTest里延迟两秒回调js层
 
-`PluginTest.java`
+    `PluginTest.java`
 ```
-package com.sdkplugin.plugins;
-
-import android.content.Context;
-import android.os.Handler;
-import android.util.Log;
-import com.sdkplugin.core.PluginBase;
-import org.json.JSONObject;
-/**
- * 测试
- * Created by howe on 17/09/2017.
- */
-public class PluginTest extends PluginBase {
-
-    public void initPlugin(Context context, JSONObject jobj){
-
-        Log.d("PluginTest->initPlugin",jobj.toString());
+    package com.sdkplugin.plugins;
+    
+    import android.content.Context;
+    import android.os.Handler;
+    import android.util.Log;
+    import com.sdkplugin.core.PluginBase;
+    import org.json.JSONObject;
+    /**
+     * 测试
+     * Created by howe on 17/09/2017.
+     */
+    public class PluginTest extends PluginBase {
+        public void initPlugin(Context context, JSONObject jobj){
+            Log.d("PluginTest->initPlugin",jobj.toString());
+        }
+        public void excutePluginAction(String type, String params, final int callback){
+            Log.d("excutePluginAction",String.format("type：%s,params:%s",type,params));
+            final PluginBase self = this;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //todo
+                    self.$callBackToJSOnce(callback,"java延时2秒回调js");
+                }
+            }, 2000);
+        }
     }
-
-    public void excutePluginAction(String type, String params, final int callback){
-
-        Log.d("excutePluginAction",String.format("type：%s,params:%s",type,params));
-        final PluginBase self = this;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //todo
-                self.$callBackToJSOnce(callback,"java延时2秒回调js");
-            }
-        }, 2000);
-    }
-}
 ``` 
 
 3. 打开Xcode，在plugins包下新建一个PluginTest.h和PluginTest.m文件
+
 ```
-#import "PluginTest.h"
-
-@implementation PluginTest
-
--(void)initPlugin:(NSDictionary*)params{
-    NSLog(@"PluginTest->initPlugin %@",params);
-}
--(void)excutePluginAction:(NSString*)type andParams:(NSString*)params andCallback:(int)callback{
-    NSLog(@"excutePluginAction type: %@, params:%@",type,params);
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2 repeats:NO block:^(NSTimer * _Nonnull timer) {
-        [self $callBackToJSOnce:callback andParams:@" objc 延时2秒回调js"];
-    }];
-    [timer fire];
-}
-@end
+    #import "PluginTest.h"
+    
+    @implementation PluginTest
+    
+    -(void)initPlugin:(NSDictionary*)params{
+        NSLog(@"PluginTest->initPlugin %@",params);
+    }
+    -(void)excutePluginAction:(NSString*)type andParams:(NSString*)params andCallback:(int)callback{
+        NSLog(@"excutePluginAction type: %@, params:%@",type,params);
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2 repeats:NO block:^(NSTimer * _Nonnull timer) {
+            [self $callBackToJSOnce:callback andParams:@" objc 延时2秒回调js"];
+        }];
+        [timer fire];
+    }
+    @end
 ```
 
 4. 在组件脚本里，初始化ezplugin，我们设定点击一个按钮点击触发PluginTest插件方法，然后label来显示native返回的结果。
+
 ```
-cc.Class({
-    extends: cc.Component,
-
-    properties: {
-        label: {
-            default: null,
-            type: cc.Label
+    cc.Class({
+        extends: cc.Component,
+    
+        properties: {
+            label: {
+                default: null,
+                type: cc.Label
+            },
+            // defaults, set visually when attaching this script to the Canvas
+            text: 'Hello, World!'
         },
-        // defaults, set visually when attaching this script to the Canvas
-        text: 'Hello, World!'
-    },
-
-    // use this for initialization
-    onLoad: function () {
-        this.label.string = this.text;
-
-        let pluginHelper = require("PluginHelper");
-        pluginHelper.registerInitedCallback(function(ret){
-            cc.log("pluginHelper init success");
-        })
-        // 初始化插件
-        pluginHelper.init();
-    },
-    click:function(){
-        let pluginHelper = require("PluginHelper");
-        let pluginTest = pluginHelper["PluginTest"];
-        pluginTest.excute("halo","World",(error,params)=>{
-            cc.log(params);
-            this.label.string = params;
-        })
-    },
-    // called every frame
-    update: function (dt) {
-
-    },
-});
+    
+        // use this for initialization
+        onLoad: function () {
+            this.label.string = this.text;
+    
+            let pluginHelper = require("PluginHelper");
+            pluginHelper.registerInitedCallback(function(ret){
+                cc.log("pluginHelper init success");
+            })
+            // 初始化插件
+            pluginHelper.init();
+        },
+        click:function(){
+            let pluginHelper = require("PluginHelper");
+            let pluginTest = pluginHelper["PluginTest"];
+            pluginTest.excute("halo","World",(error,params)=>{
+                cc.log(params);
+                this.label.string = params;
+            })
+        },
+        // called every frame
+        update: function (dt) {
+    
+        },
+    });
 ```
 
 你可能会注意到上面执行具体的插件逻辑只有一个可用方法`excutePluginAction` , 该方法有3个参数，具体值从js层传递过来，注意回调函数会被替换成一个整数ID。 

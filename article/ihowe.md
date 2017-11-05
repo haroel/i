@@ -34,4 +34,5 @@
  
    - [bootstrap4.0](https://v4.bootcss.com)
    - [vue.js](https://cn.vuejs.org)
-   - [markdown.js](https://github.com/evilstreak/markdown-js)
+   - [marked](https://github.com/chjj/marked)
+   - [highlightjs](https://highlightjs.org)

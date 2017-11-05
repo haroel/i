@@ -91,10 +91,30 @@ site.menuside = new Vue({
         site.init();
         this.showLoading = true;
         this.pageContent = "";
+        function is_weixn(){
+            var ua = navigator.userAgent.toLowerCase();
+            if(ua.match(/MicroMessenger/i)=="micromessenger") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if ( is_weixn()){
+            // 如果是微信浏览器打开则默认显示微信捐赠
+            this.rewardType = 1;
+        }
 
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
-        showdown.setFlavor('github');
-        hljs.initHighlightingOnLoad();
+        marked.setOptions({
+            renderer: new marked.Renderer(),
+            gfm: true,
+            tables: true,
+            breaks: false,
+            pedantic: false,
+            sanitize: false,
+            smartLists: true,
+            smartypants: false
+        });
 
         var params = parseUrlToObject();
         this.renderPage(params);
@@ -159,17 +179,17 @@ site.menuside = new Vue({
                         var p = markdownContent.indexOf("---");
                         markdownContent = markdownContent.substring(markdownContent.indexOf("---"));
 
-                        var converter = new showdown.Converter();
-                        converter.setOption('simplifiedAutoLink', true);
-                        converter.setOption('excludeTrailingPunctuationFromURLs', true);
-                        converter.setOption('tables', true);
-                        converter.setOption('tasklists', true);
-                        converter.setOption('simpleLineBreaks', true);
-                        converter.setOption('openLinksInNewWindow', true);
-                        that.pageContent = converter.makeHtml(markdownContent);
+                        // var converter = new showdown.Converter();
+                        // converter.setOption('simplifiedAutoLink', true);
+                        // converter.setOption('excludeTrailingPunctuationFromURLs', true);
+                        // converter.setOption('tables', true);
+                        // converter.setOption('tasklists', true);
+                        // converter.setOption('simpleLineBreaks', true);
+                        // converter.setOption('openLinksInNewWindow', true);
+                        that.pageContent = marked(markdownContent);
                         $('#content').html(that.pageContent);
-                        $('#content code').not("pre code").addClass("LabelTag");
-                        $('#content table').addClass("table table-hover table-striped");
+                        // $('#content code').not("pre code").addClass("LabelTag");
+                        // $('#content table').addClass("table table-hover table-striped");
                         $('#content img').addClass("LabelTag");
                         $('pre code').each(function(i, block) {
                             hljs.highlightBlock(block);
