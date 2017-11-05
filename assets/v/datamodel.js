@@ -27,43 +27,18 @@ site.getLatestPage = function ( num ) {
     num = num||1;
     var result = [];
     var _p = site.config.articles.pages;
-    for (var year in _p)
-    {
-        var yps = _p[year];
-        yps.forEach(function (obj)
-        {
-            if (!obj.date)
-            {
-                return;
-            }
-            if (result.length < num)
-            {
+    var Y = (new Date()).getFullYear();
+    while (result.length<num){
+        var yearInfo = _p[Y];
+        while (!yearInfo){
+            yearInfo = _p[--Y];
+        }
+        if (yearInfo){
+            yearInfo.forEach(function (obj) {
                 result.push(obj);
-            }else
-            {
-                for (var i =0;i< num;i++)
-                {
-                    if (result[i].date>obj.date)
-                    {
-                        result[i] = obj;
-                        break;
-                    }
-                }
-            }
-        })
+            });
+        }
     }
-    result.sort(function (a,b)
-    {
-        if (a.date < b.date)
-        {
-            return 1;
-        }
-        if (a.date < b.date)
-        {
-            return -1;
-        }
-        return 0;
-    });
     return result;
 };
 site.getAllPageNames = function ()

@@ -97,7 +97,7 @@
             </div>
             <div v-if="contentType === 1" >
                 <div class="ItemRenderer" style="margin-top: 33px;"
-                     v-for="item in articles.tags" v-bind:key="item.data.lastUpdate">
+                     v-for="item in articles.tags" v-bind:key="item.data.lastUpdate.toString()">
                     <a v-bind:href="'?tag=' + item.name " class="LabelTag" >{{item.name}}  ({{item.data.count}})</a>
                     <p class="dateText">最后更新 {{formatDate(item.data.lastUpdate)}}</p>
                 </div>

@@ -65,9 +65,10 @@ for (let dir of files)
             {
                 _date = arr[1];
             }
+            _date = parseInt(_date);
             mdContent = mdContent.split("---")[0];
             let obj = {};
-            obj.date = _date.toString();
+            obj.date = _date;
             obj.file = dir + "/" + mdfile;
             obj.title = /\*\s+title:`([^`]+)`/gm.exec(mdContent)[1];
             let _tags = /\*\s+tags:([^\n]+)/gm.exec(mdContent)[1];
@@ -96,7 +97,18 @@ for (let dir of files)
                 return tag;
             });
             jsonContents.articles.pages[dir].push(obj);
+
         }
+
+        jsonContents.articles.pages[dir].sort(function (a,b) {
+            if (a.date > b.date){
+                return -1;
+            }
+            if (a.date < b.date){
+                return 1;
+            }
+            return 0;
+        });
     }
 }
 
@@ -113,7 +125,7 @@ for (let item of tagMap.entries()) {
 
 // jsonContents.articles.tags = Array.from(ss);
 // console.log(ss);
-// let pageStr = JSON.stringify(jsonContents,null,4);
+// let pageStr = JSON.stringify(jsonContents,null,2);
 let pageStr = JSON.stringify(jsonContents);
 let jsTem =`/*** date: ${new Date().toLocaleString()} ***/var site = site || {};site.config = ${pageStr};`;
 

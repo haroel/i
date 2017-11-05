@@ -179,17 +179,10 @@ site.menuside = new Vue({
                         var p = markdownContent.indexOf("---");
                         markdownContent = markdownContent.substring(markdownContent.indexOf("---"));
 
-                        // var converter = new showdown.Converter();
-                        // converter.setOption('simplifiedAutoLink', true);
-                        // converter.setOption('excludeTrailingPunctuationFromURLs', true);
-                        // converter.setOption('tables', true);
-                        // converter.setOption('tasklists', true);
-                        // converter.setOption('simpleLineBreaks', true);
-                        // converter.setOption('openLinksInNewWindow', true);
                         that.pageContent = marked(markdownContent);
                         $('#content').html(that.pageContent);
                         // $('#content code').not("pre code").addClass("LabelTag");
-                        // $('#content table').addClass("table table-hover table-striped");
+                        $('#content table').addClass("table table-hover table-striped");
                         $('#content img').addClass("LabelTag");
                         $('pre code').each(function(i, block) {
                             hljs.highlightBlock(block);
