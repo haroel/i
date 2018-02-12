@@ -4,7 +4,6 @@
  * Created by howe on 2017/4/16.
  */
 var site = site || {};
-
 site._articles = [];
 site.init = function () {
     var _p = site.config.articles.pages;
@@ -83,7 +82,7 @@ site.getPageInfoByMDFile = function (mdFile)
             var obj = yps[i];
             if (obj.file == mdFile)
             {
-                let ret = {};
+                var ret = {};
                 ret.current = obj;
                 for (var i = 0;i<site._articles.length;i++){
                     if (site._articles[i].file == mdFile)

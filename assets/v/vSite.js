@@ -1,10 +1,4 @@
-/**
- * ihowe@outlook.com
- * author by haroel
- * Created by howe on 2017/4/23.
- */
 var site = site || {};
-
 site._ContentType ={
     ARTICLE:0,
     TAGS:1,
@@ -68,7 +62,7 @@ site.menuside = new Vue({
     el:'#mainDiv',
     data:
     {
-        showLoading:false,
+        showLoading:true,
         isShowMenu:false,
         pageContent:"",
 
@@ -88,6 +82,7 @@ site.menuside = new Vue({
 
     created:function ()
     {
+
         site.init();
         this.showLoading = true;
         this.pageContent = "";

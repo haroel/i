@@ -85,10 +85,10 @@
                 <p  v-if="pageInfo.date" class="dateText">日期 {{formatDate(pageInfo.date)}}</p>
                 <div id="content"></div>
 
-                <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-outline-success"
-                            data-toggle="modal" data-target="#rewardModal">捐赠</button>
-                </div>
+                <!--<div class="d-flex justify-content-center">-->
+                    <!--<button type="button" class="btn btn-outline-success"-->
+                            <!--data-toggle="modal" data-target="#rewardModal">捐赠</button>-->
+                <!--</div>-->
                 <div style="margin-top: 20px;">
                     <hr v-if="prevData || nextData" style="height:1px;border:none;border-top:1px dashed #0066CC;" />
                     <h6 v-if="prevData"><a v-bind:href="'?md=' + prevData.file">上一篇：{{prevData.title}}</a></h6>
@@ -139,48 +139,57 @@
             <p>LOADING</p>
         </div>
     </div>
-    <div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">感谢您的支持鼓励！</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        <div class="d-flex justify-content-center">
-                            <img v-if="rewardType==0" src="assets/img/alipay.png" alt="扫码支持" title="支付宝扫一扫" />
-                            <img v-if="rewardType==1" src="assets/img/weixin.png" alt="扫码支持" title="微信扫一扫"></div>
-                        </div>
-                        <div class="d-flex justify-content-around" style="padding: 10px">
-                            <img src="assets/img/alipay_icon.png" alt="支付宝"
-                                 class="img_frame" :class="{img_frame_selected:rewardType==0}" @click="selectAlipay"/>
-                            <img src="assets/img/wechat_icon.jpg" alt="微信"
-                                 class="img_frame" :class="{img_frame_selected:rewardType==1}" @click="selectWechat"/>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center shang_info">
-                        <p>捐赠不分多少，一份心意</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!--<div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-hidden="true">-->
+        <!--<div class="modal-dialog" role="document">-->
+            <!--<div class="modal-content">-->
+                <!--<div class="modal-header">-->
+                    <!--<h5 class="modal-title" id="exampleModalLongTitle">感谢您的支持鼓励！</h5>-->
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                        <!--<span aria-hidden="true">&times;</span>-->
+                    <!--</button>-->
+                <!--</div>-->
+                <!--<div class="modal-body">-->
+                    <!--<div>-->
+                        <!--<div class="d-flex justify-content-center">-->
+                            <!--<img v-if="rewardType==0" src="assets/img/alipay.png" alt="扫码支持" title="支付宝扫一扫" />-->
+                            <!--<img v-if="rewardType==1" src="assets/img/weixin.png" alt="扫码支持" title="微信扫一扫"></div>-->
+                        <!--</div>-->
+                        <!--<div class="d-flex justify-content-around" style="padding: 10px">-->
+                            <!--<img src="assets/img/alipay_icon.png" alt="支付宝"-->
+                                 <!--class="img_frame" :class="{img_frame_selected:rewardType==0}" @click="selectAlipay"/>-->
+                            <!--<img src="assets/img/wechat_icon.jpg" alt="微信"-->
+                                 <!--class="img_frame" :class="{img_frame_selected:rewardType==1}" @click="selectWechat"/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="d-flex justify-content-center shang_info">-->
+                        <!--<p>捐赠不分多少，一份心意</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
+
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.11.0/umd/popper.min.js" ></script>
 <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 
-<script src="assets/js/vue.min.js"></script>
-<!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+<script src="https://cdn.bootcss.com/marked/0.3.12/marked.min.js"></script>
 <script src="https://cdn.bootcss.com/showdown/1.6.4/showdown.min.js"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
-<script src="assets/js/marked.min.js"></script>
+<!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">-->
+<!--<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>-->
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script>
+
+<script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
+<!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+
+<!--web调试-->
+<!--<script src="//cdn.jsdelivr.net/npm/eruda"></script>-->
+<!--<script>eruda.init();</script>-->
 
 <script src="assets/js/bootstrap-typeahead.js"></script>
 <script src="assets/v/config.js"></script>
