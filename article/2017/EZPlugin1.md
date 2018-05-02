@@ -1,25 +1,35 @@
 * date:`1509760365131`
-* title:`[ezplugin]（一） 为什么会有ezplugin`
+* title:`[ezplugin]（一） 介绍ezplugin`
 * tags:`cocos creator` `ezplugin` `js` `objc` `java`
 
 ----
 
- cocos移动游戏开发，难免会接入各式各样的本地扩展和第三方SDK接入（比如登录、支付、分析等等）。本地扩展和第三方sdk的实现机制依赖于各个系统，iOS是objc编程来实现，Android则是用java+jni。
-  
+简单点说，`ezplugin`是一个基于cocos creator的简洁、易用、易扩展、易兼容的轻量级native开发接入框架。 
 
-使用creator开发本地项目，可以用cocos2d-js提供的反射机制来做。
+# 为什么会有ezplugin
+
+ cocos移动游戏开发，为了增强体验，难免会调用各式各样的系统API或接入第三方SDK库（如登录、支付、分析等等）。
+ 本地扩展和第三方sdk的实现机制依赖于各个系统，iOS是objc++来实现，Android则是用java+jni。 
+
+使用creator开发，可以用cocos2d-js提供的反射机制来做。
  [JS到java的反射](http://www.cocos.com/docs/html5/v3/reflection/zh.html)
   [JS到OC的反射](http://www.cocos.com/docs/html5/v3/reflection-oc/zh.html)
   
+  > 许多第三方SDK提供了基于cocos2d-x版本的API库接入，对于cocos2d-x来说可能比较省事，但对于creator项目来说，实则多增麻烦，
+  你需要额外导入c++代码，安卓工程还要修改Android.mk重新编译，测试完成以后再写js桥接c++代码，如此流程实在是浪费时间。
+  更好的做法是直接使用原生版本的库接入，利用cocos反射来调用，ezplugin就是基于反射机制来实现。
   
-  利用反射，我们可以在js里直接调用java或oc的静态方法，然而，两个平台的反射写法是有很大差异的，而且java或oc回调js写法也很不同，在java平台你还需要注意Android UI线程和cocos opengl线程的差异，这些零零碎碎的注意点堆积起来，也会在开发当中造成一定的麻烦。
+  利用反射，我们可以在js里直接调用java或oc的静态方法，然而，两个平台的反射写法是有很大差异的，而且java或oc回调js写法也很不同，
+  在java平台你还需要注意Android UI线程和cocos opengl线程的差异。
   
-  思考一段时间以后，我设计完善了一个轻量级的适用于creator项目的iOS和Android平台的Native插件系统`ezplugin`。
+  思考一段时间以后，我设计并完善了一个轻量级的适用于creator项目的iOS和Android平台的Native插件系统`ezplugin`。
   
-ezplugin存在的意义是抹平跨平台调用本地接口的区别，无论是创建新插件还是调用已有插件方法都可以保持一致性。
+   ezplugin存在的意义是抹平跨平台调用本地接口的区别。
 
   
-## ezplugin回调
+# ezplugin回调
+    
+  ezplugin最有特点的是回调和事件机制。
 
   在node.js里，经常需要写一个异步的调用。
   
@@ -30,21 +40,18 @@ ezplugin存在的意义是抹平跨平台调用本地接口的区别，无论是
 });
 ```
   
- 异步读取一个本地文件，前面都是参数，最后一个是调用结果回调。这种写法约定俗成非常自然。
+ 异步读取一个本地文件，前面都是参数，最后一个是调用结果回调。node.js底层文件读取完成后，把结果通过回调函数返回。
  
- 回到creator里面，我们自然也很期待这样类似的callback写法。比如我们调用微信分享，如果是node风格，我们很期待调用（iOS和Android）分享过程这样写：
+ 回到creator里面，我们自然也很期待跨平台调用类似如下的callback写法。
  
 ```
+    // 获取微信插件对象
  const wechat = require("ezplugin")["PluginWechat"];
+ // 执行 分享
  wechat.excute("share","http://aeooh.com",function(err,result){
  	cc.log("分享结果：",result);
  });
 ```
-
- `ezplugin`的回调继承了node.js写法风格。实现这个原理不复杂。
-
- 我们把jsCallback回调函数放到一个JSCallbackHash对象Map表里，并生成一个唯一callbackid，把这个callbackid传到java层，java在执行完成以后，调用js层的方法，并将callbackid传回来，js根据callbackid去JSCallbackHash取回jsCallback函数，执行。
- js调用java/oc静态方法是用上面提到的js反射。java/OC回调js是用cocos提供的`Cocos2dxJavascriptJavaBridge.evalString`和`ScriptingCore::getInstance()->evalString`方法。
 
  
 ## ezplugin插件
